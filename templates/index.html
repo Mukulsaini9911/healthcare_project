@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏥 Indian Healthcare AI Analytics - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🏥 Indian Healthcare AI Analytics System</h1>
+            <p>Smart Hospital Resource Optimization & Risk Management</p>
+        </div>
+    </header>   
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="nav-btn" onclick="switchTab('map')">🗺️ Map</button>
+            <button class="nav-btn" onclick="switchTab('emergency')">🚑 Emergency Route</button>
+            <button class="nav-btn" onclick="switchTab('compare')">🆚 Compare</button>
+            <button class="nav-btn" onclick="switchTab('alerts')">🔔 Alerts</button>
+            <button class="nav-btn" onclick="switchTab('hospitals')">🏥 Hospitals</button>
+            <button class="nav-btn" onclick="switchTab('analytics')">📈 Analytics</button>
+            <button class="nav-btn" onclick="switchTab('predictions')">📉 Predictions</button>
+            <button class="nav-btn" onclick="switchTab('models')">🤖 AI Models</button>
+            <button class="nav-btn" onclick="switchTab('chatbot')">💬 ChatBot</button>
+            <button class="export-btn" onclick="showExportMenu()">📥 Export</button>
+            <button class="theme-toggle" onclick="toggleDarkMode()">🌙 Dark</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="summary-grid">
+                <div class="summary-card critical">
+                    <div class="card-number" id="critical-count">0</div>
+                    <div class="card-label">Critical Risk</div>
+                    <div class="card-icon">🚨</div>
+                </div>
+                <div class="summary-card high">
+                    <div class="card-number" id="high-count">0</div>
+                    <div class="card-label">High Risk</div>
+                    <div class="card-icon">⚠️</div>
+                </div>
+                <div class="summary-card medium">
+                    <div class="card-number" id="medium-count">0</div>
+                    <div class="card-label">Medium Risk</div>
+                    <div class="card-icon">📋</div>
+                </div>
+                <div class="summary-card low">
+                    <div class="card-number" id="low-count">0</div>
+                    <div class="card-label">Low Risk</div>
+                    <div class="card-icon">✓</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Risk Distribution</h3>
+                    <canvas id="riskChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Hospital Efficiency</h3>
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="key-metrics">
+                <h3>📊 Key Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-label">Avg Patient-Doctor Ratio:</span>
+                        <span class="metric-value" id="avg-pdr">0.0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Avg Bed Occupancy:</span>
+                        <span class="metric-value" id="avg-occupancy">0.0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Total Hospitals:</span>
+                        <span class="metric-value" id="total-hospitals">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Tab -->
+        <div id="map" class="tab-content">
+            <iframe src="/static/hospital_map.html" style="width: 100%; height: 700px; border: none; border-radius: 10px;"></iframe>
+            <p style="margin-top: 20px; text-align: center; color: #666;">
+                🗺️ Interactive India Map | Green: Low Risk | Yellow: Medium | Orange: High | Red: Critical
+            </p>
+        </div>
+
+        <!-- Hospital Comparison Tab -->
+        <div id="compare" class="tab-content">
+            <div class="comparison-controls">
+                <h3>🆚 Compare Up to 3 Hospitals</h3>
+                <div class="multi-select">
+                    <select id="hospital1" onchange="updateComparison()">
+                        <option value="">Select Hospital 1</option>
+                    </select>
+                    <select id="hospital2" onchange="updateComparison()">
+                        <option value="">Select Hospital 2</option>
+                    </select>
+                    <select id="hospital3" onchange="updateComparison()">
+                        <option value="">Select Hospital 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="comparison-table">
+                <table id="comparisonTable">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th id="h1-name">Hospital 1</th>
+                            <th id="h2-name">Hospital 2</th>
+                            <th id="h3-name">Hospital 3</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparisonBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div id="alerts" class="tab-content">
+            <div class="alerts-container">
+                <h3>🔔 Critical & High Risk Alerts</h3>
+                <div id="alertsList" class="alerts-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        <div id="hospitals" class="tab-content">
+            <div class="filters">
+                <input type="text" id="searchInput" placeholder="🔍 Search Hospital..." 
+                       onkeyup="filterHospitals()">
+                <select id="riskFilter" onchange="filterHospitals()">
+                    <option value="">All Risk Levels</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <div id="hospitalsContainer" class="hospitals-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="charts-grid-2">
+                <div class="chart-container-large">
+                    <h3>Risk Scores by Hospital</h3>
+                    <canvas id="riskScoresChart"></canvas>
+                </div>
+                <div class="chart-container-large">
+                    <h3>Hospital Clusters (K-Means)</h3>
+                    <canvas id="clusterChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Predictions Tab -->
+        <div id="predictions" class="tab-content">
+            <h3>📊 Patient Load Predictions</h3>
+            <div class="prediction-info">
+                <p>Forecasting future patient demands for resource planning:</p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 20px 0;">
+                    <div class="prediction-card">
+                        <div class="pred-label">📉 Optimistic</div>
+                        <div class="pred-desc">5% decrease in patients</div>
+                    </div>
+                    <div class="prediction-card">
+                        <div class="pred-label">📊 Realistic</div>
+                        <div class="pred-desc">5% increase in patients</div>
+                    </div>
+                    <div class="prediction-card">
+                        <div class="pred-label">📈 Pessimistic</div>
+                        <div class="pred-desc">15% increase in patients</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container-large">
+                <h3>Patient Load Trends</h3>
+                <canvas id="predictionsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- AI Models Tab -->
+        <div id="models" class="tab-content">
+            <div class="model-cards">
+                <div class="model-card">
+                    <h3>🤖 Linear Regression</h3>
+                    <div class="score" id="lr-score">0%</div>
+                    <p>Simple baseline model</p>
+                </div>
+                <div class="model-card best">
+                    <h3>🌟 Random Forest</h3>
+                    <div class="score" id="rf-score">0%</div>
+                    <p>Best performing model (92.4%+)</p>
+                </div>
+                <div class="model-card">
+                    <h3>🧠 Neural Network</h3>
+                    <div class="score" id="mlp-score">0%</div>
+                    <p>Deep learning approach</p>
+                </div>
+            </div>
+
+            <div class="predictions-info">
+                <h3>📈 AI Model Comparison</h3>
+                <p>All models are trained on real Indian hospital data to predict patient loads and optimize resource allocation.</p>
+                <ul>
+                    <li>✓ Linear Regression: Quick baseline predictions</li>
+                    <li>✓ Random Forest: Advanced pattern recognition (92.4% accurate)</li>
+                    <li>✓ Neural Network: Deep learning with 3 hidden layers</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ChatBot Tab -->
+        <div id="chatbot" class="tab-content">
+            <div class="chatbot-container">
+                <div class="chatbot-header">
+                    <h3>💬 Healthcare AI Assistant</h3>
+                    <p>Ask me anything about hospitals, risk assessment, or resource allocation</p>
+                </div>
+                <div class="chatbot-messages" id="chatMessages">
+                    <div class="bot-message">
+                        <div class="message-bubble bot-bubble">
+                            👋 Hello! I'm the Healthcare AI Assistant. Ask me about hospital risks, efficiency, locations, or patient loads!
+                        </div>
+                    </div>
+                </div>
+                <div class="chatbot-input-area">
+                    <input type="text" id="chatInput" placeholder="Ask about hospitals, risks, locations..." class="chat-input">
+                    <button onclick="sendChatMessage()" class="chat-send-btn">Send</button>
+                </div>
+                <div class="quick-questions">
+                    <button onclick="askQuestion('What is the safest hospital?')">Safest Hospital</button>
+                    <button onclick="askQuestion('Which hospital has highest risk?')">Highest Risk</button>
+                    <button onclick="askQuestion('What is the average patient-doctor ratio?')">P-D Ratio</button>
+                    <button onclick="askQuestion('Tell me about hospitals in Delhi')">Delhi Hospitals</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Route Tab -->
+        <div id="emergency" class="tab-content">
+            <h2>🚑 Emergency Route Finder - Find Nearest Hospital NOW</h2>
+            <div class="emergency-section">
+                <div class="emergency-input-panel">
+                    <h3>🚨 Where Are You? (Hospital Emergency)</h3>
+                    
+                    <!-- Easy Location Input -->
+                    <div class="location-quick-access">
+                        <button onclick="useMyLocation()" class="btn-gps">📍 Use My Location (GPS)</button>
+                        <p class="location-text">OR</p>
+                    </div>
+
+                    <!-- Address/Place Name Input -->
+                    <div class="input-group">
+                        <label>📍 Location Address or Place Name:</label>
+                        <input type="text" id="emergencyAddress" placeholder="e.g., Central Market Delhi, Hospital Road Mumbai, etc." class="address-input">
+                        <small>Just type your location name, road, or landmark</small>
+                    </div>
+
+                    <!-- Common Places Quick Select -->
+                    <div class="quick-locations">
+                        <p>Quick Places:</p>
+                        <button onclick="selectLocation('Delhi Metro Station', 28.5677, 77.1950)">Delhi Metro</button>
+                        <button onclick="selectLocation('Mumbai Central Station', 19.0760, 72.8777)">Mumbai Central</button>
+                        <button onclick="selectLocation('Bangalore City Station', 13.0827, 77.5749)">Bangalore Station</button>
+                        <button onclick="selectLocation('Kolkata Main Road', 22.5726, 88.3639)">Kolkata Main</button>
+                    </div>
+
+                    <!-- Advanced Options (Collapsed) -->
+                    <div class="advanced-options">
+                        <button onclick="toggleAdvanced()" class="btn-advanced">⚙️ Advanced (Manual Coordinates)</button>
+                        <div id="advancedPanel" style="display: none; margin-top: 15px;">
+                            <div class="input-group">
+                                <label>Latitude:</label>
+                                <input type="number" id="emergencyLat" placeholder="e.g., 28.5677" step="0.0001" value="28.5677">
+                            </div>
+                            <div class="input-group">
+                                <label>Longitude:</label>
+                                <input type="number" id="emergencyLon" placeholder="e.g., 77.1950" step="0.0001" value="77.1950">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Route Type Selection -->
+                    <div class="input-group">
+                        <label>Choose Route Type:</label>
+                        <div class="route-options">
+                            <label class="radio-label">
+                                <input type="radio" name="routeType" value="nearest" checked> 🏃 Nearest Hospital (Fastest)
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="routeType" value="shortest"> 🛣️ Shortest Route (Traffic-Free)
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="routeType" value="safest"> 🛡️ Safest Hospital (Best Capacity)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Main Action Button -->
+                    <button onclick="findEmergencyRoute()" class="emergency-btn emergency-btn-large">🚨 FIND NEAREST HOSPITALS - EMERGENCY!</button>
+                    <p class="emergency-warning">Response Time: Usually under 2 minutes</p>
+                </div>
+
+                <div id="emergencyResults" class="emergency-results" style="display: none;">
+                    <h3>📍 3 Nearest Hospitals - Choose One Now!</h3>
+                    <div id="routeCardsContainer" class="route-cards-container">
+                        <!-- Hospital cards will be inserted here -->
+                    </div>
+                </div>
+                
+                <div id="emergencyLoading" class="loading-spinner" style="display: none;">
+                    ⏳ Finding nearest hospitals...
+                </div>
+
+                <div class="emergency-info">
+                    <h3>💡 How It Works</h3>
+                    <ul>
+                        <li>✅ <strong>Golden Hour:</strong> System identifies 3 nearest hospitals in seconds</li>
+                        <li>✅ <strong>ETA Calculation:</strong> Real-time distance to each hospital with estimated arrival time</li>
+                        <li>✅ <strong>Safety Score:</strong> Hospital capacity and availability ranking</li>
+                        <li>✅ <strong>One-Click Navigation:</strong> Direct Google Maps directions to chosen hospital</li>
+                        <li>✅ <strong>24/7 Ambulance:</strong> Contact hospital directly for emergency response</li>
+                    </ul>
+                    <p style="color: #e74c3c; font-weight: bold; margin-top: 20px;">
+                        🚨 In case of life-threatening emergency, always call 108 (National Ambulance Service)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Menu Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📥 Export Options</h3>
+                <button class="close-btn" onclick="closeExportMenu()">✕</button>
+            </div>
+            <div class="export-options">
+                <div class="export-option">
+                    <h4>📄 Single Hospital Report</h4>
+                    <p>Generate detailed PDF for one hospital</p>
+                    <select id="hospitalSelect" onchange="updateHospitalSelect()">
+                        <option value="">Select Hospital...</option>
+                    </select>
+                    <button onclick="exportSingleHospital()" class="export-action-btn">Download PDF</button>
+                </div>
+                <div class="export-option">
+                    <h4>📊 Full Report (All Hospitals)</h4>
+                    <p>Complete analysis of all 15 hospitals</p>
+                    <button onclick="exportAllHospitals()" class="export-action-btn">Download PDF</button>
+                </div>
+                <div class="export-option">
+                    <h4>📋 Download Data</h4>
+                    <p>Export hospital data as CSV</p>
+                    <button onclick="exportDataCSV()" class="export-action-btn">Download CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🏆 Healthcare AI Analytics System | Powered by Machine Learning & Deep Learning | Real Indian Hospital Data</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

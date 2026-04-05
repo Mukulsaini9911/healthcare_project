@@ -1,0 +1,168 @@
+Area,Hospital,Beds,Doctors,Patients_Per_Day,Latitude,Longitude
+Delhi,Safdarjung Hospital,560,120,850,28.5712,77.1904
+Delhi,AIIMS Delhi,2000,450,3200,28.6381,77.229
+Delhi,Ram Manohar Lohia Hospital,800,180,1100,28.7012,77.1752
+Delhi,St. Stephen's Hospital,650,140,900,28.5831,77.237
+Delhi,Maulana Azad Medical College,750,160,1000,28.673,77.2398
+Mumbai,Lilavati Hospital,700,150,950,19.0325,72.8448
+Mumbai,Apollo Hospital Mumbai,1200,280,1800,19.0257,72.8459
+Mumbai,Fortis Mulund,850,190,1100,19.1109,72.8612
+Mumbai,Hinduja Hospital,900,200,1250,19.0847,72.8858
+Mumbai,BMC Hospital,1100,220,1400,19.0613,72.8335
+Mumbai,Grant Medical College,900,200,1250,19.0317,72.8509
+Bangalore,Apollo Hospital Bangalore,1100,250,1600,13.1914,77.5774
+Bangalore,Manipal Hospital,950,210,1350,13.0334,77.5924
+Bangalore,St. Martha's Hospital,800,180,1000,13.2017,77.7132
+Bangalore,Fortis Hospital Bangalore,900,200,1200,13.0865,77.6098
+Bangalore,Narayana Health Bangalore,1300,280,1850,13.1582,77.564
+Bangalore,Indraprastha Apollo,1000,220,1400,13.2374,77.5194
+Chennai,Fortis Malar,380,80,620,13.0532,80.2374
+Chennai,Apollo Hospital Chennai,950,210,1300,13.0684,80.2537
+Chennai,Vijaya Hospital,750,160,950,13.0279,80.2608
+Chennai,Dr. Kamakshi Memorial Hospital,800,170,1050,13.0769,80.2774
+Chennai,MIOT International,900,190,1200,13.1892,80.1782
+Hyderabad,Care Hospital,420,88,710,17.3608,78.4626
+Hyderabad,Apollo Hospital Hyderabad,1000,220,1450,17.3837,78.5248
+Hyderabad,Yashoda Hospital,900,200,1250,17.3797,78.4781
+Hyderabad,Continental Hospital,800,170,1100,17.393,78.4982
+Hyderabad,Max Hospital Hyderabad,850,180,1150,17.3548,78.5439
+Kolkata,SSKM Hospital,550,110,890,22.5227,88.3631
+Kolkata,Belle Vue Clinic,900,190,1200,22.5397,88.3355
+Kolkata,Peerless Hospital,850,180,1100,22.571,88.2461
+Kolkata,Apollo Hospital Kolkata,950,210,1300,22.5515,88.361
+Kolkata,Fortis Hospital Kolkata,850,180,1100,22.5721,88.3672
+Pune,Deenanath Mangeshkar,480,102,720,18.5344,73.8516
+Pune,Jehangir Hospital,750,160,950,18.5234,73.8567
+Pune,Apollo Hospital Pune,900,200,1200,18.5384,73.8797
+Pune,Inamdar Multispecialty Hospital,700,150,950,18.5174,73.8571
+Pune,Medicover Hospital Pune,800,170,1050,18.5427,73.9022
+Ahmedabad,Civil Hospital,420,85,650,23.0334,72.5616
+Ahmedabad,Apollo Hospital Ahmedabad,880,190,1100,23.021,72.5387
+Ahmedabad,Sterling Hospital,650,140,850,23.0304,72.5238
+Ahmedabad,Saifee Hospital,700,150,950,23.0302,72.567
+Ahmedabad,Medanta Hospital Ahmedabad,900,190,1200,23.0269,72.5307
+Jaipur,SMS Hospital,580,115,820,26.8851,75.7867
+Jaipur,Manipal Hospital Jaipur,750,160,950,26.9058,75.8052
+Jaipur,Fortis Hospital Jaipur,800,170,1050,26.9467,75.7799
+Jaipur,Max Hospital Jaipur,700,150,950,26.8996,75.791
+Lucknow,King George Medical,500,98,740,26.8617,80.9561
+Lucknow,Apollo Hospital Lucknow,750,160,950,26.8577,80.9305
+Lucknow,Medanta Hospital Lucknow,850,180,1100,26.8565,80.9461
+Lucknow,Shatabdi Medical College,700,150,950,26.8545,80.9144
+Chandigarh,PGIMER,600,130,900,30.7316,76.8162
+Chandigarh,Apollo Hospital Chandigarh,700,150,950,30.7271,76.8425
+Chandigarh,Fortis Hospital Chandigarh,650,140,850,30.7588,76.8498
+Chandigarh,Healing Hospital,700,150,1000,30.7342,76.8157
+Indore,Choithram Hospital,350,72,580,22.7121,75.8668
+Indore,Apollo Hospital Indore,700,150,950,22.7243,75.8631
+Indore,Medanta Hospital Indore,750,160,1000,22.7459,75.8254
+Indore,Fortis Hospital Indore,680,145,920,22.7204,75.8525
+Surat,New Civil Hospital,440,92,710,21.1774,72.8463
+Surat,Apollo Hospital Surat,800,170,1050,21.1275,72.8171
+Surat,Vedavati Hospital,650,140,900,21.147,72.8401
+Surat,Zydus Hospital Surat,750,160,1000,21.1778,72.8457
+Vadodara,SSG Hospital,380,78,610,22.3048,73.1742
+Vadodara,Apollo Hospital Vadodara,750,160,1000,22.3168,73.1995
+Vadodara,Sterling Hospital Vadodara,700,150,950,22.31,73.1758
+Vadodara,Medanta Hospital Vadodara,780,165,1050,22.3047,73.1939
+Kochi,Lakeshore Hospital,320,68,540,10.0017,76.2419
+Kochi,Ernakulathappan Hospital,650,140,900,9.9451,76.2412
+Kochi,Amrita Institute,900,200,1300,10.0109,76.2717
+Kochi,Apollo Hospital Kochi,850,180,1150,10.0336,76.2488
+Kochi,Aster Medcity,1000,220,1400,9.9294,76.2656
+Bhopal,Hamidia Hospital,850,180,1100,23.187,77.3981
+Bhopal,Apollo Hospital Bhopal,750,160,1000,23.1735,77.4087
+Bhopal,Medanta Hospital Bhopal,700,150,950,23.2016,77.4402
+Guwahati,Medanta Hospital Guwahati,650,140,900,26.1519,91.749
+Guwahati,Apollo Hospital Guwahati,700,150,1000,26.1394,91.7426
+Guwahati,GNRC Hospitals,600,130,850,26.1495,91.7278
+Guwahati,Gauhati Medical College,800,170,1100,26.1518,91.7433
+Patna,Indira Gandhi Institute,750,160,1000,25.5779,85.1306
+Patna,Patna Medical College Hospital,800,170,1050,25.6023,85.1425
+Patna,Apollo Hospital Patna,700,150,950,25.6021,85.1422
+Patna,AIIMS Patna,1000,220,1400,25.5716,85.126
+Visakhapatnam,King George Hospital,600,130,850,17.668,83.2327
+Visakhapatnam,Apollo Hospital Visakhapatnam,750,160,1050,17.6783,83.2256
+Visakhapatnam,MEDARC Hospital,650,140,900,17.6845,83.2261
+Visakhapatnam,Dhanvantri Hospital,700,150,1000,17.6991,83.2187
+Coimbatore,Ganga Hospital,550,115,800,11.0086,76.9488
+Coimbatore,Apollo Hospital Coimbatore,800,170,1100,11.0035,76.9631
+Coimbatore,CMC Hospital,700,150,1000,10.9979,76.9451
+Coimbatore,Fortis Hospital Coimbatore,750,160,1050,11.0014,76.9482
+Nagpur,Inlaks and Budhrani Hospital,600,130,900,21.1423,79.0901
+Nagpur,Apollo Hospital Nagpur,750,160,1050,21.1261,79.0697
+Nagpur,Sakra World Hospital,700,150,1000,21.1484,79.0864
+Nagpur,Medanta Hospital Nagpur,750,160,1050,21.1509,79.0776
+Ranchi,Rajendra Institute,700,150,1000,23.3479,85.3179
+Ranchi,Apollo Hospital Ranchi,650,140,900,23.3353,85.3064
+Ranchi,Medanta Hospital Ranchi,600,130,850,23.3353,85.3156
+Ranchi,AIIMS Ranchi,1100,240,1500,23.3406,85.3203
+Thiruvananthapuram,Medical College Hospital,800,170,1100,8.5426,76.9276
+Thiruvananthapuram,Apollo Hospital Thiruvananthapuram,700,150,1000,8.5537,76.9651
+Thiruvananthapuram,Baby Memorial Hospital,650,140,900,8.533,76.9328
+Thiruvananthapuram,Aster MIMS,950,210,1300,8.5176,76.9435
+Nashik,Apollo Hospital Nashik,650,140,900,19.9974,73.7874
+Nashik,Sahyadri Hospital,600,130,850,19.9803,73.768
+Nashik,Ruby Hall Clinic,550,115,800,20.0045,73.7841
+Aurangabad,Apollo Hospital Aurangabad,700,150,950,19.8746,75.3561
+Aurangabad,Dr. Hedgewar Smriti Hospital,600,130,850,19.8831,75.3368
+Aurangabad,Medanta Hospital Aurangabad,650,140,900,19.8688,75.3595
+Belgaum,Belgaum Institute,550,115,800,15.8604,75.6338
+Belgaum,Apollo Hospital Belgaum,650,140,900,15.8745,75.6207
+Belgaum,Sangameshwar Hospital,600,130,850,15.8645,75.6289
+Mysore,K.R. Hospital,650,140,900,12.3004,76.6437
+Mysore,Apollo Hospital Mysore,700,150,1000,12.2994,76.658
+Mysore,Vikram Hospital,600,130,850,12.3071,76.6204
+Goa,Goa Medical College,750,160,1050,15.4887,73.8321
+Goa,Apollo Hospital Goa,650,140,900,15.4792,73.8255
+Goa,Manipal Hospital Goa,600,130,850,15.4906,73.8164
+Erode,Erode Institute,550,115,800,11.347,77.7296
+Erode,Apollo Hospital Erode,600,130,850,11.3351,77.7158
+Erode,Kumaran Hospital,500,105,750,11.3533,77.7133
+Ludhiana,Apollo Hospital Ludhiana,800,170,1100,30.8985,75.8526
+Ludhiana,Max Hospital Ludhiana,750,160,1050,30.8953,75.871
+Ludhiana,Dayanand Medical College,700,150,1000,30.9072,75.8496
+Ludhiana,Fortis Hospital Ludhiana,850,180,1100,30.9121,75.831
+Amritsar,Civil Hospital,650,140,900,31.6387,74.8855
+Amritsar,Apollo Hospital Amritsar,700,150,1000,31.6366,74.8615
+Amritsar,Doctors Institute,600,130,850,31.6369,74.8806
+Agra,Apollo Hospital Agra,700,150,1000,27.1777,78.0148
+Agra,SN Medical College,650,140,900,27.1831,77.9882
+Agra,Taj Medical Center,600,130,850,27.1686,78.0153
+Allahabad,Swaroop Rani Nehru Hospital,750,160,1050,25.422,81.8593
+Allahabad,Apollo Hospital Allahabad,700,150,1000,25.4384,81.8359
+Allahabad,Dr. Ram Manohar Lohia Institute,650,140,900,25.4359,81.8441
+Kanpur,Hallet Hospital,700,150,950,26.4519,80.3498
+Kanpur,Apollo Hospital Kanpur,750,160,1000,26.447,80.3212
+Kanpur,Medanta Hospital Kanpur,700,150,950,26.4436,80.338
+Varanasi,Banaras Hindu University Hospital,800,170,1100,25.3312,82.9865
+Varanasi,Apollo Hospital Varanasi,750,160,1000,25.3293,82.9634
+Varanasi,Shri Satya Sai Medical Institute,700,150,950,25.3254,82.9836
+Shillong,Shillong Civil Hospital,600,130,850,25.5739,91.8858
+Shillong,Apollo Hospital Shillong,650,140,900,25.5693,91.8828
+Shillong,Medixia Hospital,580,125,850,25.5875,91.8901
+Imphal,Jawaharlal Nehru Institute,550,115,800,24.813,94.9074
+Imphal,Civil Hospital Imphal,500,105,750,24.8145,94.8909
+Manipur,RIMS Manipur,600,130,850,24.8078,94.9132
+Manipur,Shija Hospitals,550,115,800,24.8036,94.8995
+Tripura,Govind Ballabh Pant Institute,600,130,850,23.8119,91.2933
+Tripura,Civil Hospital Tripura,550,115,800,23.8006,91.2758
+Meghalaya,Khyndait Hospital,500,105,750,25.5833,91.8849
+Meghalaya,Spring Road Civil Hospital,480,100,750,25.5826,91.8843
+Arunachal Pradesh,Tomo Riba Institute,550,115,800,28.2181,92.945
+Arunachal Pradesh,Apollo Hospital Arunachal,600,130,850,28.2204,92.9475
+Assam,Assam Medical College,750,160,1050,26.1457,91.7348
+Assam,Apollo Hospital Assam,700,150,1000,26.1406,91.7343
+Odisha,AIIMS Bhubaneswar,1000,220,1400,20.3078,85.8196
+Odisha,Apollo Hospital Odisha,750,160,1050,20.2894,85.8121
+Odisha,Sparsh Hospital,700,150,1000,20.3009,85.8164
+Odisha,Medanta Hospital Odisha,800,170,1100,20.3014,85.8349
+Jharkhand,AIIMS Ranchi,1100,240,1500,23.3426,85.2955
+Jharkhand,Medanta Hospital Jharkhand,800,170,1100,23.3467,85.3112
+Jharkhand,Apollo Hospital Jharkhand,750,160,1050,23.3398,85.3156
+West Bengal,AMRI Hospital,900,200,1250,22.578,88.3748
+West Bengal,Apollo Gleneagles,950,210,1300,22.5751,88.3672
+West Bengal,Fortis Hospital Kolkata,850,180,1100,22.5834,88.3602
+West Bengal,ICCR Hospital,800,170,1100,22.5696,88.3629
+Bihar,Indira Gandhi Institute,750,160,1000,25.5974,85.1333
+Bihar,Patna Medical College,800,170,1050,25.6037,85.1325

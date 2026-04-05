@@ -1,0 +1,3942 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6e17ad58f41a6ed0234dd2327dfa7027 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_6e17ad58f41a6ed0234dd2327dfa7027" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6e17ad58f41a6ed0234dd2327dfa7027 = L.map(
+                "map_6e17ad58f41a6ed0234dd2327dfa7027",
+                {
+                    center: [20.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_ad1884fa0992e9fb3beeacb6790ebc7b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_ad1884fa0992e9fb3beeacb6790ebc7b.addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+            var circle_marker_fd826e92754fbe81664c6df443dc717c = L.circleMarker(
+                [28.5712, 77.1904],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_24b74c386220e2d7e350a39edbf4ad7d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_21798b02bb88be08d69623a1fecd21a6 = $(`<div id="html_21798b02bb88be08d69623a1fecd21a6" style="width: 100.0%; height: 100.0%;"><b>Safdarjung Hospital</b><br>Location: Delhi<br>Risk: High<br>Score: 70<br>Beds: 560<br>Doctors: 120</div>`)[0];
+                popup_24b74c386220e2d7e350a39edbf4ad7d.setContent(html_21798b02bb88be08d69623a1fecd21a6);
+            
+        
+
+        circle_marker_fd826e92754fbe81664c6df443dc717c.bindPopup(popup_24b74c386220e2d7e350a39edbf4ad7d)
+        ;
+
+        
+    
+    
+            var circle_marker_df84825242f2e3c653d4cfd576174390 = L.circleMarker(
+                [28.6381, 77.229],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_e02a00bf9d546399d27249006cafc339 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_955567e8a50102b0cd0d4402037fab6e = $(`<div id="html_955567e8a50102b0cd0d4402037fab6e" style="width: 100.0%; height: 100.0%;"><b>AIIMS Delhi</b><br>Location: Delhi<br>Risk: High<br>Score: 70<br>Beds: 2000<br>Doctors: 450</div>`)[0];
+                popup_e02a00bf9d546399d27249006cafc339.setContent(html_955567e8a50102b0cd0d4402037fab6e);
+            
+        
+
+        circle_marker_df84825242f2e3c653d4cfd576174390.bindPopup(popup_e02a00bf9d546399d27249006cafc339)
+        ;
+
+        
+    
+    
+            var circle_marker_f03d6a9c6848880cbb02e954ac8a9f7f = L.circleMarker(
+                [28.7012, 77.1752],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_006a5c3e64348db0a973179996ecf0a9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6f3bddf4b0b165ed6956fa91e3785c7b = $(`<div id="html_6f3bddf4b0b165ed6956fa91e3785c7b" style="width: 100.0%; height: 100.0%;"><b>Ram Manohar Lohia Hospital</b><br>Location: Delhi<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 180</div>`)[0];
+                popup_006a5c3e64348db0a973179996ecf0a9.setContent(html_6f3bddf4b0b165ed6956fa91e3785c7b);
+            
+        
+
+        circle_marker_f03d6a9c6848880cbb02e954ac8a9f7f.bindPopup(popup_006a5c3e64348db0a973179996ecf0a9)
+        ;
+
+        
+    
+    
+            var circle_marker_24ddee06d185b1b15f88b1e2e70c050f = L.circleMarker(
+                [28.5831, 77.237],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c53654558b5f2639401fd437ae0e0af7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_01df9e933914f349b3b943af2926a685 = $(`<div id="html_01df9e933914f349b3b943af2926a685" style="width: 100.0%; height: 100.0%;"><b>St. Stephen's Hospital</b><br>Location: Delhi<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_c53654558b5f2639401fd437ae0e0af7.setContent(html_01df9e933914f349b3b943af2926a685);
+            
+        
+
+        circle_marker_24ddee06d185b1b15f88b1e2e70c050f.bindPopup(popup_c53654558b5f2639401fd437ae0e0af7)
+        ;
+
+        
+    
+    
+            var circle_marker_5a32d34212ab75150a3490abc32e2d5f = L.circleMarker(
+                [28.673, 77.2398],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_ca6c065d74f0cd84e022bc1af7955406 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f5d999580459b47cdd028eb1d94d708f = $(`<div id="html_f5d999580459b47cdd028eb1d94d708f" style="width: 100.0%; height: 100.0%;"><b>Maulana Azad Medical College</b><br>Location: Delhi<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_ca6c065d74f0cd84e022bc1af7955406.setContent(html_f5d999580459b47cdd028eb1d94d708f);
+            
+        
+
+        circle_marker_5a32d34212ab75150a3490abc32e2d5f.bindPopup(popup_ca6c065d74f0cd84e022bc1af7955406)
+        ;
+
+        
+    
+    
+            var circle_marker_f1e958085c441516007e00290424bbe9 = L.circleMarker(
+                [19.0325, 72.8448],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f03a4ec033e171b90d256025db2f8be6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_19489a32de83ebad8611a7a96d7d3b7c = $(`<div id="html_19489a32de83ebad8611a7a96d7d3b7c" style="width: 100.0%; height: 100.0%;"><b>Lilavati Hospital</b><br>Location: Mumbai<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_f03a4ec033e171b90d256025db2f8be6.setContent(html_19489a32de83ebad8611a7a96d7d3b7c);
+            
+        
+
+        circle_marker_f1e958085c441516007e00290424bbe9.bindPopup(popup_f03a4ec033e171b90d256025db2f8be6)
+        ;
+
+        
+    
+    
+            var circle_marker_cc02ee8ddaa8d69eaec7f72ac69bfbec = L.circleMarker(
+                [19.0257, 72.8459],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_42a0f184d3a7087c79906f1d74ce5141 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fde6df3c8438fa8644ecf130f6665830 = $(`<div id="html_fde6df3c8438fa8644ecf130f6665830" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Mumbai</b><br>Location: Mumbai<br>Risk: High<br>Score: 55<br>Beds: 1200<br>Doctors: 280</div>`)[0];
+                popup_42a0f184d3a7087c79906f1d74ce5141.setContent(html_fde6df3c8438fa8644ecf130f6665830);
+            
+        
+
+        circle_marker_cc02ee8ddaa8d69eaec7f72ac69bfbec.bindPopup(popup_42a0f184d3a7087c79906f1d74ce5141)
+        ;
+
+        
+    
+    
+            var circle_marker_78072e28113448b02297ce9841fe76fe = L.circleMarker(
+                [19.1109, 72.8612],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7ddbc16a74196536bec85e3a66f3e20b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_00729210ff08a6c22b1717ac90120239 = $(`<div id="html_00729210ff08a6c22b1717ac90120239" style="width: 100.0%; height: 100.0%;"><b>Fortis Mulund</b><br>Location: Mumbai<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 190</div>`)[0];
+                popup_7ddbc16a74196536bec85e3a66f3e20b.setContent(html_00729210ff08a6c22b1717ac90120239);
+            
+        
+
+        circle_marker_78072e28113448b02297ce9841fe76fe.bindPopup(popup_7ddbc16a74196536bec85e3a66f3e20b)
+        ;
+
+        
+    
+    
+            var circle_marker_63c8ad3a70653979b140d80158101fcf = L.circleMarker(
+                [19.0847, 72.8858],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_cf590e27a1cec6cb97db95ce321e3745 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_316eecd0704bafd6bcc604a2b1e29b64 = $(`<div id="html_316eecd0704bafd6bcc604a2b1e29b64" style="width: 100.0%; height: 100.0%;"><b>Hinduja Hospital</b><br>Location: Mumbai<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_cf590e27a1cec6cb97db95ce321e3745.setContent(html_316eecd0704bafd6bcc604a2b1e29b64);
+            
+        
+
+        circle_marker_63c8ad3a70653979b140d80158101fcf.bindPopup(popup_cf590e27a1cec6cb97db95ce321e3745)
+        ;
+
+        
+    
+    
+            var circle_marker_47ed7bd7f58fb61e0be6b2382c2a5a2a = L.circleMarker(
+                [19.0613, 72.8335],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_96889ec555a4bc49a121490873b0d252 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8a1c13e9d78bcaed39933b926a0f919d = $(`<div id="html_8a1c13e9d78bcaed39933b926a0f919d" style="width: 100.0%; height: 100.0%;"><b>BMC Hospital</b><br>Location: Mumbai<br>Risk: Medium<br>Score: 45<br>Beds: 1100<br>Doctors: 220</div>`)[0];
+                popup_96889ec555a4bc49a121490873b0d252.setContent(html_8a1c13e9d78bcaed39933b926a0f919d);
+            
+        
+
+        circle_marker_47ed7bd7f58fb61e0be6b2382c2a5a2a.bindPopup(popup_96889ec555a4bc49a121490873b0d252)
+        ;
+
+        
+    
+    
+            var circle_marker_3d6b5bf6dc1c890537e80eb566f7f86a = L.circleMarker(
+                [19.0317, 72.8509],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_de87bb27705327f0a3e2d6c7dd3d29f6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f6404689ca9544fcfc5742efc4a6da28 = $(`<div id="html_f6404689ca9544fcfc5742efc4a6da28" style="width: 100.0%; height: 100.0%;"><b>Grant Medical College</b><br>Location: Mumbai<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_de87bb27705327f0a3e2d6c7dd3d29f6.setContent(html_f6404689ca9544fcfc5742efc4a6da28);
+            
+        
+
+        circle_marker_3d6b5bf6dc1c890537e80eb566f7f86a.bindPopup(popup_de87bb27705327f0a3e2d6c7dd3d29f6)
+        ;
+
+        
+    
+    
+            var circle_marker_854abff5c3e0178a3a12a53321c72a11 = L.circleMarker(
+                [13.1914, 77.5774],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b06e2310828079c74429f01b4b3efa96 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8cb938a34d25e7a073073be5b981529a = $(`<div id="html_8cb938a34d25e7a073073be5b981529a" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Bangalore</b><br>Location: Bangalore<br>Risk: High<br>Score: 55<br>Beds: 1100<br>Doctors: 250</div>`)[0];
+                popup_b06e2310828079c74429f01b4b3efa96.setContent(html_8cb938a34d25e7a073073be5b981529a);
+            
+        
+
+        circle_marker_854abff5c3e0178a3a12a53321c72a11.bindPopup(popup_b06e2310828079c74429f01b4b3efa96)
+        ;
+
+        
+    
+    
+            var circle_marker_dd77e915ccb677117c0a9c3ba7f7ffc4 = L.circleMarker(
+                [13.0334, 77.5924],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_adb7f436a942453b663652bcdc0f05ab = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_294c1659147c03b23c72e4f325d73c8d = $(`<div id="html_294c1659147c03b23c72e4f325d73c8d" style="width: 100.0%; height: 100.0%;"><b>Manipal Hospital</b><br>Location: Bangalore<br>Risk: High<br>Score: 55<br>Beds: 950<br>Doctors: 210</div>`)[0];
+                popup_adb7f436a942453b663652bcdc0f05ab.setContent(html_294c1659147c03b23c72e4f325d73c8d);
+            
+        
+
+        circle_marker_dd77e915ccb677117c0a9c3ba7f7ffc4.bindPopup(popup_adb7f436a942453b663652bcdc0f05ab)
+        ;
+
+        
+    
+    
+            var circle_marker_bdac567c4bdb90aafbf02c0cdc2bb077 = L.circleMarker(
+                [13.2017, 77.7132],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_e88d70889f8e1996ab15778eca44a274 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6bcb2f1e851f1e9687c9c4b25fd544de = $(`<div id="html_6bcb2f1e851f1e9687c9c4b25fd544de" style="width: 100.0%; height: 100.0%;"><b>St. Martha's Hospital</b><br>Location: Bangalore<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 180</div>`)[0];
+                popup_e88d70889f8e1996ab15778eca44a274.setContent(html_6bcb2f1e851f1e9687c9c4b25fd544de);
+            
+        
+
+        circle_marker_bdac567c4bdb90aafbf02c0cdc2bb077.bindPopup(popup_e88d70889f8e1996ab15778eca44a274)
+        ;
+
+        
+    
+    
+            var circle_marker_bc5067df05b8689f777f5d4dfac56ddf = L.circleMarker(
+                [13.0865, 77.6098],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1cd8cc10ac0ef07622a8ac2dd2cc8c09 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4251255ae417e173de7b6fc2371edd2b = $(`<div id="html_4251255ae417e173de7b6fc2371edd2b" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Bangalore</b><br>Location: Bangalore<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_1cd8cc10ac0ef07622a8ac2dd2cc8c09.setContent(html_4251255ae417e173de7b6fc2371edd2b);
+            
+        
+
+        circle_marker_bc5067df05b8689f777f5d4dfac56ddf.bindPopup(popup_1cd8cc10ac0ef07622a8ac2dd2cc8c09)
+        ;
+
+        
+    
+    
+            var circle_marker_186c1093eb2b01139d58e9904c58ae89 = L.circleMarker(
+                [13.1582, 77.564],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_55323caf872a8387259e8e94123aaa72 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cd36042e5efbcd67f3dedecdd03d3e91 = $(`<div id="html_cd36042e5efbcd67f3dedecdd03d3e91" style="width: 100.0%; height: 100.0%;"><b>Narayana Health Bangalore</b><br>Location: Bangalore<br>Risk: High<br>Score: 70<br>Beds: 1300<br>Doctors: 280</div>`)[0];
+                popup_55323caf872a8387259e8e94123aaa72.setContent(html_cd36042e5efbcd67f3dedecdd03d3e91);
+            
+        
+
+        circle_marker_186c1093eb2b01139d58e9904c58ae89.bindPopup(popup_55323caf872a8387259e8e94123aaa72)
+        ;
+
+        
+    
+    
+            var circle_marker_80401a7ebe4e943ffe754c812b965c7e = L.circleMarker(
+                [13.2374, 77.5194],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_550c521ff5c07fa41a5aa88f423e175b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2bb4a50c54416d1628c5d7a31b61608a = $(`<div id="html_2bb4a50c54416d1628c5d7a31b61608a" style="width: 100.0%; height: 100.0%;"><b>Indraprastha Apollo</b><br>Location: Bangalore<br>Risk: Medium<br>Score: 45<br>Beds: 1000<br>Doctors: 220</div>`)[0];
+                popup_550c521ff5c07fa41a5aa88f423e175b.setContent(html_2bb4a50c54416d1628c5d7a31b61608a);
+            
+        
+
+        circle_marker_80401a7ebe4e943ffe754c812b965c7e.bindPopup(popup_550c521ff5c07fa41a5aa88f423e175b)
+        ;
+
+        
+    
+    
+            var circle_marker_f42a92a120ea9e54d930b8ed39faa3a4 = L.circleMarker(
+                [13.0532, 80.2374],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_3e24976b9b2d3f623bde6ae3d0249352 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4761ce10e0f902b3ab019c9a3a6440a3 = $(`<div id="html_4761ce10e0f902b3ab019c9a3a6440a3" style="width: 100.0%; height: 100.0%;"><b>Fortis Malar</b><br>Location: Chennai<br>Risk: Critical<br>Score: 75<br>Beds: 380<br>Doctors: 80</div>`)[0];
+                popup_3e24976b9b2d3f623bde6ae3d0249352.setContent(html_4761ce10e0f902b3ab019c9a3a6440a3);
+            
+        
+
+        circle_marker_f42a92a120ea9e54d930b8ed39faa3a4.bindPopup(popup_3e24976b9b2d3f623bde6ae3d0249352)
+        ;
+
+        
+    
+    
+            var circle_marker_3aa808bf40caedd1b8eaf581c1404654 = L.circleMarker(
+                [13.0684, 80.2537],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_accbf871555c38491074f8bf2bee2b09 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c2f9194a17f416052066422d185b3c2f = $(`<div id="html_c2f9194a17f416052066422d185b3c2f" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Chennai</b><br>Location: Chennai<br>Risk: Medium<br>Score: 45<br>Beds: 950<br>Doctors: 210</div>`)[0];
+                popup_accbf871555c38491074f8bf2bee2b09.setContent(html_c2f9194a17f416052066422d185b3c2f);
+            
+        
+
+        circle_marker_3aa808bf40caedd1b8eaf581c1404654.bindPopup(popup_accbf871555c38491074f8bf2bee2b09)
+        ;
+
+        
+    
+    
+            var circle_marker_e3140060c374650c0ec2ec7a132eb436 = L.circleMarker(
+                [13.0279, 80.2608],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_72f873c56c621bad361e35a0a6e1a546 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0a986dd2f7ec88d5c669bf383c18e76a = $(`<div id="html_0a986dd2f7ec88d5c669bf383c18e76a" style="width: 100.0%; height: 100.0%;"><b>Vijaya Hospital</b><br>Location: Chennai<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_72f873c56c621bad361e35a0a6e1a546.setContent(html_0a986dd2f7ec88d5c669bf383c18e76a);
+            
+        
+
+        circle_marker_e3140060c374650c0ec2ec7a132eb436.bindPopup(popup_72f873c56c621bad361e35a0a6e1a546)
+        ;
+
+        
+    
+    
+            var circle_marker_66c9368c09ace79fe229871cf226cadd = L.circleMarker(
+                [13.0769, 80.2774],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1d30df5834bb6b755cdfbf535d024ad0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_09a1b9a788fd26aeaca51b11104311c8 = $(`<div id="html_09a1b9a788fd26aeaca51b11104311c8" style="width: 100.0%; height: 100.0%;"><b>Dr. Kamakshi Memorial Hospital</b><br>Location: Chennai<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_1d30df5834bb6b755cdfbf535d024ad0.setContent(html_09a1b9a788fd26aeaca51b11104311c8);
+            
+        
+
+        circle_marker_66c9368c09ace79fe229871cf226cadd.bindPopup(popup_1d30df5834bb6b755cdfbf535d024ad0)
+        ;
+
+        
+    
+    
+            var circle_marker_97a7a3ab6e6ed66fc975cef9fc342ffa = L.circleMarker(
+                [13.1892, 80.1782],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_725fa3acfe2301f0da4bb42b677290b3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_94fc230be44678a1b012b28ac3e10be0 = $(`<div id="html_94fc230be44678a1b012b28ac3e10be0" style="width: 100.0%; height: 100.0%;"><b>MIOT International</b><br>Location: Chennai<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 190</div>`)[0];
+                popup_725fa3acfe2301f0da4bb42b677290b3.setContent(html_94fc230be44678a1b012b28ac3e10be0);
+            
+        
+
+        circle_marker_97a7a3ab6e6ed66fc975cef9fc342ffa.bindPopup(popup_725fa3acfe2301f0da4bb42b677290b3)
+        ;
+
+        
+    
+    
+            var circle_marker_d8bad27fd9fdf2916d95c8d873bef8f9 = L.circleMarker(
+                [17.3608, 78.4626],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f8aa1f4c4b44e9c5dd66457fd97df5ee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8a28dd00fa0869dd490c4613e81010bd = $(`<div id="html_8a28dd00fa0869dd490c4613e81010bd" style="width: 100.0%; height: 100.0%;"><b>Care Hospital</b><br>Location: Hyderabad<br>Risk: Critical<br>Score: 85<br>Beds: 420<br>Doctors: 88</div>`)[0];
+                popup_f8aa1f4c4b44e9c5dd66457fd97df5ee.setContent(html_8a28dd00fa0869dd490c4613e81010bd);
+            
+        
+
+        circle_marker_d8bad27fd9fdf2916d95c8d873bef8f9.bindPopup(popup_f8aa1f4c4b44e9c5dd66457fd97df5ee)
+        ;
+
+        
+    
+    
+            var circle_marker_bfa5a9a88cc7070633f6ea3d83c57bcb = L.circleMarker(
+                [17.3837, 78.5248],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8bdbfe07655aeeb8ff8f2bba72003fe8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_97c83967e5c641955dbec88bef3ecbab = $(`<div id="html_97c83967e5c641955dbec88bef3ecbab" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Hyderabad</b><br>Location: Hyderabad<br>Risk: High<br>Score: 70<br>Beds: 1000<br>Doctors: 220</div>`)[0];
+                popup_8bdbfe07655aeeb8ff8f2bba72003fe8.setContent(html_97c83967e5c641955dbec88bef3ecbab);
+            
+        
+
+        circle_marker_bfa5a9a88cc7070633f6ea3d83c57bcb.bindPopup(popup_8bdbfe07655aeeb8ff8f2bba72003fe8)
+        ;
+
+        
+    
+    
+            var circle_marker_54023ec1d9f75a71b4a50ef5e63e1690 = L.circleMarker(
+                [17.3797, 78.4781],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c810d8600f96dde4d78c7524f68e08aa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5792753a88041fa1c4897a4b01eb4d1d = $(`<div id="html_5792753a88041fa1c4897a4b01eb4d1d" style="width: 100.0%; height: 100.0%;"><b>Yashoda Hospital</b><br>Location: Hyderabad<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_c810d8600f96dde4d78c7524f68e08aa.setContent(html_5792753a88041fa1c4897a4b01eb4d1d);
+            
+        
+
+        circle_marker_54023ec1d9f75a71b4a50ef5e63e1690.bindPopup(popup_c810d8600f96dde4d78c7524f68e08aa)
+        ;
+
+        
+    
+    
+            var circle_marker_f546cf8bd216182346cede031c3656bd = L.circleMarker(
+                [17.393, 78.4982],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_eedf519e60692745b1c4762037f83d40 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_baefc0f50d256a13032424ae0aadaf2f = $(`<div id="html_baefc0f50d256a13032424ae0aadaf2f" style="width: 100.0%; height: 100.0%;"><b>Continental Hospital</b><br>Location: Hyderabad<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_eedf519e60692745b1c4762037f83d40.setContent(html_baefc0f50d256a13032424ae0aadaf2f);
+            
+        
+
+        circle_marker_f546cf8bd216182346cede031c3656bd.bindPopup(popup_eedf519e60692745b1c4762037f83d40)
+        ;
+
+        
+    
+    
+            var circle_marker_7e8e367ff4d32c6b601a0d47b4659c9e = L.circleMarker(
+                [17.3548, 78.5439],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_6a3898c0d9d3a697dd46115cee10cabb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9df6d52c52d9c3e8f43ed40f7f1db5f4 = $(`<div id="html_9df6d52c52d9c3e8f43ed40f7f1db5f4" style="width: 100.0%; height: 100.0%;"><b>Max Hospital Hyderabad</b><br>Location: Hyderabad<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_6a3898c0d9d3a697dd46115cee10cabb.setContent(html_9df6d52c52d9c3e8f43ed40f7f1db5f4);
+            
+        
+
+        circle_marker_7e8e367ff4d32c6b601a0d47b4659c9e.bindPopup(popup_6a3898c0d9d3a697dd46115cee10cabb)
+        ;
+
+        
+    
+    
+            var circle_marker_2ba47b2e5aed58a4f272849ffcd7d6ca = L.circleMarker(
+                [22.5227, 88.3631],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_23d3b91b2aa5b59e320eb05acf6edad1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_76d5ac816825bafe244c28feeba9e140 = $(`<div id="html_76d5ac816825bafe244c28feeba9e140" style="width: 100.0%; height: 100.0%;"><b>SSKM Hospital</b><br>Location: Kolkata<br>Risk: Critical<br>Score: 85<br>Beds: 550<br>Doctors: 110</div>`)[0];
+                popup_23d3b91b2aa5b59e320eb05acf6edad1.setContent(html_76d5ac816825bafe244c28feeba9e140);
+            
+        
+
+        circle_marker_2ba47b2e5aed58a4f272849ffcd7d6ca.bindPopup(popup_23d3b91b2aa5b59e320eb05acf6edad1)
+        ;
+
+        
+    
+    
+            var circle_marker_adab0f814afdb6dbcc6eaea478247437 = L.circleMarker(
+                [22.5397, 88.3355],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_96520ad907364a7729a8d105d3340cb8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_424992aeffc3f2a494106addad7800fb = $(`<div id="html_424992aeffc3f2a494106addad7800fb" style="width: 100.0%; height: 100.0%;"><b>Belle Vue Clinic</b><br>Location: Kolkata<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 190</div>`)[0];
+                popup_96520ad907364a7729a8d105d3340cb8.setContent(html_424992aeffc3f2a494106addad7800fb);
+            
+        
+
+        circle_marker_adab0f814afdb6dbcc6eaea478247437.bindPopup(popup_96520ad907364a7729a8d105d3340cb8)
+        ;
+
+        
+    
+    
+            var circle_marker_e6f9874c57c2be7832fd82bfa7cbf506 = L.circleMarker(
+                [22.571, 88.2461],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1792f5103ba788df1c05e0ace43fe99e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_23ed1711eca5e7996a1bb6104df8c989 = $(`<div id="html_23ed1711eca5e7996a1bb6104df8c989" style="width: 100.0%; height: 100.0%;"><b>Peerless Hospital</b><br>Location: Kolkata<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_1792f5103ba788df1c05e0ace43fe99e.setContent(html_23ed1711eca5e7996a1bb6104df8c989);
+            
+        
+
+        circle_marker_e6f9874c57c2be7832fd82bfa7cbf506.bindPopup(popup_1792f5103ba788df1c05e0ace43fe99e)
+        ;
+
+        
+    
+    
+            var circle_marker_1f875c878780b2ec5903730c1e89cc68 = L.circleMarker(
+                [22.5515, 88.361],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b05ac4889bad7f76f02e6e22b5b5a0b2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d85a5d2d1ac2a081f6d80b3043f6489d = $(`<div id="html_d85a5d2d1ac2a081f6d80b3043f6489d" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Kolkata</b><br>Location: Kolkata<br>Risk: Medium<br>Score: 45<br>Beds: 950<br>Doctors: 210</div>`)[0];
+                popup_b05ac4889bad7f76f02e6e22b5b5a0b2.setContent(html_d85a5d2d1ac2a081f6d80b3043f6489d);
+            
+        
+
+        circle_marker_1f875c878780b2ec5903730c1e89cc68.bindPopup(popup_b05ac4889bad7f76f02e6e22b5b5a0b2)
+        ;
+
+        
+    
+    
+            var circle_marker_d69cefd7a655ee65182bc6b3ce91891a = L.circleMarker(
+                [22.5721, 88.3672],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_2fc4afe6782a54e5b21267acec457498 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_465d0c3a5163b932f4f458e58d20da76 = $(`<div id="html_465d0c3a5163b932f4f458e58d20da76" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Kolkata</b><br>Location: Kolkata<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_2fc4afe6782a54e5b21267acec457498.setContent(html_465d0c3a5163b932f4f458e58d20da76);
+            
+        
+
+        circle_marker_d69cefd7a655ee65182bc6b3ce91891a.bindPopup(popup_2fc4afe6782a54e5b21267acec457498)
+        ;
+
+        
+    
+    
+            var circle_marker_24bcd498cbe78c99442de556302f7c21 = L.circleMarker(
+                [18.5344, 73.8516],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_331be1b769f6d8b5644532bc09bbac75 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ece7d7475d19112474df39ad4d0eee8a = $(`<div id="html_ece7d7475d19112474df39ad4d0eee8a" style="width: 100.0%; height: 100.0%;"><b>Deenanath Mangeshkar</b><br>Location: Pune<br>Risk: High<br>Score: 70<br>Beds: 480<br>Doctors: 102</div>`)[0];
+                popup_331be1b769f6d8b5644532bc09bbac75.setContent(html_ece7d7475d19112474df39ad4d0eee8a);
+            
+        
+
+        circle_marker_24bcd498cbe78c99442de556302f7c21.bindPopup(popup_331be1b769f6d8b5644532bc09bbac75)
+        ;
+
+        
+    
+    
+            var circle_marker_9ce4fc10fd991158a76fb6feb8ce2297 = L.circleMarker(
+                [18.5234, 73.8567],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_4d09b9ff89f0cb660bef0258548392a7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_608d3225ceff8ae4cb886c4acc448afe = $(`<div id="html_608d3225ceff8ae4cb886c4acc448afe" style="width: 100.0%; height: 100.0%;"><b>Jehangir Hospital</b><br>Location: Pune<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_4d09b9ff89f0cb660bef0258548392a7.setContent(html_608d3225ceff8ae4cb886c4acc448afe);
+            
+        
+
+        circle_marker_9ce4fc10fd991158a76fb6feb8ce2297.bindPopup(popup_4d09b9ff89f0cb660bef0258548392a7)
+        ;
+
+        
+    
+    
+            var circle_marker_1c43f13486b985d8211cfbd3b3ebcce6 = L.circleMarker(
+                [18.5384, 73.8797],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_2c77ab3de264db854bf42edba60321dc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7861e8471ae4d0eda08271d872ef5387 = $(`<div id="html_7861e8471ae4d0eda08271d872ef5387" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Pune</b><br>Location: Pune<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_2c77ab3de264db854bf42edba60321dc.setContent(html_7861e8471ae4d0eda08271d872ef5387);
+            
+        
+
+        circle_marker_1c43f13486b985d8211cfbd3b3ebcce6.bindPopup(popup_2c77ab3de264db854bf42edba60321dc)
+        ;
+
+        
+    
+    
+            var circle_marker_f6afcb67e87902d95f5d59c518a493dd = L.circleMarker(
+                [18.5174, 73.8571],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_d5a030a70cd1fb0541cbd32fc68707ba = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ec26bb6a7549475ccc29f858e3816a78 = $(`<div id="html_ec26bb6a7549475ccc29f858e3816a78" style="width: 100.0%; height: 100.0%;"><b>Inamdar Multispecialty Hospital</b><br>Location: Pune<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_d5a030a70cd1fb0541cbd32fc68707ba.setContent(html_ec26bb6a7549475ccc29f858e3816a78);
+            
+        
+
+        circle_marker_f6afcb67e87902d95f5d59c518a493dd.bindPopup(popup_d5a030a70cd1fb0541cbd32fc68707ba)
+        ;
+
+        
+    
+    
+            var circle_marker_8a58fe227d9d17115d27293b972b2fbb = L.circleMarker(
+                [18.5427, 73.9022],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_85f0e330bfb6cef42eed6bb7e2e2771d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ab84a04fd519d6f7548cb48ef9eff153 = $(`<div id="html_ab84a04fd519d6f7548cb48ef9eff153" style="width: 100.0%; height: 100.0%;"><b>Medicover Hospital Pune</b><br>Location: Pune<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_85f0e330bfb6cef42eed6bb7e2e2771d.setContent(html_ab84a04fd519d6f7548cb48ef9eff153);
+            
+        
+
+        circle_marker_8a58fe227d9d17115d27293b972b2fbb.bindPopup(popup_85f0e330bfb6cef42eed6bb7e2e2771d)
+        ;
+
+        
+    
+    
+            var circle_marker_3ca73c7a955ddfbe3089d66d9caf00cf = L.circleMarker(
+                [23.0334, 72.5616],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_fe068bf03a291192f6cd9cf1c5cfea7a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dfde83113094140bec82b38e16cc51bc = $(`<div id="html_dfde83113094140bec82b38e16cc51bc" style="width: 100.0%; height: 100.0%;"><b>Civil Hospital</b><br>Location: Ahmedabad<br>Risk: High<br>Score: 70<br>Beds: 420<br>Doctors: 85</div>`)[0];
+                popup_fe068bf03a291192f6cd9cf1c5cfea7a.setContent(html_dfde83113094140bec82b38e16cc51bc);
+            
+        
+
+        circle_marker_3ca73c7a955ddfbe3089d66d9caf00cf.bindPopup(popup_fe068bf03a291192f6cd9cf1c5cfea7a)
+        ;
+
+        
+    
+    
+            var circle_marker_105d7d026f0c799ddfc740b22067af86 = L.circleMarker(
+                [23.021, 72.5387],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a4ef81ce2c1c40cb20ac3516c499c2c3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9251bb1da602f333dbe541c3be82400a = $(`<div id="html_9251bb1da602f333dbe541c3be82400a" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Ahmedabad</b><br>Location: Ahmedabad<br>Risk: Medium<br>Score: 45<br>Beds: 880<br>Doctors: 190</div>`)[0];
+                popup_a4ef81ce2c1c40cb20ac3516c499c2c3.setContent(html_9251bb1da602f333dbe541c3be82400a);
+            
+        
+
+        circle_marker_105d7d026f0c799ddfc740b22067af86.bindPopup(popup_a4ef81ce2c1c40cb20ac3516c499c2c3)
+        ;
+
+        
+    
+    
+            var circle_marker_7df2515f4fbc0c8ec8cf3cc45b1d4028 = L.circleMarker(
+                [23.0304, 72.5238],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_96f38c2e939063b4b991e67ef8f287f9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0cd88e15043d9be426daf93df067ad17 = $(`<div id="html_0cd88e15043d9be426daf93df067ad17" style="width: 100.0%; height: 100.0%;"><b>Sterling Hospital</b><br>Location: Ahmedabad<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_96f38c2e939063b4b991e67ef8f287f9.setContent(html_0cd88e15043d9be426daf93df067ad17);
+            
+        
+
+        circle_marker_7df2515f4fbc0c8ec8cf3cc45b1d4028.bindPopup(popup_96f38c2e939063b4b991e67ef8f287f9)
+        ;
+
+        
+    
+    
+            var circle_marker_ed02703f6aef5744dae22331eb1d9e09 = L.circleMarker(
+                [23.0302, 72.567],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a2c1a5efa67622d2f6b45872abe1ec04 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_030f483b25d641a0d91ba70e82ac7c92 = $(`<div id="html_030f483b25d641a0d91ba70e82ac7c92" style="width: 100.0%; height: 100.0%;"><b>Saifee Hospital</b><br>Location: Ahmedabad<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_a2c1a5efa67622d2f6b45872abe1ec04.setContent(html_030f483b25d641a0d91ba70e82ac7c92);
+            
+        
+
+        circle_marker_ed02703f6aef5744dae22331eb1d9e09.bindPopup(popup_a2c1a5efa67622d2f6b45872abe1ec04)
+        ;
+
+        
+    
+    
+            var circle_marker_78aeab6a2e8ca2785f97a45116e9a6e9 = L.circleMarker(
+                [23.0269, 72.5307],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_71d8c4f5c43e0f4b3c418b6b9e9ab075 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4d7e0d3ff878b27fedce635957e7320a = $(`<div id="html_4d7e0d3ff878b27fedce635957e7320a" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Ahmedabad</b><br>Location: Ahmedabad<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 190</div>`)[0];
+                popup_71d8c4f5c43e0f4b3c418b6b9e9ab075.setContent(html_4d7e0d3ff878b27fedce635957e7320a);
+            
+        
+
+        circle_marker_78aeab6a2e8ca2785f97a45116e9a6e9.bindPopup(popup_71d8c4f5c43e0f4b3c418b6b9e9ab075)
+        ;
+
+        
+    
+    
+            var circle_marker_48b840ee06e30ed47d06a6ab0d636b0e = L.circleMarker(
+                [26.8851, 75.7867],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_d53ded220a672791f026bd3bc3a08062 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_42277f7515a5bcbb620fd7993c1600f4 = $(`<div id="html_42277f7515a5bcbb620fd7993c1600f4" style="width: 100.0%; height: 100.0%;"><b>SMS Hospital</b><br>Location: Jaipur<br>Risk: High<br>Score: 70<br>Beds: 580<br>Doctors: 115</div>`)[0];
+                popup_d53ded220a672791f026bd3bc3a08062.setContent(html_42277f7515a5bcbb620fd7993c1600f4);
+            
+        
+
+        circle_marker_48b840ee06e30ed47d06a6ab0d636b0e.bindPopup(popup_d53ded220a672791f026bd3bc3a08062)
+        ;
+
+        
+    
+    
+            var circle_marker_f4c31cdc7140bd4dd91af7ad6c943280 = L.circleMarker(
+                [26.9058, 75.8052],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_771c356ee0c8bf911863ba6aa289152d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_37ac7c20f2d812ca034f4758efaa3d7f = $(`<div id="html_37ac7c20f2d812ca034f4758efaa3d7f" style="width: 100.0%; height: 100.0%;"><b>Manipal Hospital Jaipur</b><br>Location: Jaipur<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_771c356ee0c8bf911863ba6aa289152d.setContent(html_37ac7c20f2d812ca034f4758efaa3d7f);
+            
+        
+
+        circle_marker_f4c31cdc7140bd4dd91af7ad6c943280.bindPopup(popup_771c356ee0c8bf911863ba6aa289152d)
+        ;
+
+        
+    
+    
+            var circle_marker_7f1f41b13d199e13570d3695438a3483 = L.circleMarker(
+                [26.9467, 75.7799],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1d07cdb972c54ab6599c68c8cd94e2f2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_68065e4f5fbadddb87556f50a8215acf = $(`<div id="html_68065e4f5fbadddb87556f50a8215acf" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Jaipur</b><br>Location: Jaipur<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_1d07cdb972c54ab6599c68c8cd94e2f2.setContent(html_68065e4f5fbadddb87556f50a8215acf);
+            
+        
+
+        circle_marker_7f1f41b13d199e13570d3695438a3483.bindPopup(popup_1d07cdb972c54ab6599c68c8cd94e2f2)
+        ;
+
+        
+    
+    
+            var circle_marker_9a9932d646fe3a3ea0e467d2407518c2 = L.circleMarker(
+                [26.8996, 75.791],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1e44f523158e51f79667641faf2fab84 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_184e99c56f10232065a13768f90af181 = $(`<div id="html_184e99c56f10232065a13768f90af181" style="width: 100.0%; height: 100.0%;"><b>Max Hospital Jaipur</b><br>Location: Jaipur<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_1e44f523158e51f79667641faf2fab84.setContent(html_184e99c56f10232065a13768f90af181);
+            
+        
+
+        circle_marker_9a9932d646fe3a3ea0e467d2407518c2.bindPopup(popup_1e44f523158e51f79667641faf2fab84)
+        ;
+
+        
+    
+    
+            var circle_marker_1ffb34d9b5d848fe7a90daf76b9900d3 = L.circleMarker(
+                [26.8617, 80.9561],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b75c50e9a3564683df439613713e3a22 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c254c24b6714e71f2a4c566bc05d2a80 = $(`<div id="html_c254c24b6714e71f2a4c566bc05d2a80" style="width: 100.0%; height: 100.0%;"><b>King George Medical</b><br>Location: Lucknow<br>Risk: High<br>Score: 70<br>Beds: 500<br>Doctors: 98</div>`)[0];
+                popup_b75c50e9a3564683df439613713e3a22.setContent(html_c254c24b6714e71f2a4c566bc05d2a80);
+            
+        
+
+        circle_marker_1ffb34d9b5d848fe7a90daf76b9900d3.bindPopup(popup_b75c50e9a3564683df439613713e3a22)
+        ;
+
+        
+    
+    
+            var circle_marker_0c10695812d56e9d8ca0036bcd0fa7ac = L.circleMarker(
+                [26.8577, 80.9305],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8e7d7d118c481fde949984e5f0c521a1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6b5da83bc591b79863357c2d11ecd232 = $(`<div id="html_6b5da83bc591b79863357c2d11ecd232" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Lucknow</b><br>Location: Lucknow<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_8e7d7d118c481fde949984e5f0c521a1.setContent(html_6b5da83bc591b79863357c2d11ecd232);
+            
+        
+
+        circle_marker_0c10695812d56e9d8ca0036bcd0fa7ac.bindPopup(popup_8e7d7d118c481fde949984e5f0c521a1)
+        ;
+
+        
+    
+    
+            var circle_marker_1399c82b6f9df14959cb931245320825 = L.circleMarker(
+                [26.8565, 80.9461],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_048e8f75ad3e6d552d7e30638b4799c7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_daf112b543c451cb08fcc1a1f99f5c45 = $(`<div id="html_daf112b543c451cb08fcc1a1f99f5c45" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Lucknow</b><br>Location: Lucknow<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_048e8f75ad3e6d552d7e30638b4799c7.setContent(html_daf112b543c451cb08fcc1a1f99f5c45);
+            
+        
+
+        circle_marker_1399c82b6f9df14959cb931245320825.bindPopup(popup_048e8f75ad3e6d552d7e30638b4799c7)
+        ;
+
+        
+    
+    
+            var circle_marker_16c1a76dcd32ec57febe5bfd23556181 = L.circleMarker(
+                [26.8545, 80.9144],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7b83550392687e8fc5e4d86d20c89849 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_21568a2c90b576a2be0f2da0d8ca12fe = $(`<div id="html_21568a2c90b576a2be0f2da0d8ca12fe" style="width: 100.0%; height: 100.0%;"><b>Shatabdi Medical College</b><br>Location: Lucknow<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_7b83550392687e8fc5e4d86d20c89849.setContent(html_21568a2c90b576a2be0f2da0d8ca12fe);
+            
+        
+
+        circle_marker_16c1a76dcd32ec57febe5bfd23556181.bindPopup(popup_7b83550392687e8fc5e4d86d20c89849)
+        ;
+
+        
+    
+    
+            var circle_marker_1612cc15fe759583d5c7ed1fca2d3877 = L.circleMarker(
+                [30.7316, 76.8162],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_be21938dd2474c2d6bf4869d1bc59219 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1392a3b2c9e311ff97e057beeeff8499 = $(`<div id="html_1392a3b2c9e311ff97e057beeeff8499" style="width: 100.0%; height: 100.0%;"><b>PGIMER</b><br>Location: Chandigarh<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_be21938dd2474c2d6bf4869d1bc59219.setContent(html_1392a3b2c9e311ff97e057beeeff8499);
+            
+        
+
+        circle_marker_1612cc15fe759583d5c7ed1fca2d3877.bindPopup(popup_be21938dd2474c2d6bf4869d1bc59219)
+        ;
+
+        
+    
+    
+            var circle_marker_cc594957337818c3733e6c27989d967c = L.circleMarker(
+                [30.7271, 76.8425],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f74b8a58f394b9bbb98a01c78bf9bbc8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bf0490fffdbc4670c8d13f6efdc59490 = $(`<div id="html_bf0490fffdbc4670c8d13f6efdc59490" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Chandigarh</b><br>Location: Chandigarh<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_f74b8a58f394b9bbb98a01c78bf9bbc8.setContent(html_bf0490fffdbc4670c8d13f6efdc59490);
+            
+        
+
+        circle_marker_cc594957337818c3733e6c27989d967c.bindPopup(popup_f74b8a58f394b9bbb98a01c78bf9bbc8)
+        ;
+
+        
+    
+    
+            var circle_marker_4d7e3ea50988585e2608fd41de239625 = L.circleMarker(
+                [30.7588, 76.8498],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c092962a29d57c9f10f81e4f07fe1f66 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_02c8db5f56f502fb4f810d96d9668f24 = $(`<div id="html_02c8db5f56f502fb4f810d96d9668f24" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Chandigarh</b><br>Location: Chandigarh<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_c092962a29d57c9f10f81e4f07fe1f66.setContent(html_02c8db5f56f502fb4f810d96d9668f24);
+            
+        
+
+        circle_marker_4d7e3ea50988585e2608fd41de239625.bindPopup(popup_c092962a29d57c9f10f81e4f07fe1f66)
+        ;
+
+        
+    
+    
+            var circle_marker_426cf7fd58b574f80e665db83b8c8b53 = L.circleMarker(
+                [30.7342, 76.8157],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b75999f8db2a91737377541806697f41 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_53402af56f39f113d39622cee35c9943 = $(`<div id="html_53402af56f39f113d39622cee35c9943" style="width: 100.0%; height: 100.0%;"><b>Healing Hospital</b><br>Location: Chandigarh<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_b75999f8db2a91737377541806697f41.setContent(html_53402af56f39f113d39622cee35c9943);
+            
+        
+
+        circle_marker_426cf7fd58b574f80e665db83b8c8b53.bindPopup(popup_b75999f8db2a91737377541806697f41)
+        ;
+
+        
+    
+    
+            var circle_marker_54cf5bd8c0b35aeb5f8d0be9642131a3 = L.circleMarker(
+                [22.7121, 75.8668],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f3e8186297d3df2749fa404e88fe23c6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ccb3c1e844bd0866de35028ecb544e79 = $(`<div id="html_ccb3c1e844bd0866de35028ecb544e79" style="width: 100.0%; height: 100.0%;"><b>Choithram Hospital</b><br>Location: Indore<br>Risk: Critical<br>Score: 85<br>Beds: 350<br>Doctors: 72</div>`)[0];
+                popup_f3e8186297d3df2749fa404e88fe23c6.setContent(html_ccb3c1e844bd0866de35028ecb544e79);
+            
+        
+
+        circle_marker_54cf5bd8c0b35aeb5f8d0be9642131a3.bindPopup(popup_f3e8186297d3df2749fa404e88fe23c6)
+        ;
+
+        
+    
+    
+            var circle_marker_4eefdf839460e8248517721291759aff = L.circleMarker(
+                [22.7243, 75.8631],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_72431f22a26f9d88a6f5ba9365fe24cd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_367509ddf2adefd7775b63f9cf5ff5f4 = $(`<div id="html_367509ddf2adefd7775b63f9cf5ff5f4" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Indore</b><br>Location: Indore<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_72431f22a26f9d88a6f5ba9365fe24cd.setContent(html_367509ddf2adefd7775b63f9cf5ff5f4);
+            
+        
+
+        circle_marker_4eefdf839460e8248517721291759aff.bindPopup(popup_72431f22a26f9d88a6f5ba9365fe24cd)
+        ;
+
+        
+    
+    
+            var circle_marker_7eb1c69b4f394f5202b5fea5db6c14b9 = L.circleMarker(
+                [22.7459, 75.8254],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7957cf4eb2bdf91d68cb042541deb7bd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ad9b98b2108ae5565589e6c284a32a24 = $(`<div id="html_ad9b98b2108ae5565589e6c284a32a24" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Indore</b><br>Location: Indore<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_7957cf4eb2bdf91d68cb042541deb7bd.setContent(html_ad9b98b2108ae5565589e6c284a32a24);
+            
+        
+
+        circle_marker_7eb1c69b4f394f5202b5fea5db6c14b9.bindPopup(popup_7957cf4eb2bdf91d68cb042541deb7bd)
+        ;
+
+        
+    
+    
+            var circle_marker_af85d3964509a3b56523657c5634fa17 = L.circleMarker(
+                [22.7204, 75.8525],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_cb6f7770ef8fafa318d45844dc4308ba = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7a5857a57bb5128538ac9fa3d10bc7bd = $(`<div id="html_7a5857a57bb5128538ac9fa3d10bc7bd" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Indore</b><br>Location: Indore<br>Risk: Medium<br>Score: 45<br>Beds: 680<br>Doctors: 145</div>`)[0];
+                popup_cb6f7770ef8fafa318d45844dc4308ba.setContent(html_7a5857a57bb5128538ac9fa3d10bc7bd);
+            
+        
+
+        circle_marker_af85d3964509a3b56523657c5634fa17.bindPopup(popup_cb6f7770ef8fafa318d45844dc4308ba)
+        ;
+
+        
+    
+    
+            var circle_marker_c749660f5e6cf0a5028c84b4667b0c74 = L.circleMarker(
+                [21.1774, 72.8463],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_4189cbf18b72f3e76e2bfc7d1ac307e2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5f45e1d3ec97e641ae3f1bf9b61ba00d = $(`<div id="html_5f45e1d3ec97e641ae3f1bf9b61ba00d" style="width: 100.0%; height: 100.0%;"><b>New Civil Hospital</b><br>Location: Surat<br>Risk: Critical<br>Score: 75<br>Beds: 440<br>Doctors: 92</div>`)[0];
+                popup_4189cbf18b72f3e76e2bfc7d1ac307e2.setContent(html_5f45e1d3ec97e641ae3f1bf9b61ba00d);
+            
+        
+
+        circle_marker_c749660f5e6cf0a5028c84b4667b0c74.bindPopup(popup_4189cbf18b72f3e76e2bfc7d1ac307e2)
+        ;
+
+        
+    
+    
+            var circle_marker_c7bf9edcf578a416713126d37fb4067d = L.circleMarker(
+                [21.1275, 72.8171],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_0cbe4f1cd223d7fbfcbb03308d24b81e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_826b6ee119e03de2fcc67b3ab0aec12c = $(`<div id="html_826b6ee119e03de2fcc67b3ab0aec12c" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Surat</b><br>Location: Surat<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_0cbe4f1cd223d7fbfcbb03308d24b81e.setContent(html_826b6ee119e03de2fcc67b3ab0aec12c);
+            
+        
+
+        circle_marker_c7bf9edcf578a416713126d37fb4067d.bindPopup(popup_0cbe4f1cd223d7fbfcbb03308d24b81e)
+        ;
+
+        
+    
+    
+            var circle_marker_ac8b5eb69ab108de6ae5338320ec5953 = L.circleMarker(
+                [21.147, 72.8401],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_958703e925531ab48b5c1e0457726373 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4b11e1995a311d1fe42f2b18497879b7 = $(`<div id="html_4b11e1995a311d1fe42f2b18497879b7" style="width: 100.0%; height: 100.0%;"><b>Vedavati Hospital</b><br>Location: Surat<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_958703e925531ab48b5c1e0457726373.setContent(html_4b11e1995a311d1fe42f2b18497879b7);
+            
+        
+
+        circle_marker_ac8b5eb69ab108de6ae5338320ec5953.bindPopup(popup_958703e925531ab48b5c1e0457726373)
+        ;
+
+        
+    
+    
+            var circle_marker_978eda7da5922f814df1085b1b1cf563 = L.circleMarker(
+                [21.1778, 72.8457],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_620d1d9cc37ee0f4aa9c6fb4c55d5f17 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e1cc29fe6961f7762a7f6993727998f8 = $(`<div id="html_e1cc29fe6961f7762a7f6993727998f8" style="width: 100.0%; height: 100.0%;"><b>Zydus Hospital Surat</b><br>Location: Surat<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_620d1d9cc37ee0f4aa9c6fb4c55d5f17.setContent(html_e1cc29fe6961f7762a7f6993727998f8);
+            
+        
+
+        circle_marker_978eda7da5922f814df1085b1b1cf563.bindPopup(popup_620d1d9cc37ee0f4aa9c6fb4c55d5f17)
+        ;
+
+        
+    
+    
+            var circle_marker_fada1c3bcf1454fe06f12b8ed55f1531 = L.circleMarker(
+                [22.3048, 73.1742],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_51eb887befc69851c60199bb38c57056 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ef44caeaea7c2a44c82c05d76413ef62 = $(`<div id="html_ef44caeaea7c2a44c82c05d76413ef62" style="width: 100.0%; height: 100.0%;"><b>SSG Hospital</b><br>Location: Vadodara<br>Risk: Critical<br>Score: 75<br>Beds: 380<br>Doctors: 78</div>`)[0];
+                popup_51eb887befc69851c60199bb38c57056.setContent(html_ef44caeaea7c2a44c82c05d76413ef62);
+            
+        
+
+        circle_marker_fada1c3bcf1454fe06f12b8ed55f1531.bindPopup(popup_51eb887befc69851c60199bb38c57056)
+        ;
+
+        
+    
+    
+            var circle_marker_81f2f47946903688469ed17ce921ac9a = L.circleMarker(
+                [22.3168, 73.1995],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1bac352b9afd72daed06a8ce586bf808 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9665778aa24126c589792e05cc59d3b8 = $(`<div id="html_9665778aa24126c589792e05cc59d3b8" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Vadodara</b><br>Location: Vadodara<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_1bac352b9afd72daed06a8ce586bf808.setContent(html_9665778aa24126c589792e05cc59d3b8);
+            
+        
+
+        circle_marker_81f2f47946903688469ed17ce921ac9a.bindPopup(popup_1bac352b9afd72daed06a8ce586bf808)
+        ;
+
+        
+    
+    
+            var circle_marker_99d368b83cb85f5bb3d059bcc9fd802d = L.circleMarker(
+                [22.31, 73.1758],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_0a5213a3025be8901d291695f0c0e875 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c2d3c9ea2a65c28f7b68a05897d2bd9d = $(`<div id="html_c2d3c9ea2a65c28f7b68a05897d2bd9d" style="width: 100.0%; height: 100.0%;"><b>Sterling Hospital Vadodara</b><br>Location: Vadodara<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_0a5213a3025be8901d291695f0c0e875.setContent(html_c2d3c9ea2a65c28f7b68a05897d2bd9d);
+            
+        
+
+        circle_marker_99d368b83cb85f5bb3d059bcc9fd802d.bindPopup(popup_0a5213a3025be8901d291695f0c0e875)
+        ;
+
+        
+    
+    
+            var circle_marker_0d4c0588a36867df9cfc84e04826dd4d = L.circleMarker(
+                [22.3047, 73.1939],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_19f020f524e2386e0e9ef1ae96c60231 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b0ac1182bd963180f042a1aba7cd5318 = $(`<div id="html_b0ac1182bd963180f042a1aba7cd5318" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Vadodara</b><br>Location: Vadodara<br>Risk: Medium<br>Score: 45<br>Beds: 780<br>Doctors: 165</div>`)[0];
+                popup_19f020f524e2386e0e9ef1ae96c60231.setContent(html_b0ac1182bd963180f042a1aba7cd5318);
+            
+        
+
+        circle_marker_0d4c0588a36867df9cfc84e04826dd4d.bindPopup(popup_19f020f524e2386e0e9ef1ae96c60231)
+        ;
+
+        
+    
+    
+            var circle_marker_c34f1fc5d9cee1742194ffe827fbfe74 = L.circleMarker(
+                [10.0017, 76.2419],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c8b35f5605e5ac8398a2da66f3a58019 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_513a014822e892614afecc85a6297c72 = $(`<div id="html_513a014822e892614afecc85a6297c72" style="width: 100.0%; height: 100.0%;"><b>Lakeshore Hospital</b><br>Location: Kochi<br>Risk: Critical<br>Score: 75<br>Beds: 320<br>Doctors: 68</div>`)[0];
+                popup_c8b35f5605e5ac8398a2da66f3a58019.setContent(html_513a014822e892614afecc85a6297c72);
+            
+        
+
+        circle_marker_c34f1fc5d9cee1742194ffe827fbfe74.bindPopup(popup_c8b35f5605e5ac8398a2da66f3a58019)
+        ;
+
+        
+    
+    
+            var circle_marker_4ba95a7f7749c3afa9912b8abb3c4300 = L.circleMarker(
+                [9.9451, 76.2412],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8460019f586a4d6e8a8bec690a4c53fd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7d29115444dc65c7198506739ecd95cd = $(`<div id="html_7d29115444dc65c7198506739ecd95cd" style="width: 100.0%; height: 100.0%;"><b>Ernakulathappan Hospital</b><br>Location: Kochi<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_8460019f586a4d6e8a8bec690a4c53fd.setContent(html_7d29115444dc65c7198506739ecd95cd);
+            
+        
+
+        circle_marker_4ba95a7f7749c3afa9912b8abb3c4300.bindPopup(popup_8460019f586a4d6e8a8bec690a4c53fd)
+        ;
+
+        
+    
+    
+            var circle_marker_083ffc107d9aa82a3bc5ccb20d7f9f51 = L.circleMarker(
+                [10.0109, 76.2717],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_28be399f15edd8e464cc140ae3b79f7a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a8678f6d95542c9c738aea16bc2b041f = $(`<div id="html_a8678f6d95542c9c738aea16bc2b041f" style="width: 100.0%; height: 100.0%;"><b>Amrita Institute</b><br>Location: Kochi<br>Risk: High<br>Score: 55<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_28be399f15edd8e464cc140ae3b79f7a.setContent(html_a8678f6d95542c9c738aea16bc2b041f);
+            
+        
+
+        circle_marker_083ffc107d9aa82a3bc5ccb20d7f9f51.bindPopup(popup_28be399f15edd8e464cc140ae3b79f7a)
+        ;
+
+        
+    
+    
+            var circle_marker_e576b04572181277e81501d5e648e0e3 = L.circleMarker(
+                [10.0336, 76.2488],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_57cd78418ec66990e083eaf3e1bbd430 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3cbfb841e8fdca5fa6bd4abe4456c012 = $(`<div id="html_3cbfb841e8fdca5fa6bd4abe4456c012" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Kochi</b><br>Location: Kochi<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_57cd78418ec66990e083eaf3e1bbd430.setContent(html_3cbfb841e8fdca5fa6bd4abe4456c012);
+            
+        
+
+        circle_marker_e576b04572181277e81501d5e648e0e3.bindPopup(popup_57cd78418ec66990e083eaf3e1bbd430)
+        ;
+
+        
+    
+    
+            var circle_marker_703ae1f1099ca4c7057c8d0835dce0d5 = L.circleMarker(
+                [9.9294, 76.2656],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7bfd7b6ad2339e474e0a574e450d9940 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_917db6aa41c16c37e9c8d2fcaa04a2cd = $(`<div id="html_917db6aa41c16c37e9c8d2fcaa04a2cd" style="width: 100.0%; height: 100.0%;"><b>Aster Medcity</b><br>Location: Kochi<br>Risk: Medium<br>Score: 45<br>Beds: 1000<br>Doctors: 220</div>`)[0];
+                popup_7bfd7b6ad2339e474e0a574e450d9940.setContent(html_917db6aa41c16c37e9c8d2fcaa04a2cd);
+            
+        
+
+        circle_marker_703ae1f1099ca4c7057c8d0835dce0d5.bindPopup(popup_7bfd7b6ad2339e474e0a574e450d9940)
+        ;
+
+        
+    
+    
+            var circle_marker_7e50c994c42332acbd2b2c7d411d178a = L.circleMarker(
+                [23.187, 77.3981],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_50702b6222bc6a26bb775dd1d271f013 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a9ca1268d138b31c57609e95cf7c9e7f = $(`<div id="html_a9ca1268d138b31c57609e95cf7c9e7f" style="width: 100.0%; height: 100.0%;"><b>Hamidia Hospital</b><br>Location: Bhopal<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_50702b6222bc6a26bb775dd1d271f013.setContent(html_a9ca1268d138b31c57609e95cf7c9e7f);
+            
+        
+
+        circle_marker_7e50c994c42332acbd2b2c7d411d178a.bindPopup(popup_50702b6222bc6a26bb775dd1d271f013)
+        ;
+
+        
+    
+    
+            var circle_marker_dbd658fa3e00c9cc42f034c5c15bd2aa = L.circleMarker(
+                [23.1735, 77.4087],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_3270da752fcfdc919e7d1c7a05302bab = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ce6f3e93be6b8ffb2c50a88219e4ade5 = $(`<div id="html_ce6f3e93be6b8ffb2c50a88219e4ade5" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Bhopal</b><br>Location: Bhopal<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_3270da752fcfdc919e7d1c7a05302bab.setContent(html_ce6f3e93be6b8ffb2c50a88219e4ade5);
+            
+        
+
+        circle_marker_dbd658fa3e00c9cc42f034c5c15bd2aa.bindPopup(popup_3270da752fcfdc919e7d1c7a05302bab)
+        ;
+
+        
+    
+    
+            var circle_marker_f83e09be1928bb607a1e9340994c8e46 = L.circleMarker(
+                [23.2016, 77.4402],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_666eac4c49583965163855f2db84f8ba = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b12986c89807265e918fc3d6b0554d8e = $(`<div id="html_b12986c89807265e918fc3d6b0554d8e" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Bhopal</b><br>Location: Bhopal<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_666eac4c49583965163855f2db84f8ba.setContent(html_b12986c89807265e918fc3d6b0554d8e);
+            
+        
+
+        circle_marker_f83e09be1928bb607a1e9340994c8e46.bindPopup(popup_666eac4c49583965163855f2db84f8ba)
+        ;
+
+        
+    
+    
+            var circle_marker_285342f6c872b4055ce70abe4502ea59 = L.circleMarker(
+                [26.1519, 91.749],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_dd1aaa59bec87224153a64ceff789d59 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8da414e2b5a65ba8e055fc063755ded2 = $(`<div id="html_8da414e2b5a65ba8e055fc063755ded2" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Guwahati</b><br>Location: Guwahati<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_dd1aaa59bec87224153a64ceff789d59.setContent(html_8da414e2b5a65ba8e055fc063755ded2);
+            
+        
+
+        circle_marker_285342f6c872b4055ce70abe4502ea59.bindPopup(popup_dd1aaa59bec87224153a64ceff789d59)
+        ;
+
+        
+    
+    
+            var circle_marker_649cf91f540cb5bd7b8b3b0b723f2968 = L.circleMarker(
+                [26.1394, 91.7426],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_97c85b873ef9c23bbb36e3fa33246f6e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e49efa663f9b6594ce637b6d64f29244 = $(`<div id="html_e49efa663f9b6594ce637b6d64f29244" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Guwahati</b><br>Location: Guwahati<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_97c85b873ef9c23bbb36e3fa33246f6e.setContent(html_e49efa663f9b6594ce637b6d64f29244);
+            
+        
+
+        circle_marker_649cf91f540cb5bd7b8b3b0b723f2968.bindPopup(popup_97c85b873ef9c23bbb36e3fa33246f6e)
+        ;
+
+        
+    
+    
+            var circle_marker_5b835533dd2182ca749c4dfc7ba64e81 = L.circleMarker(
+                [26.1495, 91.7278],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b1fb4f265ec509dab74d6db0ea77de57 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_75870e7508a4aedc86e6cddbc864cb65 = $(`<div id="html_75870e7508a4aedc86e6cddbc864cb65" style="width: 100.0%; height: 100.0%;"><b>GNRC Hospitals</b><br>Location: Guwahati<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_b1fb4f265ec509dab74d6db0ea77de57.setContent(html_75870e7508a4aedc86e6cddbc864cb65);
+            
+        
+
+        circle_marker_5b835533dd2182ca749c4dfc7ba64e81.bindPopup(popup_b1fb4f265ec509dab74d6db0ea77de57)
+        ;
+
+        
+    
+    
+            var circle_marker_6358a7d310ea5ee02486196ae21996ff = L.circleMarker(
+                [26.1518, 91.7433],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8df04d35d2443dafbf19f8d15c2868c0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fb397efd47d4ee7462162d222c550050 = $(`<div id="html_fb397efd47d4ee7462162d222c550050" style="width: 100.0%; height: 100.0%;"><b>Gauhati Medical College</b><br>Location: Guwahati<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_8df04d35d2443dafbf19f8d15c2868c0.setContent(html_fb397efd47d4ee7462162d222c550050);
+            
+        
+
+        circle_marker_6358a7d310ea5ee02486196ae21996ff.bindPopup(popup_8df04d35d2443dafbf19f8d15c2868c0)
+        ;
+
+        
+    
+    
+            var circle_marker_b19dcc4ed255670852de426401113bbd = L.circleMarker(
+                [25.5779, 85.1306],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_caf16cbf733b1dc3a0783db83b52c80c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_01f0b56e90779d969d1e4d0dd3fab6a3 = $(`<div id="html_01f0b56e90779d969d1e4d0dd3fab6a3" style="width: 100.0%; height: 100.0%;"><b>Indira Gandhi Institute</b><br>Location: Patna<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_caf16cbf733b1dc3a0783db83b52c80c.setContent(html_01f0b56e90779d969d1e4d0dd3fab6a3);
+            
+        
+
+        circle_marker_b19dcc4ed255670852de426401113bbd.bindPopup(popup_caf16cbf733b1dc3a0783db83b52c80c)
+        ;
+
+        
+    
+    
+            var circle_marker_0e7caa6eb0610a4028e3f79fdbe002bd = L.circleMarker(
+                [25.6023, 85.1425],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_2f85fbb31e6ffb28d8ef7034e0ec6198 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_56ec188146bffdf66e98804c66a93f11 = $(`<div id="html_56ec188146bffdf66e98804c66a93f11" style="width: 100.0%; height: 100.0%;"><b>Patna Medical College Hospital</b><br>Location: Patna<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_2f85fbb31e6ffb28d8ef7034e0ec6198.setContent(html_56ec188146bffdf66e98804c66a93f11);
+            
+        
+
+        circle_marker_0e7caa6eb0610a4028e3f79fdbe002bd.bindPopup(popup_2f85fbb31e6ffb28d8ef7034e0ec6198)
+        ;
+
+        
+    
+    
+            var circle_marker_9805a1fd77b9835235e27998557d2001 = L.circleMarker(
+                [25.6021, 85.1422],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8ebacf72fe4f6e728e8f32051240b906 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a89950ace4b869954dc2cd9151b394e1 = $(`<div id="html_a89950ace4b869954dc2cd9151b394e1" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Patna</b><br>Location: Patna<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_8ebacf72fe4f6e728e8f32051240b906.setContent(html_a89950ace4b869954dc2cd9151b394e1);
+            
+        
+
+        circle_marker_9805a1fd77b9835235e27998557d2001.bindPopup(popup_8ebacf72fe4f6e728e8f32051240b906)
+        ;
+
+        
+    
+    
+            var circle_marker_2c8f69c1c9d7d16ef0eb2b65609cb27c = L.circleMarker(
+                [25.5716, 85.126],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_6e7ce1498056dc7ab6a9af63be931304 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_76b40bbb6136e835d4d6cb601023a364 = $(`<div id="html_76b40bbb6136e835d4d6cb601023a364" style="width: 100.0%; height: 100.0%;"><b>AIIMS Patna</b><br>Location: Patna<br>Risk: Medium<br>Score: 45<br>Beds: 1000<br>Doctors: 220</div>`)[0];
+                popup_6e7ce1498056dc7ab6a9af63be931304.setContent(html_76b40bbb6136e835d4d6cb601023a364);
+            
+        
+
+        circle_marker_2c8f69c1c9d7d16ef0eb2b65609cb27c.bindPopup(popup_6e7ce1498056dc7ab6a9af63be931304)
+        ;
+
+        
+    
+    
+            var circle_marker_7c951900aaa23dc44feca4827a82b49b = L.circleMarker(
+                [17.668, 83.2327],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_9cc90d8e2e63fcb7b23460ceba48fc0c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_450db5289de8de880189416c1d2053bc = $(`<div id="html_450db5289de8de880189416c1d2053bc" style="width: 100.0%; height: 100.0%;"><b>King George Hospital</b><br>Location: Visakhapatnam<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_9cc90d8e2e63fcb7b23460ceba48fc0c.setContent(html_450db5289de8de880189416c1d2053bc);
+            
+        
+
+        circle_marker_7c951900aaa23dc44feca4827a82b49b.bindPopup(popup_9cc90d8e2e63fcb7b23460ceba48fc0c)
+        ;
+
+        
+    
+    
+            var circle_marker_fa5be66d7669f0b0996dd9a68a4e31c1 = L.circleMarker(
+                [17.6783, 83.2256],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_461a8906c63459d09f0d8fcfe660026c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_18f56e3d02ab4211059fcde09cf55127 = $(`<div id="html_18f56e3d02ab4211059fcde09cf55127" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Visakhapatnam</b><br>Location: Visakhapatnam<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_461a8906c63459d09f0d8fcfe660026c.setContent(html_18f56e3d02ab4211059fcde09cf55127);
+            
+        
+
+        circle_marker_fa5be66d7669f0b0996dd9a68a4e31c1.bindPopup(popup_461a8906c63459d09f0d8fcfe660026c)
+        ;
+
+        
+    
+    
+            var circle_marker_e576f20419e532fbab1724f70c743c5f = L.circleMarker(
+                [17.6845, 83.2261],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a1eb6072c205179f4cabce09d1e54747 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e16f51dc9a8d7605e8773fe8373e26a7 = $(`<div id="html_e16f51dc9a8d7605e8773fe8373e26a7" style="width: 100.0%; height: 100.0%;"><b>MEDARC Hospital</b><br>Location: Visakhapatnam<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_a1eb6072c205179f4cabce09d1e54747.setContent(html_e16f51dc9a8d7605e8773fe8373e26a7);
+            
+        
+
+        circle_marker_e576f20419e532fbab1724f70c743c5f.bindPopup(popup_a1eb6072c205179f4cabce09d1e54747)
+        ;
+
+        
+    
+    
+            var circle_marker_6045297d599ed641660c0506125e2060 = L.circleMarker(
+                [17.6991, 83.2187],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_3a65c8ff39060fa6125bb04c138fd623 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2cb98f723ba9b54636ff6ee84a450648 = $(`<div id="html_2cb98f723ba9b54636ff6ee84a450648" style="width: 100.0%; height: 100.0%;"><b>Dhanvantri Hospital</b><br>Location: Visakhapatnam<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_3a65c8ff39060fa6125bb04c138fd623.setContent(html_2cb98f723ba9b54636ff6ee84a450648);
+            
+        
+
+        circle_marker_6045297d599ed641660c0506125e2060.bindPopup(popup_3a65c8ff39060fa6125bb04c138fd623)
+        ;
+
+        
+    
+    
+            var circle_marker_067ac7625132d4fe0f84e7275ebedfb5 = L.circleMarker(
+                [11.0086, 76.9488],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7f73020450d75d9d2488b9421e6bfa7f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f0bccaadde6c763fb979d74c9a70db97 = $(`<div id="html_f0bccaadde6c763fb979d74c9a70db97" style="width: 100.0%; height: 100.0%;"><b>Ganga Hospital</b><br>Location: Coimbatore<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_7f73020450d75d9d2488b9421e6bfa7f.setContent(html_f0bccaadde6c763fb979d74c9a70db97);
+            
+        
+
+        circle_marker_067ac7625132d4fe0f84e7275ebedfb5.bindPopup(popup_7f73020450d75d9d2488b9421e6bfa7f)
+        ;
+
+        
+    
+    
+            var circle_marker_5234e200b316ffd188ba97b703f712bd = L.circleMarker(
+                [11.0035, 76.9631],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_331c3ec9b79c90dd28e5ed92ce82c22d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b1555c1f82de2a064f7e8c8c406fba08 = $(`<div id="html_b1555c1f82de2a064f7e8c8c406fba08" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Coimbatore</b><br>Location: Coimbatore<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_331c3ec9b79c90dd28e5ed92ce82c22d.setContent(html_b1555c1f82de2a064f7e8c8c406fba08);
+            
+        
+
+        circle_marker_5234e200b316ffd188ba97b703f712bd.bindPopup(popup_331c3ec9b79c90dd28e5ed92ce82c22d)
+        ;
+
+        
+    
+    
+            var circle_marker_dbbf02e2bf58f40a459315958aa66fba = L.circleMarker(
+                [10.9979, 76.9451],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_eb945ca1e9f887e3b9c9bf0935d6a154 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a6c1ef5b73d292998bdeef178f2db367 = $(`<div id="html_a6c1ef5b73d292998bdeef178f2db367" style="width: 100.0%; height: 100.0%;"><b>CMC Hospital</b><br>Location: Coimbatore<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_eb945ca1e9f887e3b9c9bf0935d6a154.setContent(html_a6c1ef5b73d292998bdeef178f2db367);
+            
+        
+
+        circle_marker_dbbf02e2bf58f40a459315958aa66fba.bindPopup(popup_eb945ca1e9f887e3b9c9bf0935d6a154)
+        ;
+
+        
+    
+    
+            var circle_marker_f5d2c640f563e8bad994911d581f770b = L.circleMarker(
+                [11.0014, 76.9482],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_0bf4e6b397c8d8a9343092a03567b66c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bf70026e0800321c749236217bb739e1 = $(`<div id="html_bf70026e0800321c749236217bb739e1" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Coimbatore</b><br>Location: Coimbatore<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_0bf4e6b397c8d8a9343092a03567b66c.setContent(html_bf70026e0800321c749236217bb739e1);
+            
+        
+
+        circle_marker_f5d2c640f563e8bad994911d581f770b.bindPopup(popup_0bf4e6b397c8d8a9343092a03567b66c)
+        ;
+
+        
+    
+    
+            var circle_marker_27cb29dd8b4789bb7680c873def94174 = L.circleMarker(
+                [21.1423, 79.0901],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_9a26087a6676dc31bd530e7236367df1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2ea9f2c77ed419dcbe406e0ebd33f1ed = $(`<div id="html_2ea9f2c77ed419dcbe406e0ebd33f1ed" style="width: 100.0%; height: 100.0%;"><b>Inlaks and Budhrani Hospital</b><br>Location: Nagpur<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_9a26087a6676dc31bd530e7236367df1.setContent(html_2ea9f2c77ed419dcbe406e0ebd33f1ed);
+            
+        
+
+        circle_marker_27cb29dd8b4789bb7680c873def94174.bindPopup(popup_9a26087a6676dc31bd530e7236367df1)
+        ;
+
+        
+    
+    
+            var circle_marker_a16c58518b18250af6b7823ee4127778 = L.circleMarker(
+                [21.1261, 79.0697],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_e74068c396866edf186d1ce750ec7c78 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4fd416d81f91ca10a33cfa6b887e248c = $(`<div id="html_4fd416d81f91ca10a33cfa6b887e248c" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Nagpur</b><br>Location: Nagpur<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_e74068c396866edf186d1ce750ec7c78.setContent(html_4fd416d81f91ca10a33cfa6b887e248c);
+            
+        
+
+        circle_marker_a16c58518b18250af6b7823ee4127778.bindPopup(popup_e74068c396866edf186d1ce750ec7c78)
+        ;
+
+        
+    
+    
+            var circle_marker_cded4b13d5a7f059681eabd6726b5f2a = L.circleMarker(
+                [21.1484, 79.0864],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_261b4e0d92ca0eb3892e9124dd75178d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_115eeb0c62b4ee181f2e38df0876eeb2 = $(`<div id="html_115eeb0c62b4ee181f2e38df0876eeb2" style="width: 100.0%; height: 100.0%;"><b>Sakra World Hospital</b><br>Location: Nagpur<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_261b4e0d92ca0eb3892e9124dd75178d.setContent(html_115eeb0c62b4ee181f2e38df0876eeb2);
+            
+        
+
+        circle_marker_cded4b13d5a7f059681eabd6726b5f2a.bindPopup(popup_261b4e0d92ca0eb3892e9124dd75178d)
+        ;
+
+        
+    
+    
+            var circle_marker_671771239b68aa5ec14823d1b6842b88 = L.circleMarker(
+                [21.1509, 79.0776],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_573e95920b9ddf495896954791e4b554 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7151b31b49cd463ad86ed104a5546c65 = $(`<div id="html_7151b31b49cd463ad86ed104a5546c65" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Nagpur</b><br>Location: Nagpur<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_573e95920b9ddf495896954791e4b554.setContent(html_7151b31b49cd463ad86ed104a5546c65);
+            
+        
+
+        circle_marker_671771239b68aa5ec14823d1b6842b88.bindPopup(popup_573e95920b9ddf495896954791e4b554)
+        ;
+
+        
+    
+    
+            var circle_marker_5d162ca4035ea5fa1377f85effd6dfc0 = L.circleMarker(
+                [23.3479, 85.3179],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1a9fe755ddee09612b800c5bbb96a42c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3079e543c9187bd81013bebfc0e8e574 = $(`<div id="html_3079e543c9187bd81013bebfc0e8e574" style="width: 100.0%; height: 100.0%;"><b>Rajendra Institute</b><br>Location: Ranchi<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_1a9fe755ddee09612b800c5bbb96a42c.setContent(html_3079e543c9187bd81013bebfc0e8e574);
+            
+        
+
+        circle_marker_5d162ca4035ea5fa1377f85effd6dfc0.bindPopup(popup_1a9fe755ddee09612b800c5bbb96a42c)
+        ;
+
+        
+    
+    
+            var circle_marker_eca6326702f7fd2326ca3ecdf6a3aa48 = L.circleMarker(
+                [23.3353, 85.3064],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1460df1790a4376caf96ec1174bfa9c7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c58029c77df84f43df7ee5657cc331ad = $(`<div id="html_c58029c77df84f43df7ee5657cc331ad" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Ranchi</b><br>Location: Ranchi<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_1460df1790a4376caf96ec1174bfa9c7.setContent(html_c58029c77df84f43df7ee5657cc331ad);
+            
+        
+
+        circle_marker_eca6326702f7fd2326ca3ecdf6a3aa48.bindPopup(popup_1460df1790a4376caf96ec1174bfa9c7)
+        ;
+
+        
+    
+    
+            var circle_marker_9113bb20003ecccb74b6804582031534 = L.circleMarker(
+                [23.3353, 85.3156],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8fdb6b267ab3f3701f4173de1a138288 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4df94028d52bef3c61bc5a0d0fdb9f77 = $(`<div id="html_4df94028d52bef3c61bc5a0d0fdb9f77" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Ranchi</b><br>Location: Ranchi<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_8fdb6b267ab3f3701f4173de1a138288.setContent(html_4df94028d52bef3c61bc5a0d0fdb9f77);
+            
+        
+
+        circle_marker_9113bb20003ecccb74b6804582031534.bindPopup(popup_8fdb6b267ab3f3701f4173de1a138288)
+        ;
+
+        
+    
+    
+            var circle_marker_1da83857f742e14650bed9e9f2c1aacf = L.circleMarker(
+                [23.3406, 85.3203],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a26ae90f275ff55d5745ab69c0df517e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_486d0c6b6479fea7dbe1135ca9c19067 = $(`<div id="html_486d0c6b6479fea7dbe1135ca9c19067" style="width: 100.0%; height: 100.0%;"><b>AIIMS Ranchi</b><br>Location: Ranchi<br>Risk: Medium<br>Score: 45<br>Beds: 1100<br>Doctors: 240</div>`)[0];
+                popup_a26ae90f275ff55d5745ab69c0df517e.setContent(html_486d0c6b6479fea7dbe1135ca9c19067);
+            
+        
+
+        circle_marker_1da83857f742e14650bed9e9f2c1aacf.bindPopup(popup_a26ae90f275ff55d5745ab69c0df517e)
+        ;
+
+        
+    
+    
+            var circle_marker_04f7334d073f29e778887b47a90ad6b8 = L.circleMarker(
+                [8.5426, 76.9276],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_3969b5548edf921ef34df78d4833e557 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0c6a345f5f59c3606f2a6eb043e9ffec = $(`<div id="html_0c6a345f5f59c3606f2a6eb043e9ffec" style="width: 100.0%; height: 100.0%;"><b>Medical College Hospital</b><br>Location: Thiruvananthapuram<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_3969b5548edf921ef34df78d4833e557.setContent(html_0c6a345f5f59c3606f2a6eb043e9ffec);
+            
+        
+
+        circle_marker_04f7334d073f29e778887b47a90ad6b8.bindPopup(popup_3969b5548edf921ef34df78d4833e557)
+        ;
+
+        
+    
+    
+            var circle_marker_917d3bf5a5d072d1980a7e1b70c79dad = L.circleMarker(
+                [8.5537, 76.9651],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1bbe43edda3c890263154d70e2f40cae = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1a79fa7d474749d711cbc8530603ab6b = $(`<div id="html_1a79fa7d474749d711cbc8530603ab6b" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Thiruvananthapuram</b><br>Location: Thiruvananthapuram<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_1bbe43edda3c890263154d70e2f40cae.setContent(html_1a79fa7d474749d711cbc8530603ab6b);
+            
+        
+
+        circle_marker_917d3bf5a5d072d1980a7e1b70c79dad.bindPopup(popup_1bbe43edda3c890263154d70e2f40cae)
+        ;
+
+        
+    
+    
+            var circle_marker_469ec81a3297b99646d2b0e9882df44a = L.circleMarker(
+                [8.533, 76.9328],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f918d12a92fe885097ada7e6b5195fee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_23445c09e30398534e4af6e0e12ac827 = $(`<div id="html_23445c09e30398534e4af6e0e12ac827" style="width: 100.0%; height: 100.0%;"><b>Baby Memorial Hospital</b><br>Location: Thiruvananthapuram<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_f918d12a92fe885097ada7e6b5195fee.setContent(html_23445c09e30398534e4af6e0e12ac827);
+            
+        
+
+        circle_marker_469ec81a3297b99646d2b0e9882df44a.bindPopup(popup_f918d12a92fe885097ada7e6b5195fee)
+        ;
+
+        
+    
+    
+            var circle_marker_246dbe7cfb0f2d6106364681ce7b34f9 = L.circleMarker(
+                [8.5176, 76.9435],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_ba83ea5f014a2a82df35c6f1478a0a59 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b58c306a4a5a171f8a1593067c2df91f = $(`<div id="html_b58c306a4a5a171f8a1593067c2df91f" style="width: 100.0%; height: 100.0%;"><b>Aster MIMS</b><br>Location: Thiruvananthapuram<br>Risk: Medium<br>Score: 45<br>Beds: 950<br>Doctors: 210</div>`)[0];
+                popup_ba83ea5f014a2a82df35c6f1478a0a59.setContent(html_b58c306a4a5a171f8a1593067c2df91f);
+            
+        
+
+        circle_marker_246dbe7cfb0f2d6106364681ce7b34f9.bindPopup(popup_ba83ea5f014a2a82df35c6f1478a0a59)
+        ;
+
+        
+    
+    
+            var circle_marker_a4c623f219c7688f7268c3af8a15f88c = L.circleMarker(
+                [19.9974, 73.7874],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_dc4e60997699127e45702c1fa6944eb3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_22cf31fbb1503c3498791a6822467f5a = $(`<div id="html_22cf31fbb1503c3498791a6822467f5a" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Nashik</b><br>Location: Nashik<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_dc4e60997699127e45702c1fa6944eb3.setContent(html_22cf31fbb1503c3498791a6822467f5a);
+            
+        
+
+        circle_marker_a4c623f219c7688f7268c3af8a15f88c.bindPopup(popup_dc4e60997699127e45702c1fa6944eb3)
+        ;
+
+        
+    
+    
+            var circle_marker_22efa465a2f957fc61accf795e9a4e2f = L.circleMarker(
+                [19.9803, 73.768],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8eeac988d6da4f32de4485d264d7e821 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b538dd71a332a611ecb1f31d21dc4617 = $(`<div id="html_b538dd71a332a611ecb1f31d21dc4617" style="width: 100.0%; height: 100.0%;"><b>Sahyadri Hospital</b><br>Location: Nashik<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_8eeac988d6da4f32de4485d264d7e821.setContent(html_b538dd71a332a611ecb1f31d21dc4617);
+            
+        
+
+        circle_marker_22efa465a2f957fc61accf795e9a4e2f.bindPopup(popup_8eeac988d6da4f32de4485d264d7e821)
+        ;
+
+        
+    
+    
+            var circle_marker_5aaf5fe0c6f40bcf003278e9db52f6dc = L.circleMarker(
+                [20.0045, 73.7841],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_e3ee091f4019224c5089a27b46c248b3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f1d548ff627302558023d9caae538cef = $(`<div id="html_f1d548ff627302558023d9caae538cef" style="width: 100.0%; height: 100.0%;"><b>Ruby Hall Clinic</b><br>Location: Nashik<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_e3ee091f4019224c5089a27b46c248b3.setContent(html_f1d548ff627302558023d9caae538cef);
+            
+        
+
+        circle_marker_5aaf5fe0c6f40bcf003278e9db52f6dc.bindPopup(popup_e3ee091f4019224c5089a27b46c248b3)
+        ;
+
+        
+    
+    
+            var circle_marker_c737628da4154f1a87700aaa0fd7d7b7 = L.circleMarker(
+                [19.8746, 75.3561],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_9ac94915c5ed10f38a946c6bb6b4d4d9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_faea4aa4974ae106847df7fa38ecb08b = $(`<div id="html_faea4aa4974ae106847df7fa38ecb08b" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Aurangabad</b><br>Location: Aurangabad<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_9ac94915c5ed10f38a946c6bb6b4d4d9.setContent(html_faea4aa4974ae106847df7fa38ecb08b);
+            
+        
+
+        circle_marker_c737628da4154f1a87700aaa0fd7d7b7.bindPopup(popup_9ac94915c5ed10f38a946c6bb6b4d4d9)
+        ;
+
+        
+    
+    
+            var circle_marker_3863139fae4f7fae621e7ca1dbee3a91 = L.circleMarker(
+                [19.8831, 75.3368],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8a5590b8d8dd87adce24eddd77875a92 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_09d9608f46f652f4ff644d34f3afdf20 = $(`<div id="html_09d9608f46f652f4ff644d34f3afdf20" style="width: 100.0%; height: 100.0%;"><b>Dr. Hedgewar Smriti Hospital</b><br>Location: Aurangabad<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_8a5590b8d8dd87adce24eddd77875a92.setContent(html_09d9608f46f652f4ff644d34f3afdf20);
+            
+        
+
+        circle_marker_3863139fae4f7fae621e7ca1dbee3a91.bindPopup(popup_8a5590b8d8dd87adce24eddd77875a92)
+        ;
+
+        
+    
+    
+            var circle_marker_3c614159e582fe3bc9f40b2b52412d15 = L.circleMarker(
+                [19.8688, 75.3595],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_02b5e792f3ec923fe408e2d8747012fc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3eb4168527c201e6be59d5ec27b9ba20 = $(`<div id="html_3eb4168527c201e6be59d5ec27b9ba20" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Aurangabad</b><br>Location: Aurangabad<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_02b5e792f3ec923fe408e2d8747012fc.setContent(html_3eb4168527c201e6be59d5ec27b9ba20);
+            
+        
+
+        circle_marker_3c614159e582fe3bc9f40b2b52412d15.bindPopup(popup_02b5e792f3ec923fe408e2d8747012fc)
+        ;
+
+        
+    
+    
+            var circle_marker_db2d89f6ecd4ab21cd9cb80bf46184ed = L.circleMarker(
+                [15.8604, 75.6338],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1626679b232c6c4124c113c877828c35 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3ac271c61e6d94ce3e4003422c303d6a = $(`<div id="html_3ac271c61e6d94ce3e4003422c303d6a" style="width: 100.0%; height: 100.0%;"><b>Belgaum Institute</b><br>Location: Belgaum<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_1626679b232c6c4124c113c877828c35.setContent(html_3ac271c61e6d94ce3e4003422c303d6a);
+            
+        
+
+        circle_marker_db2d89f6ecd4ab21cd9cb80bf46184ed.bindPopup(popup_1626679b232c6c4124c113c877828c35)
+        ;
+
+        
+    
+    
+            var circle_marker_236ed75356d768450722631e409b29b4 = L.circleMarker(
+                [15.8745, 75.6207],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_78d53ffb1748f9136ac8262da812b4d4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_603c1da6ecfd64927a297c8a7214754e = $(`<div id="html_603c1da6ecfd64927a297c8a7214754e" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Belgaum</b><br>Location: Belgaum<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_78d53ffb1748f9136ac8262da812b4d4.setContent(html_603c1da6ecfd64927a297c8a7214754e);
+            
+        
+
+        circle_marker_236ed75356d768450722631e409b29b4.bindPopup(popup_78d53ffb1748f9136ac8262da812b4d4)
+        ;
+
+        
+    
+    
+            var circle_marker_c54a3b10bd118234af26e6da0bb8b48a = L.circleMarker(
+                [15.8645, 75.6289],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_fa5a99b801c51e07ce88773935040844 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bfd2c9b2c0fe42e19b366a24b685d351 = $(`<div id="html_bfd2c9b2c0fe42e19b366a24b685d351" style="width: 100.0%; height: 100.0%;"><b>Sangameshwar Hospital</b><br>Location: Belgaum<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_fa5a99b801c51e07ce88773935040844.setContent(html_bfd2c9b2c0fe42e19b366a24b685d351);
+            
+        
+
+        circle_marker_c54a3b10bd118234af26e6da0bb8b48a.bindPopup(popup_fa5a99b801c51e07ce88773935040844)
+        ;
+
+        
+    
+    
+            var circle_marker_2d190c8783b8385bf281de075ba0c47c = L.circleMarker(
+                [12.3004, 76.6437],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_94c5f6f78bfbbed317b8a874a2a6819c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_06aaefd19b05a586e6ec56d90f13d267 = $(`<div id="html_06aaefd19b05a586e6ec56d90f13d267" style="width: 100.0%; height: 100.0%;"><b>K.R. Hospital</b><br>Location: Mysore<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_94c5f6f78bfbbed317b8a874a2a6819c.setContent(html_06aaefd19b05a586e6ec56d90f13d267);
+            
+        
+
+        circle_marker_2d190c8783b8385bf281de075ba0c47c.bindPopup(popup_94c5f6f78bfbbed317b8a874a2a6819c)
+        ;
+
+        
+    
+    
+            var circle_marker_6094fc5097ca82c44d38883dc4ee614e = L.circleMarker(
+                [12.2994, 76.658],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_ca1f6ca570cb16b5fedbb1f609d186f5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_67a891449d25e0cbd27d1bbd03441aca = $(`<div id="html_67a891449d25e0cbd27d1bbd03441aca" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Mysore</b><br>Location: Mysore<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_ca1f6ca570cb16b5fedbb1f609d186f5.setContent(html_67a891449d25e0cbd27d1bbd03441aca);
+            
+        
+
+        circle_marker_6094fc5097ca82c44d38883dc4ee614e.bindPopup(popup_ca1f6ca570cb16b5fedbb1f609d186f5)
+        ;
+
+        
+    
+    
+            var circle_marker_469b8421b7b0609a73300ba642d01c9a = L.circleMarker(
+                [12.3071, 76.6204],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7f5aaa28e446d8f709ca27a4b7091564 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e7bdd5adc9f1d925d8544fd951b7ea3f = $(`<div id="html_e7bdd5adc9f1d925d8544fd951b7ea3f" style="width: 100.0%; height: 100.0%;"><b>Vikram Hospital</b><br>Location: Mysore<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_7f5aaa28e446d8f709ca27a4b7091564.setContent(html_e7bdd5adc9f1d925d8544fd951b7ea3f);
+            
+        
+
+        circle_marker_469b8421b7b0609a73300ba642d01c9a.bindPopup(popup_7f5aaa28e446d8f709ca27a4b7091564)
+        ;
+
+        
+    
+    
+            var circle_marker_e2872a61da587b1885b8549829d30de7 = L.circleMarker(
+                [15.4887, 73.8321],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_089d6588fc2976274a929fe5d67be97e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dccbf0c3fd8b96545b7ee7aa94f0942f = $(`<div id="html_dccbf0c3fd8b96545b7ee7aa94f0942f" style="width: 100.0%; height: 100.0%;"><b>Goa Medical College</b><br>Location: Goa<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_089d6588fc2976274a929fe5d67be97e.setContent(html_dccbf0c3fd8b96545b7ee7aa94f0942f);
+            
+        
+
+        circle_marker_e2872a61da587b1885b8549829d30de7.bindPopup(popup_089d6588fc2976274a929fe5d67be97e)
+        ;
+
+        
+    
+    
+            var circle_marker_d46bd025741a0153ad962a9f1b930a25 = L.circleMarker(
+                [15.4792, 73.8255],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8c29749f509c222027c256db97a97bb5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_37c0b5a338c910e18f4ee84ae8c3b88a = $(`<div id="html_37c0b5a338c910e18f4ee84ae8c3b88a" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Goa</b><br>Location: Goa<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_8c29749f509c222027c256db97a97bb5.setContent(html_37c0b5a338c910e18f4ee84ae8c3b88a);
+            
+        
+
+        circle_marker_d46bd025741a0153ad962a9f1b930a25.bindPopup(popup_8c29749f509c222027c256db97a97bb5)
+        ;
+
+        
+    
+    
+            var circle_marker_7bece9b6a78456d50b2c2f93a82e1e54 = L.circleMarker(
+                [15.4906, 73.8164],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8ab5c74f0ffe6965806b11dddffa4ada = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a86f6cc332a365f130c9eec18b2aeb02 = $(`<div id="html_a86f6cc332a365f130c9eec18b2aeb02" style="width: 100.0%; height: 100.0%;"><b>Manipal Hospital Goa</b><br>Location: Goa<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_8ab5c74f0ffe6965806b11dddffa4ada.setContent(html_a86f6cc332a365f130c9eec18b2aeb02);
+            
+        
+
+        circle_marker_7bece9b6a78456d50b2c2f93a82e1e54.bindPopup(popup_8ab5c74f0ffe6965806b11dddffa4ada)
+        ;
+
+        
+    
+    
+            var circle_marker_d667eb46497d4ba1842dbeb3779aafd4 = L.circleMarker(
+                [11.347, 77.7296],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_fa6a592d7775fda4313c188efbab6fe9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_31c5edb1fc63fd21af985d6844b4d6bb = $(`<div id="html_31c5edb1fc63fd21af985d6844b4d6bb" style="width: 100.0%; height: 100.0%;"><b>Erode Institute</b><br>Location: Erode<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_fa6a592d7775fda4313c188efbab6fe9.setContent(html_31c5edb1fc63fd21af985d6844b4d6bb);
+            
+        
+
+        circle_marker_d667eb46497d4ba1842dbeb3779aafd4.bindPopup(popup_fa6a592d7775fda4313c188efbab6fe9)
+        ;
+
+        
+    
+    
+            var circle_marker_0e03b00afd438b46356623fd793bfad2 = L.circleMarker(
+                [11.3351, 77.7158],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_70a0cf7e1016ee6c4a3ab21862172a87 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e08257d6669b9830b6363d985595215c = $(`<div id="html_e08257d6669b9830b6363d985595215c" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Erode</b><br>Location: Erode<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_70a0cf7e1016ee6c4a3ab21862172a87.setContent(html_e08257d6669b9830b6363d985595215c);
+            
+        
+
+        circle_marker_0e03b00afd438b46356623fd793bfad2.bindPopup(popup_70a0cf7e1016ee6c4a3ab21862172a87)
+        ;
+
+        
+    
+    
+            var circle_marker_4f796ca73758a1d7578abed7c4617821 = L.circleMarker(
+                [11.3533, 77.7133],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_0ad990a3c4d4793d0c056c379e1fec0d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_26cff7eb4aadeeaf46845be9c8076191 = $(`<div id="html_26cff7eb4aadeeaf46845be9c8076191" style="width: 100.0%; height: 100.0%;"><b>Kumaran Hospital</b><br>Location: Erode<br>Risk: High<br>Score: 70<br>Beds: 500<br>Doctors: 105</div>`)[0];
+                popup_0ad990a3c4d4793d0c056c379e1fec0d.setContent(html_26cff7eb4aadeeaf46845be9c8076191);
+            
+        
+
+        circle_marker_4f796ca73758a1d7578abed7c4617821.bindPopup(popup_0ad990a3c4d4793d0c056c379e1fec0d)
+        ;
+
+        
+    
+    
+            var circle_marker_633bb817df92eb60e5bc6ee213cbcb94 = L.circleMarker(
+                [30.8985, 75.8526],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_72c76da2a085f93c7a0c503775e8c48f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_de824a6ef624f9b4005f8d0e83acaf0a = $(`<div id="html_de824a6ef624f9b4005f8d0e83acaf0a" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Ludhiana</b><br>Location: Ludhiana<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_72c76da2a085f93c7a0c503775e8c48f.setContent(html_de824a6ef624f9b4005f8d0e83acaf0a);
+            
+        
+
+        circle_marker_633bb817df92eb60e5bc6ee213cbcb94.bindPopup(popup_72c76da2a085f93c7a0c503775e8c48f)
+        ;
+
+        
+    
+    
+            var circle_marker_6e8320e3837da84e554486aebb1cff17 = L.circleMarker(
+                [30.8953, 75.871],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_9899fed8ee5fa08180e67aa5d2935991 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c908410cc8827d08b76eaf4ee2177514 = $(`<div id="html_c908410cc8827d08b76eaf4ee2177514" style="width: 100.0%; height: 100.0%;"><b>Max Hospital Ludhiana</b><br>Location: Ludhiana<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_9899fed8ee5fa08180e67aa5d2935991.setContent(html_c908410cc8827d08b76eaf4ee2177514);
+            
+        
+
+        circle_marker_6e8320e3837da84e554486aebb1cff17.bindPopup(popup_9899fed8ee5fa08180e67aa5d2935991)
+        ;
+
+        
+    
+    
+            var circle_marker_a5c2a310d0c0a3abef01123ab8a74566 = L.circleMarker(
+                [30.9072, 75.8496],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a353eb905dcc7427457e41a82370bd51 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7981b832c36be890514b31254ebcd42a = $(`<div id="html_7981b832c36be890514b31254ebcd42a" style="width: 100.0%; height: 100.0%;"><b>Dayanand Medical College</b><br>Location: Ludhiana<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_a353eb905dcc7427457e41a82370bd51.setContent(html_7981b832c36be890514b31254ebcd42a);
+            
+        
+
+        circle_marker_a5c2a310d0c0a3abef01123ab8a74566.bindPopup(popup_a353eb905dcc7427457e41a82370bd51)
+        ;
+
+        
+    
+    
+            var circle_marker_89f28b3d50082255d0192dc9741cd3b3 = L.circleMarker(
+                [30.9121, 75.831],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_27da19791ccae515405f0fc56e9cbea7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_17def8c7eb79a71f1577b6f48c07ef2e = $(`<div id="html_17def8c7eb79a71f1577b6f48c07ef2e" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Ludhiana</b><br>Location: Ludhiana<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_27da19791ccae515405f0fc56e9cbea7.setContent(html_17def8c7eb79a71f1577b6f48c07ef2e);
+            
+        
+
+        circle_marker_89f28b3d50082255d0192dc9741cd3b3.bindPopup(popup_27da19791ccae515405f0fc56e9cbea7)
+        ;
+
+        
+    
+    
+            var circle_marker_def849cc656c2f1e3b68aa83ec9c01ad = L.circleMarker(
+                [31.6387, 74.8855],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_05c81f2f61c6c4c52dceb5e9065c89af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2dd16ba5528c1c309fcf4a1fa3ceb5c7 = $(`<div id="html_2dd16ba5528c1c309fcf4a1fa3ceb5c7" style="width: 100.0%; height: 100.0%;"><b>Civil Hospital</b><br>Location: Amritsar<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_05c81f2f61c6c4c52dceb5e9065c89af.setContent(html_2dd16ba5528c1c309fcf4a1fa3ceb5c7);
+            
+        
+
+        circle_marker_def849cc656c2f1e3b68aa83ec9c01ad.bindPopup(popup_05c81f2f61c6c4c52dceb5e9065c89af)
+        ;
+
+        
+    
+    
+            var circle_marker_dfe91610634d174dfffdb73c643b10db = L.circleMarker(
+                [31.6366, 74.8615],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_70e06f4b0417234ff5b10a72a3a82829 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_be62d504aa612661cf9a12268104dba9 = $(`<div id="html_be62d504aa612661cf9a12268104dba9" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Amritsar</b><br>Location: Amritsar<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_70e06f4b0417234ff5b10a72a3a82829.setContent(html_be62d504aa612661cf9a12268104dba9);
+            
+        
+
+        circle_marker_dfe91610634d174dfffdb73c643b10db.bindPopup(popup_70e06f4b0417234ff5b10a72a3a82829)
+        ;
+
+        
+    
+    
+            var circle_marker_a7c3fa7d7fb5cb8209489d7b310ab91a = L.circleMarker(
+                [31.6369, 74.8806],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7e6db9cd17828fce45fa9a66dbf0760e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_11f742e2fb81cc6c596ffffc915260e6 = $(`<div id="html_11f742e2fb81cc6c596ffffc915260e6" style="width: 100.0%; height: 100.0%;"><b>Doctors Institute</b><br>Location: Amritsar<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_7e6db9cd17828fce45fa9a66dbf0760e.setContent(html_11f742e2fb81cc6c596ffffc915260e6);
+            
+        
+
+        circle_marker_a7c3fa7d7fb5cb8209489d7b310ab91a.bindPopup(popup_7e6db9cd17828fce45fa9a66dbf0760e)
+        ;
+
+        
+    
+    
+            var circle_marker_3cd13f260ab6aac9134e2dfe4edc2e08 = L.circleMarker(
+                [27.1777, 78.0148],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_492efaf088ca3f19c3ec8e7d668a871d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d1a3c10b65116deba4020aa087891e13 = $(`<div id="html_d1a3c10b65116deba4020aa087891e13" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Agra</b><br>Location: Agra<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_492efaf088ca3f19c3ec8e7d668a871d.setContent(html_d1a3c10b65116deba4020aa087891e13);
+            
+        
+
+        circle_marker_3cd13f260ab6aac9134e2dfe4edc2e08.bindPopup(popup_492efaf088ca3f19c3ec8e7d668a871d)
+        ;
+
+        
+    
+    
+            var circle_marker_cfbb0d9fcaa5f6b72caddf8756550ee5 = L.circleMarker(
+                [27.1831, 77.9882],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_551a7ba7dfe433bc60f366c90c79d20c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_075dcf01729b9ed4cd67a61a50b10763 = $(`<div id="html_075dcf01729b9ed4cd67a61a50b10763" style="width: 100.0%; height: 100.0%;"><b>SN Medical College</b><br>Location: Agra<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_551a7ba7dfe433bc60f366c90c79d20c.setContent(html_075dcf01729b9ed4cd67a61a50b10763);
+            
+        
+
+        circle_marker_cfbb0d9fcaa5f6b72caddf8756550ee5.bindPopup(popup_551a7ba7dfe433bc60f366c90c79d20c)
+        ;
+
+        
+    
+    
+            var circle_marker_81591b989c4ed290d707c8203844ff94 = L.circleMarker(
+                [27.1686, 78.0153],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_9f786485e32c052eb3341e8161b806e1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7d6003bf9005d6253875e662629d5d27 = $(`<div id="html_7d6003bf9005d6253875e662629d5d27" style="width: 100.0%; height: 100.0%;"><b>Taj Medical Center</b><br>Location: Agra<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_9f786485e32c052eb3341e8161b806e1.setContent(html_7d6003bf9005d6253875e662629d5d27);
+            
+        
+
+        circle_marker_81591b989c4ed290d707c8203844ff94.bindPopup(popup_9f786485e32c052eb3341e8161b806e1)
+        ;
+
+        
+    
+    
+            var circle_marker_516b8a3ea14de0cdcf43e266f699aa8f = L.circleMarker(
+                [25.422, 81.8593],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c64eac1f34f8c4477900f64267f1ebee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d9e4888647ac71ddb2ed4d6be7799671 = $(`<div id="html_d9e4888647ac71ddb2ed4d6be7799671" style="width: 100.0%; height: 100.0%;"><b>Swaroop Rani Nehru Hospital</b><br>Location: Allahabad<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_c64eac1f34f8c4477900f64267f1ebee.setContent(html_d9e4888647ac71ddb2ed4d6be7799671);
+            
+        
+
+        circle_marker_516b8a3ea14de0cdcf43e266f699aa8f.bindPopup(popup_c64eac1f34f8c4477900f64267f1ebee)
+        ;
+
+        
+    
+    
+            var circle_marker_a4a9822d4bca1f02d9458285f77f9ff4 = L.circleMarker(
+                [25.4384, 81.8359],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8796daaeab9f37d31c7fc23448ed1731 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_420886c8eaf626db007dc9009e2efe57 = $(`<div id="html_420886c8eaf626db007dc9009e2efe57" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Allahabad</b><br>Location: Allahabad<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_8796daaeab9f37d31c7fc23448ed1731.setContent(html_420886c8eaf626db007dc9009e2efe57);
+            
+        
+
+        circle_marker_a4a9822d4bca1f02d9458285f77f9ff4.bindPopup(popup_8796daaeab9f37d31c7fc23448ed1731)
+        ;
+
+        
+    
+    
+            var circle_marker_42031e943057185e976bf2d0ce733c30 = L.circleMarker(
+                [25.4359, 81.8441],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f17174c0711deb2882f01ee9daedd1a3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0062d1335c75c6560fb8ed61154219ce = $(`<div id="html_0062d1335c75c6560fb8ed61154219ce" style="width: 100.0%; height: 100.0%;"><b>Dr. Ram Manohar Lohia Institute</b><br>Location: Allahabad<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_f17174c0711deb2882f01ee9daedd1a3.setContent(html_0062d1335c75c6560fb8ed61154219ce);
+            
+        
+
+        circle_marker_42031e943057185e976bf2d0ce733c30.bindPopup(popup_f17174c0711deb2882f01ee9daedd1a3)
+        ;
+
+        
+    
+    
+            var circle_marker_082512d67e7d6f8c1f8b8475dc7ef286 = L.circleMarker(
+                [26.4519, 80.3498],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_54f5f210504f023223f7a75b5e65111f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_43ce4f4eceb288a1d25b5742518b90b9 = $(`<div id="html_43ce4f4eceb288a1d25b5742518b90b9" style="width: 100.0%; height: 100.0%;"><b>Hallet Hospital</b><br>Location: Kanpur<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_54f5f210504f023223f7a75b5e65111f.setContent(html_43ce4f4eceb288a1d25b5742518b90b9);
+            
+        
+
+        circle_marker_082512d67e7d6f8c1f8b8475dc7ef286.bindPopup(popup_54f5f210504f023223f7a75b5e65111f)
+        ;
+
+        
+    
+    
+            var circle_marker_917502d028f36f2af685c07481718860 = L.circleMarker(
+                [26.447, 80.3212],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_067e1a427131b691ad836209d3f268fa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_af4f5a02fc21a27bed48e0be79ce905c = $(`<div id="html_af4f5a02fc21a27bed48e0be79ce905c" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Kanpur</b><br>Location: Kanpur<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_067e1a427131b691ad836209d3f268fa.setContent(html_af4f5a02fc21a27bed48e0be79ce905c);
+            
+        
+
+        circle_marker_917502d028f36f2af685c07481718860.bindPopup(popup_067e1a427131b691ad836209d3f268fa)
+        ;
+
+        
+    
+    
+            var circle_marker_a7d09d1e90f61f542a283d9e5b8ca73f = L.circleMarker(
+                [26.4436, 80.338],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_e4e01d27c33c6476038c6abda8b6c9b0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bfe23fce9fbeb9f0c8220fc0bcf17bd2 = $(`<div id="html_bfe23fce9fbeb9f0c8220fc0bcf17bd2" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Kanpur</b><br>Location: Kanpur<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_e4e01d27c33c6476038c6abda8b6c9b0.setContent(html_bfe23fce9fbeb9f0c8220fc0bcf17bd2);
+            
+        
+
+        circle_marker_a7d09d1e90f61f542a283d9e5b8ca73f.bindPopup(popup_e4e01d27c33c6476038c6abda8b6c9b0)
+        ;
+
+        
+    
+    
+            var circle_marker_965150263fd776717cb6910b39086d13 = L.circleMarker(
+                [25.3312, 82.9865],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_56c2f3f1cd79679dffc47366e2c11dfa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a0d87437c9daa5a616374e5f26f8eda6 = $(`<div id="html_a0d87437c9daa5a616374e5f26f8eda6" style="width: 100.0%; height: 100.0%;"><b>Banaras Hindu University Hospital</b><br>Location: Varanasi<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_56c2f3f1cd79679dffc47366e2c11dfa.setContent(html_a0d87437c9daa5a616374e5f26f8eda6);
+            
+        
+
+        circle_marker_965150263fd776717cb6910b39086d13.bindPopup(popup_56c2f3f1cd79679dffc47366e2c11dfa)
+        ;
+
+        
+    
+    
+            var circle_marker_deb2426b1d55b0cd25b1c5fb698f688f = L.circleMarker(
+                [25.3293, 82.9634],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_437284d1b1cabf8cb811f459c7532938 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2895d1ee7df1ff73a640d6f0a9ae7c8d = $(`<div id="html_2895d1ee7df1ff73a640d6f0a9ae7c8d" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Varanasi</b><br>Location: Varanasi<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_437284d1b1cabf8cb811f459c7532938.setContent(html_2895d1ee7df1ff73a640d6f0a9ae7c8d);
+            
+        
+
+        circle_marker_deb2426b1d55b0cd25b1c5fb698f688f.bindPopup(popup_437284d1b1cabf8cb811f459c7532938)
+        ;
+
+        
+    
+    
+            var circle_marker_e909772290b812b8893d7d6a24d63ca3 = L.circleMarker(
+                [25.3254, 82.9836],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8d844c705f06d4f38ee0adeb99271fd9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8313f848b36e9420880092f5f2c16521 = $(`<div id="html_8313f848b36e9420880092f5f2c16521" style="width: 100.0%; height: 100.0%;"><b>Shri Satya Sai Medical Institute</b><br>Location: Varanasi<br>Risk: Medium<br>Score: 45<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_8d844c705f06d4f38ee0adeb99271fd9.setContent(html_8313f848b36e9420880092f5f2c16521);
+            
+        
+
+        circle_marker_e909772290b812b8893d7d6a24d63ca3.bindPopup(popup_8d844c705f06d4f38ee0adeb99271fd9)
+        ;
+
+        
+    
+    
+            var circle_marker_3d43e7541a1a0d78be8876ef9602077a = L.circleMarker(
+                [25.5739, 91.8858],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_8f1b5f997bcf832961ec2615c6f09374 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_88d287d12d561e8c8de7a1107f6b2e60 = $(`<div id="html_88d287d12d561e8c8de7a1107f6b2e60" style="width: 100.0%; height: 100.0%;"><b>Shillong Civil Hospital</b><br>Location: Shillong<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_8f1b5f997bcf832961ec2615c6f09374.setContent(html_88d287d12d561e8c8de7a1107f6b2e60);
+            
+        
+
+        circle_marker_3d43e7541a1a0d78be8876ef9602077a.bindPopup(popup_8f1b5f997bcf832961ec2615c6f09374)
+        ;
+
+        
+    
+    
+            var circle_marker_55b2121655adb15e789c69be8a2224fa = L.circleMarker(
+                [25.5693, 91.8828],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b7d212db96013a9ba71f6b1388a640ad = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_599e585bd034617bd0e29c6472640d28 = $(`<div id="html_599e585bd034617bd0e29c6472640d28" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Shillong</b><br>Location: Shillong<br>Risk: Medium<br>Score: 45<br>Beds: 650<br>Doctors: 140</div>`)[0];
+                popup_b7d212db96013a9ba71f6b1388a640ad.setContent(html_599e585bd034617bd0e29c6472640d28);
+            
+        
+
+        circle_marker_55b2121655adb15e789c69be8a2224fa.bindPopup(popup_b7d212db96013a9ba71f6b1388a640ad)
+        ;
+
+        
+    
+    
+            var circle_marker_f3ce589f153efb1a05416448d2c60cef = L.circleMarker(
+                [25.5875, 91.8901],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_696132172d52379b15ab2f3ed700e954 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8b51eb462bb3eb51a071ba2b4d2f6883 = $(`<div id="html_8b51eb462bb3eb51a071ba2b4d2f6883" style="width: 100.0%; height: 100.0%;"><b>Medixia Hospital</b><br>Location: Shillong<br>Risk: High<br>Score: 70<br>Beds: 580<br>Doctors: 125</div>`)[0];
+                popup_696132172d52379b15ab2f3ed700e954.setContent(html_8b51eb462bb3eb51a071ba2b4d2f6883);
+            
+        
+
+        circle_marker_f3ce589f153efb1a05416448d2c60cef.bindPopup(popup_696132172d52379b15ab2f3ed700e954)
+        ;
+
+        
+    
+    
+            var circle_marker_9152907f59a94136fa1f2e2ce166c52f = L.circleMarker(
+                [24.813, 94.9074],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_74b6a4fb724499807bb05aaf79840e83 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7bca11e5e37354cc5a4a098ef3d727d6 = $(`<div id="html_7bca11e5e37354cc5a4a098ef3d727d6" style="width: 100.0%; height: 100.0%;"><b>Jawaharlal Nehru Institute</b><br>Location: Imphal<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_74b6a4fb724499807bb05aaf79840e83.setContent(html_7bca11e5e37354cc5a4a098ef3d727d6);
+            
+        
+
+        circle_marker_9152907f59a94136fa1f2e2ce166c52f.bindPopup(popup_74b6a4fb724499807bb05aaf79840e83)
+        ;
+
+        
+    
+    
+            var circle_marker_42d8b9120c57fa2ee19d0c5152d22fd2 = L.circleMarker(
+                [24.8145, 94.8909],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a8c0556405c18f62c664f658e895da80 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8c00f01e36f3f8df38ba160986173509 = $(`<div id="html_8c00f01e36f3f8df38ba160986173509" style="width: 100.0%; height: 100.0%;"><b>Civil Hospital Imphal</b><br>Location: Imphal<br>Risk: High<br>Score: 70<br>Beds: 500<br>Doctors: 105</div>`)[0];
+                popup_a8c0556405c18f62c664f658e895da80.setContent(html_8c00f01e36f3f8df38ba160986173509);
+            
+        
+
+        circle_marker_42d8b9120c57fa2ee19d0c5152d22fd2.bindPopup(popup_a8c0556405c18f62c664f658e895da80)
+        ;
+
+        
+    
+    
+            var circle_marker_07f7c60fb94a154dccb4734c3f9b324f = L.circleMarker(
+                [24.8078, 94.9132],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_6421b25e43092712b257c403e6ef5c94 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1f23dd0b19341815550fe9f26a6c8883 = $(`<div id="html_1f23dd0b19341815550fe9f26a6c8883" style="width: 100.0%; height: 100.0%;"><b>RIMS Manipur</b><br>Location: Manipur<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_6421b25e43092712b257c403e6ef5c94.setContent(html_1f23dd0b19341815550fe9f26a6c8883);
+            
+        
+
+        circle_marker_07f7c60fb94a154dccb4734c3f9b324f.bindPopup(popup_6421b25e43092712b257c403e6ef5c94)
+        ;
+
+        
+    
+    
+            var circle_marker_cc058d5b43004b883b267736d073df55 = L.circleMarker(
+                [24.8036, 94.8995],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_70542fec2063525a428be89ba00da126 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_66831c1dce931c5154b7d52837a2ee2d = $(`<div id="html_66831c1dce931c5154b7d52837a2ee2d" style="width: 100.0%; height: 100.0%;"><b>Shija Hospitals</b><br>Location: Manipur<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_70542fec2063525a428be89ba00da126.setContent(html_66831c1dce931c5154b7d52837a2ee2d);
+            
+        
+
+        circle_marker_cc058d5b43004b883b267736d073df55.bindPopup(popup_70542fec2063525a428be89ba00da126)
+        ;
+
+        
+    
+    
+            var circle_marker_e37aea8672df18727397eeeeaae150f0 = L.circleMarker(
+                [23.8119, 91.2933],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_1dfc1ad7ed266b57826e72f0e8671517 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0f2cb7e732b07838f102925454fa4991 = $(`<div id="html_0f2cb7e732b07838f102925454fa4991" style="width: 100.0%; height: 100.0%;"><b>Govind Ballabh Pant Institute</b><br>Location: Tripura<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_1dfc1ad7ed266b57826e72f0e8671517.setContent(html_0f2cb7e732b07838f102925454fa4991);
+            
+        
+
+        circle_marker_e37aea8672df18727397eeeeaae150f0.bindPopup(popup_1dfc1ad7ed266b57826e72f0e8671517)
+        ;
+
+        
+    
+    
+            var circle_marker_73b7b7ef9fcaaa5bf938433529c9ddad = L.circleMarker(
+                [23.8006, 91.2758],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_a3ec70bc42af7f1da010a5d375dd82bd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_affcb1fd4770a679f491e813d809efcb = $(`<div id="html_affcb1fd4770a679f491e813d809efcb" style="width: 100.0%; height: 100.0%;"><b>Civil Hospital Tripura</b><br>Location: Tripura<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_a3ec70bc42af7f1da010a5d375dd82bd.setContent(html_affcb1fd4770a679f491e813d809efcb);
+            
+        
+
+        circle_marker_73b7b7ef9fcaaa5bf938433529c9ddad.bindPopup(popup_a3ec70bc42af7f1da010a5d375dd82bd)
+        ;
+
+        
+    
+    
+            var circle_marker_38da9abafd5a7d992e690f3aecabb625 = L.circleMarker(
+                [25.5833, 91.8849],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_3046e1a94bee1288e3e6f858a2837287 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a46030f912f682e5101892425015194 = $(`<div id="html_2a46030f912f682e5101892425015194" style="width: 100.0%; height: 100.0%;"><b>Khyndait Hospital</b><br>Location: Meghalaya<br>Risk: High<br>Score: 70<br>Beds: 500<br>Doctors: 105</div>`)[0];
+                popup_3046e1a94bee1288e3e6f858a2837287.setContent(html_2a46030f912f682e5101892425015194);
+            
+        
+
+        circle_marker_38da9abafd5a7d992e690f3aecabb625.bindPopup(popup_3046e1a94bee1288e3e6f858a2837287)
+        ;
+
+        
+    
+    
+            var circle_marker_11ea9e566f3db7d9fce80f8f2f784eb5 = L.circleMarker(
+                [25.5826, 91.8843],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_d3d964f3f5d639bc32ff7859aac1d5d5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9eb5e27714c45b5fdc99b378dca15f6a = $(`<div id="html_9eb5e27714c45b5fdc99b378dca15f6a" style="width: 100.0%; height: 100.0%;"><b>Spring Road Civil Hospital</b><br>Location: Meghalaya<br>Risk: High<br>Score: 70<br>Beds: 480<br>Doctors: 100</div>`)[0];
+                popup_d3d964f3f5d639bc32ff7859aac1d5d5.setContent(html_9eb5e27714c45b5fdc99b378dca15f6a);
+            
+        
+
+        circle_marker_11ea9e566f3db7d9fce80f8f2f784eb5.bindPopup(popup_d3d964f3f5d639bc32ff7859aac1d5d5)
+        ;
+
+        
+    
+    
+            var circle_marker_8b5490206711493bfeac274564c331cb = L.circleMarker(
+                [28.2181, 92.945],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b8eb35ee8a1d620abc30adb5296bb448 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0bcb87f9c3464eebc86b1d14aa486225 = $(`<div id="html_0bcb87f9c3464eebc86b1d14aa486225" style="width: 100.0%; height: 100.0%;"><b>Tomo Riba Institute</b><br>Location: Arunachal Pradesh<br>Risk: High<br>Score: 70<br>Beds: 550<br>Doctors: 115</div>`)[0];
+                popup_b8eb35ee8a1d620abc30adb5296bb448.setContent(html_0bcb87f9c3464eebc86b1d14aa486225);
+            
+        
+
+        circle_marker_8b5490206711493bfeac274564c331cb.bindPopup(popup_b8eb35ee8a1d620abc30adb5296bb448)
+        ;
+
+        
+    
+    
+            var circle_marker_c0fb77827c32d085e1d2517e180c7e62 = L.circleMarker(
+                [28.2204, 92.9475],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_461212cb465a83085012a99697e119f9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6db7753820eb2d3f74915def3952c6b2 = $(`<div id="html_6db7753820eb2d3f74915def3952c6b2" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Arunachal</b><br>Location: Arunachal Pradesh<br>Risk: High<br>Score: 70<br>Beds: 600<br>Doctors: 130</div>`)[0];
+                popup_461212cb465a83085012a99697e119f9.setContent(html_6db7753820eb2d3f74915def3952c6b2);
+            
+        
+
+        circle_marker_c0fb77827c32d085e1d2517e180c7e62.bindPopup(popup_461212cb465a83085012a99697e119f9)
+        ;
+
+        
+    
+    
+            var circle_marker_2dea015a31ee5232f514b0bc032add16 = L.circleMarker(
+                [26.1457, 91.7348],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c9efceb682a0c6a78c4c8dfd753aacc9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_877112b69ce084e341a4ef3c7d429f00 = $(`<div id="html_877112b69ce084e341a4ef3c7d429f00" style="width: 100.0%; height: 100.0%;"><b>Assam Medical College</b><br>Location: Assam<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_c9efceb682a0c6a78c4c8dfd753aacc9.setContent(html_877112b69ce084e341a4ef3c7d429f00);
+            
+        
+
+        circle_marker_2dea015a31ee5232f514b0bc032add16.bindPopup(popup_c9efceb682a0c6a78c4c8dfd753aacc9)
+        ;
+
+        
+    
+    
+            var circle_marker_88d964bfdd3d086031a089524e7d173a = L.circleMarker(
+                [26.1406, 91.7343],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_f10e3632e0f415f99a7604e70800ed94 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a307b4148c367f6bd5fad9af0f6313d1 = $(`<div id="html_a307b4148c367f6bd5fad9af0f6313d1" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Assam</b><br>Location: Assam<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_f10e3632e0f415f99a7604e70800ed94.setContent(html_a307b4148c367f6bd5fad9af0f6313d1);
+            
+        
+
+        circle_marker_88d964bfdd3d086031a089524e7d173a.bindPopup(popup_f10e3632e0f415f99a7604e70800ed94)
+        ;
+
+        
+    
+    
+            var circle_marker_c3012681dde672a6c7ec3542d1d1c665 = L.circleMarker(
+                [20.3078, 85.8196],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_d7b27949c1c99eb9aafdbf16b7be4861 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c141d35acf1670369329916f9239d0ac = $(`<div id="html_c141d35acf1670369329916f9239d0ac" style="width: 100.0%; height: 100.0%;"><b>AIIMS Bhubaneswar</b><br>Location: Odisha<br>Risk: Medium<br>Score: 45<br>Beds: 1000<br>Doctors: 220</div>`)[0];
+                popup_d7b27949c1c99eb9aafdbf16b7be4861.setContent(html_c141d35acf1670369329916f9239d0ac);
+            
+        
+
+        circle_marker_c3012681dde672a6c7ec3542d1d1c665.bindPopup(popup_d7b27949c1c99eb9aafdbf16b7be4861)
+        ;
+
+        
+    
+    
+            var circle_marker_67e4a6aade8923ff85c6c52d0bfda104 = L.circleMarker(
+                [20.2894, 85.8121],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_25828535658075f21457859a20523011 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dd913dde577b9d5e59d43728d2b27c21 = $(`<div id="html_dd913dde577b9d5e59d43728d2b27c21" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Odisha</b><br>Location: Odisha<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_25828535658075f21457859a20523011.setContent(html_dd913dde577b9d5e59d43728d2b27c21);
+            
+        
+
+        circle_marker_67e4a6aade8923ff85c6c52d0bfda104.bindPopup(popup_25828535658075f21457859a20523011)
+        ;
+
+        
+    
+    
+            var circle_marker_02a8c070e66b7f0ddd705377665854d0 = L.circleMarker(
+                [20.3009, 85.8164],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_334b3d59bd404586dbea76da0a76c16c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_578a9f6150301ef30bfa81b69ac33a14 = $(`<div id="html_578a9f6150301ef30bfa81b69ac33a14" style="width: 100.0%; height: 100.0%;"><b>Sparsh Hospital</b><br>Location: Odisha<br>Risk: High<br>Score: 70<br>Beds: 700<br>Doctors: 150</div>`)[0];
+                popup_334b3d59bd404586dbea76da0a76c16c.setContent(html_578a9f6150301ef30bfa81b69ac33a14);
+            
+        
+
+        circle_marker_02a8c070e66b7f0ddd705377665854d0.bindPopup(popup_334b3d59bd404586dbea76da0a76c16c)
+        ;
+
+        
+    
+    
+            var circle_marker_dd0cd9088644e56e4ac6188508fcb487 = L.circleMarker(
+                [20.3014, 85.8349],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_c171d6a307da7e194254755a464f69cb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4a59cd952784564636648437dbfbe839 = $(`<div id="html_4a59cd952784564636648437dbfbe839" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Odisha</b><br>Location: Odisha<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_c171d6a307da7e194254755a464f69cb.setContent(html_4a59cd952784564636648437dbfbe839);
+            
+        
+
+        circle_marker_dd0cd9088644e56e4ac6188508fcb487.bindPopup(popup_c171d6a307da7e194254755a464f69cb)
+        ;
+
+        
+    
+    
+            var circle_marker_7d7f79664485f3dca288c7f718ec08f6 = L.circleMarker(
+                [23.3426, 85.2955],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_0afc0acc93705714feee2be80a632fb3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_91d6779a8820ebe3b7ef650eb7b7468c = $(`<div id="html_91d6779a8820ebe3b7ef650eb7b7468c" style="width: 100.0%; height: 100.0%;"><b>AIIMS Ranchi</b><br>Location: Jharkhand<br>Risk: Medium<br>Score: 45<br>Beds: 1100<br>Doctors: 240</div>`)[0];
+                popup_0afc0acc93705714feee2be80a632fb3.setContent(html_91d6779a8820ebe3b7ef650eb7b7468c);
+            
+        
+
+        circle_marker_7d7f79664485f3dca288c7f718ec08f6.bindPopup(popup_0afc0acc93705714feee2be80a632fb3)
+        ;
+
+        
+    
+    
+            var circle_marker_6729bf39e4f8332281c876af77580ca4 = L.circleMarker(
+                [23.3467, 85.3112],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_b9023223c78e3dcae2161aeb56d37bfa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0a8ea5fa4c8ec398d0baa93d6304c06c = $(`<div id="html_0a8ea5fa4c8ec398d0baa93d6304c06c" style="width: 100.0%; height: 100.0%;"><b>Medanta Hospital Jharkhand</b><br>Location: Jharkhand<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_b9023223c78e3dcae2161aeb56d37bfa.setContent(html_0a8ea5fa4c8ec398d0baa93d6304c06c);
+            
+        
+
+        circle_marker_6729bf39e4f8332281c876af77580ca4.bindPopup(popup_b9023223c78e3dcae2161aeb56d37bfa)
+        ;
+
+        
+    
+    
+            var circle_marker_6c43b4ee827ea52cc960ff4e3a78081b = L.circleMarker(
+                [23.3398, 85.3156],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_636073d77ec2ee354edcd2bc19859609 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ebfdb7d238534f2c5ca8608ce442393e = $(`<div id="html_ebfdb7d238534f2c5ca8608ce442393e" style="width: 100.0%; height: 100.0%;"><b>Apollo Hospital Jharkhand</b><br>Location: Jharkhand<br>Risk: High<br>Score: 60<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_636073d77ec2ee354edcd2bc19859609.setContent(html_ebfdb7d238534f2c5ca8608ce442393e);
+            
+        
+
+        circle_marker_6c43b4ee827ea52cc960ff4e3a78081b.bindPopup(popup_636073d77ec2ee354edcd2bc19859609)
+        ;
+
+        
+    
+    
+            var circle_marker_9de60e65aea5baadb51e54ba3ad273c8 = L.circleMarker(
+                [22.578, 88.3748],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_bba8b78b4569f12fca4c2d0fdc34432b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fc083114b2f8a76a44de9adea37460f6 = $(`<div id="html_fc083114b2f8a76a44de9adea37460f6" style="width: 100.0%; height: 100.0%;"><b>AMRI Hospital</b><br>Location: West Bengal<br>Risk: Medium<br>Score: 45<br>Beds: 900<br>Doctors: 200</div>`)[0];
+                popup_bba8b78b4569f12fca4c2d0fdc34432b.setContent(html_fc083114b2f8a76a44de9adea37460f6);
+            
+        
+
+        circle_marker_9de60e65aea5baadb51e54ba3ad273c8.bindPopup(popup_bba8b78b4569f12fca4c2d0fdc34432b)
+        ;
+
+        
+    
+    
+            var circle_marker_2dc2ff9ad51d18283dffb59f51528f5f = L.circleMarker(
+                [22.5751, 88.3672],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_25c12c531e32e87bb3edc0e02ff4aae3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8f35e09d5671e4439810f6805b534349 = $(`<div id="html_8f35e09d5671e4439810f6805b534349" style="width: 100.0%; height: 100.0%;"><b>Apollo Gleneagles</b><br>Location: West Bengal<br>Risk: Medium<br>Score: 45<br>Beds: 950<br>Doctors: 210</div>`)[0];
+                popup_25c12c531e32e87bb3edc0e02ff4aae3.setContent(html_8f35e09d5671e4439810f6805b534349);
+            
+        
+
+        circle_marker_2dc2ff9ad51d18283dffb59f51528f5f.bindPopup(popup_25c12c531e32e87bb3edc0e02ff4aae3)
+        ;
+
+        
+    
+    
+            var circle_marker_9c6981366b52bde88d4cb5cd8123995c = L.circleMarker(
+                [22.5834, 88.3602],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_dd49b978274dbfe2a6cbbf48a3ea0790 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_849edfcec368f03752df09932b78ed50 = $(`<div id="html_849edfcec368f03752df09932b78ed50" style="width: 100.0%; height: 100.0%;"><b>Fortis Hospital Kolkata</b><br>Location: West Bengal<br>Risk: Medium<br>Score: 45<br>Beds: 850<br>Doctors: 180</div>`)[0];
+                popup_dd49b978274dbfe2a6cbbf48a3ea0790.setContent(html_849edfcec368f03752df09932b78ed50);
+            
+        
+
+        circle_marker_9c6981366b52bde88d4cb5cd8123995c.bindPopup(popup_dd49b978274dbfe2a6cbbf48a3ea0790)
+        ;
+
+        
+    
+    
+            var circle_marker_845840a37f250be0211b90c61f8c9b6e = L.circleMarker(
+                [22.5696, 88.3629],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_7cb699f283dcaafedd0b927103472939 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_27387595754b872c5a0d469bb474c541 = $(`<div id="html_27387595754b872c5a0d469bb474c541" style="width: 100.0%; height: 100.0%;"><b>ICCR Hospital</b><br>Location: West Bengal<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_7cb699f283dcaafedd0b927103472939.setContent(html_27387595754b872c5a0d469bb474c541);
+            
+        
+
+        circle_marker_845840a37f250be0211b90c61f8c9b6e.bindPopup(popup_7cb699f283dcaafedd0b927103472939)
+        ;
+
+        
+    
+    
+            var circle_marker_c2f2643b090705efca23f9900822dc7a = L.circleMarker(
+                [25.5974, 85.1333],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_158a8ec0cb2caa7ad11c9b60991a1edb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_539f0961228cba3cdc16f83d3f5b56ee = $(`<div id="html_539f0961228cba3cdc16f83d3f5b56ee" style="width: 100.0%; height: 100.0%;"><b>Indira Gandhi Institute</b><br>Location: Bihar<br>Risk: Medium<br>Score: 45<br>Beds: 750<br>Doctors: 160</div>`)[0];
+                popup_158a8ec0cb2caa7ad11c9b60991a1edb.setContent(html_539f0961228cba3cdc16f83d3f5b56ee);
+            
+        
+
+        circle_marker_c2f2643b090705efca23f9900822dc7a.bindPopup(popup_158a8ec0cb2caa7ad11c9b60991a1edb)
+        ;
+
+        
+    
+    
+            var circle_marker_a1d22404177bea556880184d86e21790 = L.circleMarker(
+                [25.6037, 85.1325],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_6e17ad58f41a6ed0234dd2327dfa7027);
+        
+    
+        var popup_299e715ceebc83a7a476c2732e00bb76 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6ae2592ba194936411f9f4fd510b9c2a = $(`<div id="html_6ae2592ba194936411f9f4fd510b9c2a" style="width: 100.0%; height: 100.0%;"><b>Patna Medical College</b><br>Location: Bihar<br>Risk: Medium<br>Score: 45<br>Beds: 800<br>Doctors: 170</div>`)[0];
+                popup_299e715ceebc83a7a476c2732e00bb76.setContent(html_6ae2592ba194936411f9f4fd510b9c2a);
+            
+        
+
+        circle_marker_a1d22404177bea556880184d86e21790.bindPopup(popup_299e715ceebc83a7a476c2732e00bb76)
+        ;
+
+        
+    
+</script>
+</html>
