@@ -11,3 +11,4 @@ geopy==2.3.0
 googlemaps==4.10.0
 setuptools
 wheel
+gunicorn
