@@ -13,6 +13,9 @@
         <div class="header-content">
             <h1>🏥 Indian Healthcare AI Analytics System</h1>
             <p>Smart Hospital Resource Optimization & Risk Management</p>
+            <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                🔄 Real-Time Data | Last Update: <span id="last-update-time">Just now</span>
+            </div>
         </div>
     </header>   
 
@@ -20,15 +23,12 @@
     <nav class="navbar">
         <div class="nav-container">
             <button class="nav-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
-            <button class="nav-btn" onclick="switchTab('map')">🗺️ Map</button>
             <button class="nav-btn" onclick="switchTab('emergency')">🚑 Emergency Route</button>
             <button class="nav-btn" onclick="switchTab('compare')">🆚 Compare</button>
             <button class="nav-btn" onclick="switchTab('alerts')">🔔 Alerts</button>
             <button class="nav-btn" onclick="switchTab('hospitals')">🏥 Hospitals</button>
-            <button class="nav-btn" onclick="switchTab('analytics')">📈 Analytics</button>
             <button class="nav-btn" onclick="switchTab('predictions')">📉 Predictions</button>
-            <button class="nav-btn" onclick="switchTab('models')">🤖 AI Models</button>
-            <button class="nav-btn" onclick="switchTab('chatbot')">💬 ChatBot</button>
+            <button class="nav-btn" onclick="switchTab('chatbot')">🤖 AI Medical Assistant</button>
             <button class="export-btn" onclick="showExportMenu()">📥 Export</button>
             <button class="theme-toggle" onclick="toggleDarkMode()">🌙 Dark</button>
         </div>
@@ -91,14 +91,6 @@
             </div>
         </div>
 
-        <!-- Map Tab -->
-        <div id="map" class="tab-content">
-            <iframe src="/static/hospital_map.html" style="width: 100%; height: 700px; border: none; border-radius: 10px;"></iframe>
-            <p style="margin-top: 20px; text-align: center; color: #666;">
-                🗺️ Interactive India Map | Green: Low Risk | Yellow: Medium | Orange: High | Red: Critical
-            </p>
-        </div>
-
         <!-- Hospital Comparison Tab -->
         <div id="compare" class="tab-content">
             <div class="comparison-controls">
@@ -158,20 +150,6 @@
             </div>
         </div>
 
-        <!-- Analytics Tab -->
-        <div id="analytics" class="tab-content">
-            <div class="charts-grid-2">
-                <div class="chart-container-large">
-                    <h3>Risk Scores by Hospital</h3>
-                    <canvas id="riskScoresChart"></canvas>
-                </div>
-                <div class="chart-container-large">
-                    <h3>Hospital Clusters (K-Means)</h3>
-                    <canvas id="clusterChart"></canvas>
-                </div>
-            </div>
-        </div>
-
         <!-- Predictions Tab -->
         <div id="predictions" class="tab-content">
             <h3>📊 Patient Load Predictions</h3>
@@ -198,60 +176,58 @@
             </div>
         </div>
 
-        <!-- AI Models Tab -->
-        <div id="models" class="tab-content">
-            <div class="model-cards">
-                <div class="model-card">
-                    <h3>🤖 Linear Regression</h3>
-                    <div class="score" id="lr-score">0%</div>
-                    <p>Simple baseline model</p>
-                </div>
-                <div class="model-card best">
-                    <h3>🌟 Random Forest</h3>
-                    <div class="score" id="rf-score">0%</div>
-                    <p>Best performing model (92.4%+)</p>
-                </div>
-                <div class="model-card">
-                    <h3>🧠 Neural Network</h3>
-                    <div class="score" id="mlp-score">0%</div>
-                    <p>Deep learning approach</p>
-                </div>
-            </div>
-
-            <div class="predictions-info">
-                <h3>📈 AI Model Comparison</h3>
-                <p>All models are trained on real Indian hospital data to predict patient loads and optimize resource allocation.</p>
-                <ul>
-                    <li>✓ Linear Regression: Quick baseline predictions</li>
-                    <li>✓ Random Forest: Advanced pattern recognition (92.4% accurate)</li>
-                    <li>✓ Neural Network: Deep learning with 3 hidden layers</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- ChatBot Tab -->
+        <!-- ChatBot Tab - Advanced Medical AI Assistant -->
         <div id="chatbot" class="tab-content">
-            <div class="chatbot-container">
-                <div class="chatbot-header">
-                    <h3>💬 Healthcare AI Assistant</h3>
-                    <p>Ask me anything about hospitals, risk assessment, or resource allocation</p>
-                </div>
-                <div class="chatbot-messages" id="chatMessages">
-                    <div class="bot-message">
-                        <div class="message-bubble bot-bubble">
-                            👋 Hello! I'm the Healthcare AI Assistant. Ask me about hospital risks, efficiency, locations, or patient loads!
+            <div class="advanced-chatbot-container large">
+                <div class="advanced-chatbot-header">
+                    <div class="chatbot-title-section">
+                        <h2>🤖 Medical AI Assistant</h2>
+                        <p>Ask any medical question - hospitals, medicines, doctors, diseases, symptoms, treatments...</p>
+                        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                            <span></span><span></span><span></span>
                         </div>
                     </div>
                 </div>
-                <div class="chatbot-input-area">
-                    <input type="text" id="chatInput" placeholder="Ask about hospitals, risks, locations..." class="chat-input">
-                    <button onclick="sendChatMessage()" class="chat-send-btn">Send</button>
+
+                <div class="advanced-chatbot-messages" id="chatMessages">
+                    <div class="bot-message">
+                        <div class="message-bubble bot-bubble">
+                            👋 Hi! I'm your Medical AI Assistant. I can help you with:
+                            <br><br>
+                            ✓ Hospital information & recommendations
+                            <br>
+                            ✓ Medicine details & alternatives
+                            <br>
+                            ✓ Doctor specializations & availability
+                            <br>
+                            ✓ Disease symptoms & treatments
+                            <br>
+                            ✓ Health tips & preventive care
+                            <br>
+                            ✓ Emergency guidance
+                            <br><br>
+                            Ask me anything!
+                        </div>
+                    </div>
                 </div>
-                <div class="quick-questions">
-                    <button onclick="askQuestion('What is the safest hospital?')">Safest Hospital</button>
-                    <button onclick="askQuestion('Which hospital has highest risk?')">Highest Risk</button>
-                    <button onclick="askQuestion('What is the average patient-doctor ratio?')">P-D Ratio</button>
-                    <button onclick="askQuestion('Tell me about hospitals in Delhi')">Delhi Hospitals</button>
+
+                <div class="advanced-chatbot-input-area">
+                    <input type="text" id="chatInput" placeholder="E.g. 'Cost of fever', 'Pneumonia treatment', 'Best hospitals in Delhi'..." class="advanced-chat-input">
+                    <button onclick="sendChatMessage()" class="advanced-chat-send-btn">📤 Send</button>
+                </div>
+
+                <div class="quick-topics">
+                    <div class="topics-section">
+                        <span class="topics-label">Quick Topics:</span>
+                        <button onclick="askQuestion('What are symptoms of fever?')" class="topic-btn">🌡️ Fever Symptoms</button>
+                        <button onclick="askQuestion('Tell me about COVID-19 treatments')" class="topic-btn">🦠 COVID-19</button>
+                        <button onclick="askQuestion('Best hospitals for heart surgery in Delhi')" class="topic-btn">❤️ Hospitals</button>
+                        <button onclick="askQuestion('What medicines treat diabetes?')" class="topic-btn">💊 Diabetes</button>
+                        <button onclick="askQuestion('How to prevent dengue?')" class="topic-btn">🦟 Dengue</button>
+                        <button onclick="askQuestion('Find emergency care near me')" class="topic-btn">🚑 Emergency</button>
+                        <button onclick="askQuestion('Tell me about pneumonia')" class="topic-btn">🫁 Pneumonia</button>
+                        <button onclick="askQuestion('Allergy treatments and medicines')" class="topic-btn">🤧 Allergies</button>
+                    </div>
                 </div>
             </div>
         </div>

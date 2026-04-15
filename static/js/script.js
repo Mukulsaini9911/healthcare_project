@@ -1,5 +1,6 @@
 let allHospitals = [];
 let charts = {};
+let autoRefreshInterval = null;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -8,12 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Load all data
+    // Load all data with real-time updates
     loadData();
     loadComparisonData();
     loadAlerts();
     loadPredictions();
     generateMap();
+
+    // Start auto-refresh every 10 seconds for real-time updates
+    startRealTimeUpdates();
 
     // Set up chatbot event listener
     const chatInput = document.getElementById('chatInput');
@@ -26,9 +30,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// ===== REAL-TIME DATA UPDATES =====
+function startRealTimeUpdates() {
+    // Update every 10 seconds
+    autoRefreshInterval = setInterval(() => {
+        loadData();
+    }, 10000);
+}
+
+function stopRealTimeUpdates() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+}
+
 function loadData() {
-    // Load summary data
-    fetch('/api/summary')
+    // Load summary data with real-time API
+    fetch('/api/realtime-summary')
         .then(response => response.json())
         .then(data => {
             document.getElementById('critical-count').textContent = data.critical_risk;
@@ -41,15 +59,30 @@ function loadData() {
             document.getElementById('lr-score').textContent = (data.model_scores.lr * 100).toFixed(1) + '%';
             document.getElementById('rf-score').textContent = (data.model_scores.rf * 100).toFixed(1) + '%';
             document.getElementById('mlp-score').textContent = (data.model_scores.mlp * 100).toFixed(1) + '%';
+            
+            // Update timestamp
+            const timestamp = new Date(data.timestamp);
+            const now = new Date();
+            const diff = Math.floor((now - timestamp) / 1000);
+            
+            let timeStr = 'Just now';
+            if (diff > 60) {
+                timeStr = Math.floor(diff / 60) + ' min ago';
+            } else if (diff > 0) {
+                timeStr = diff + ' sec ago';
+            }
+            
+            document.getElementById('last-update-time').textContent = timeStr;
+            document.getElementById('last-update-time').title = data.timestamp + ' | Activity: ' + data.activity_level;
         })
         .catch(err => console.error('Error loading summary:', err));
 
-    // Load hospitals
-    fetch('/api/hospitals')
+    // Load real-time hospitals data
+    fetch('/api/realtime-hospitals')
         .then(response => response.json())
         .then(data => {
-            allHospitals = data;
-            displayHospitals(data);
+            allHospitals = data.hospitals;
+            displayHospitals(data.hospitals);
         })
         .catch(err => console.error('Error loading hospitals:', err));
 
@@ -58,7 +91,6 @@ function loadData() {
         .then(response => response.json())
         .then(data => {
             displayRiskChart(data);
-            displayRiskScoresChart(data);
         })
         .catch(err => console.error('Error loading risk data:', err));
 
@@ -69,14 +101,6 @@ function loadData() {
             displayEfficiencyChart(data);
         })
         .catch(err => console.error('Error loading efficiency:', err));
-
-    // Load cluster data
-    fetch('/api/cluster-data')
-        .then(response => response.json())
-        .then(data => {
-            displayClusterChart(data);
-        })
-        .catch(err => console.error('Error loading clusters:', err));
 }
 
 function displayHospitals(hospitals) {
@@ -195,41 +219,8 @@ function displayRiskChart(data) {
 }
 
 function displayRiskScoresChart(data) {
-    const ctx = document.getElementById('riskScoresChart').getContext('2d');
-    charts.scores = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data.hospitals,
-            datasets: [{
-                label: 'Risk Score',
-                data: data.risk_scores,
-                backgroundColor: data.risk_scores.map(score => {
-                    if (score >= 75) return '#ff4444';
-                    if (score >= 50) return '#ff9800';
-                    if (score >= 25) return '#ffc107';
-                    return '#4caf50';
-                }),
-                borderRadius: 8,
-                borderColor: '#fff',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            indexAxis: 'y',
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: { callback: function(value) { return value + '/100'; } }
-                }
-            }
-        }
-    });
+    // Removed - no corresponding canvas element in HTML
+    // Keep function stub for compatibility
 }
 
 function displayEfficiencyChart(data) {
@@ -264,53 +255,8 @@ function displayEfficiencyChart(data) {
 }
 
 function displayClusterChart(data) {
-    const ctx = document.getElementById('clusterChart').getContext('2d');
-    
-    const clusterColors = ['#667eea', '#ff9800', '#4caf50'];
-    const datasets = [];
-    
-    for (let cluster = 0; cluster < 3; cluster++) {
-        const clusterData = data.hospitals.map((name, idx) => {
-            if (data.clusters[idx] === cluster) {
-                return {
-                    x: data.doctors[idx],
-                    y: data.patients[idx],
-                    label: name
-                };
-            }
-            return null;
-        }).filter(item => item !== null);
-
-        datasets.push({
-            label: `Cluster ${cluster + 1}`,
-            data: clusterData,
-            backgroundColor: clusterColors[cluster],
-            borderColor: '#fff',
-            borderWidth: 2,
-            pointRadius: 8,
-            pointHoverRadius: 10
-        });
-    }
-
-    charts.cluster = new Chart(ctx, {
-        type: 'scatter',
-        data: { datasets: datasets },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: { display: true }
-            },
-            scales: {
-                x: {
-                    title: { display: true, text: 'Number of Doctors' }
-                },
-                y: {
-                    title: { display: true, text: 'Patients Per Day' }
-                }
-            }
-        }
-    });
+    // Removed - no corresponding canvas element in HTML
+    // Keep function stub for compatibility
 }
 
 function switchTab(tabName) {
@@ -543,7 +489,7 @@ function displayPredictionsChart(predictions) {
 // ===== LOAD NEW FEATURES ON START =====
 // Already loaded in main DOMContentLoaded at the top
 
-// ===== NEW FEATURE: CHATBOT =====
+// ===== ADVANCED MEDICAL AI CHATBOT =====
 function sendChatMessage() {
     const chatInput = document.getElementById('chatInput');
     const message = chatInput.value.trim();
@@ -553,6 +499,9 @@ function sendChatMessage() {
     // Add user message
     addChatMessage(message, 'user');
     chatInput.value = '';
+    
+    // Show typing indicator
+    showTypingIndicator();
     
     // Send to backend
     fetch('/api/chatbot', {
@@ -564,11 +513,14 @@ function sendChatMessage() {
     })
     .then(response => response.json())
     .then(data => {
+        removeTypingIndicator();
         addChatMessage(data.bot, 'bot');
         scrollChatToBottom();
     })
     .catch(err => {
-        addChatMessage('Sorry, I encountered an error. Please try again.', 'bot');
+        removeTypingIndicator();
+        addChatMessage('❌ Sorry, I encountered an error. Please try again or rephrase your question.', 'bot');
+        console.error('Chatbot error:', err);
     });
 }
 
@@ -579,11 +531,43 @@ function addChatMessage(text, sender) {
     
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble ' + (sender === 'bot' ? 'bot-bubble' : 'user-bubble');
-    bubble.textContent = text;
+    
+    if (sender === 'bot') {
+        // Format bot messages with markdown-like support
+        let formattedText = text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/\n/g, '<br>');
+        bubble.innerHTML = formattedText;
+    } else {
+        bubble.textContent = text;
+    }
     
     messageDiv.appendChild(bubble);
     chatMessages.appendChild(messageDiv);
     scrollChatToBottom();
+}
+
+function showTypingIndicator() {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'bot-message message';
+    messageDiv.id = 'typingIndicator';
+    
+    const typing = document.createElement('div');
+    typing.className = 'typing-indicator';
+    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    
+    messageDiv.appendChild(typing);
+    chatMessages.appendChild(messageDiv);
+    scrollChatToBottom();
+}
+
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+        indicator.remove();
+    }
 }
 
 function scrollChatToBottom() {
