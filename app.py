@@ -943,6 +943,488 @@ def process_chatbot_query(user_query):
     return process_advanced_medical_query(user_query)
 
 
+# ===== ENHANCED MEDICAL AI ASSISTANT =====
+CONDITION_ALIASES = {
+    'covid': 'covid-19',
+    'covid 19': 'covid-19',
+    'corona': 'covid-19',
+    'high bp': 'hypertension',
+    'high blood pressure': 'hypertension',
+    'blood pressure': 'hypertension',
+    'sugar': 'diabetes',
+    'common cold': 'cold',
+    'cold and cough': 'cold',
+    'urine infection': 'uti',
+    'urinary tract infection': 'uti',
+    'heart disease': 'heart',
+    'heart problem': 'heart',
+    'food poisoning': 'gastroenteritis',
+    'allergies': 'allergy'
+}
+
+SPECIALTY_DETAILS = {
+    'cardiologist': 'Heart disease, chest pain, blood pressure issues, and circulation problems.',
+    'neurologist': 'Headache, migraine, seizures, dizziness, memory issues, and nerve disorders.',
+    'pulmonologist': 'Breathing trouble, asthma, pneumonia, chronic cough, and lung infections.',
+    'endocrinologist': 'Diabetes, thyroid conditions, hormone imbalance, and metabolic disorders.',
+    'rheumatologist': 'Joint pain, autoimmune disease, swelling, and inflammatory disorders.',
+    'infectious_disease': 'Fever, dengue, malaria, typhoid, COVID-19, and serious infections.',
+    'gastroenterologist': 'Stomach pain, vomiting, loose motion, acidity, and digestion issues.',
+    'nephrologist': 'Kidney disease, UTI complications, swelling, and urine-related disorders.',
+    'oncologist': 'Cancer diagnosis, chemotherapy, radiation planning, and cancer follow-up.',
+    'psychiatrist': 'Depression, anxiety, panic, sleep issues, and behavioral health care.',
+    'orthopedic': 'Fracture, bone pain, joint injury, spine problems, and sports injuries.',
+    'general_physician': 'Fever, cold, cough, weakness, infections, and first-line medical evaluation.'
+}
+
+CONDITION_SPECIALTY_MAP = {
+    'fever': 'general_physician',
+    'cold': 'general_physician',
+    'cough': 'general_physician',
+    'pneumonia': 'pulmonologist',
+    'dengue': 'infectious_disease',
+    'malaria': 'infectious_disease',
+    'covid-19': 'infectious_disease',
+    'diabetes': 'endocrinologist',
+    'hypertension': 'cardiologist',
+    'asthma': 'pulmonologist',
+    'migraine': 'neurologist',
+    'heart': 'cardiologist',
+    'cancer': 'oncologist',
+    'uti': 'nephrologist',
+    'gastroenteritis': 'gastroenterologist',
+    'fracture': 'orthopedic',
+    'allergy': 'general_physician'
+}
+
+FALLBACK_CONDITION_INFO = {
+    'cold': {
+        'title': 'Cold and Cough',
+        'symptoms': 'Runny nose, sore throat, cough, sneezing, mild fever, and tiredness.',
+        'causes': 'Usually viral infection, weather changes, or allergy triggers.',
+        'treatments': 'Rest, fluids, steam inhalation, fever control, and symptom relief medicines.',
+        'medicines': 'Paracetamol, Cetirizine, cough syrup, saline nasal drops.',
+        'when_serious': 'High fever, breathing difficulty, chest pain, or symptoms lasting more than a week.'
+    },
+    'typhoid': {
+        'title': 'Typhoid',
+        'symptoms': 'Prolonged fever, stomach pain, weakness, headache, constipation or diarrhea.',
+        'causes': 'Salmonella typhi infection from contaminated food or water.',
+        'treatments': 'Antibiotics, hydration, soft diet, and monitoring for complications.',
+        'medicines': 'Azithromycin, Cefixime, IV fluids when required.',
+        'when_serious': 'Persistent vomiting, confusion, severe dehydration, or intestinal bleeding.'
+    },
+    'heart': {
+        'title': 'Heart Disease',
+        'symptoms': 'Chest pain, shortness of breath, palpitations, swelling, tiredness.',
+        'causes': 'Coronary artery disease, hypertension, diabetes, and lifestyle risk factors.',
+        'treatments': 'Cardiology review, ECG, medicines, monitoring, and procedures when needed.',
+        'medicines': 'Aspirin, statins, beta blockers, and blood pressure medicines as advised.',
+        'when_serious': 'Sudden chest pain, sweating, fainting, or severe breathlessness.'
+    },
+    'cancer': {
+        'title': 'Cancer',
+        'symptoms': 'Depends on the organ involved; may include weight loss, pain, lump, or fatigue.',
+        'causes': 'Abnormal cell growth influenced by genetics, tobacco, infection, or environment.',
+        'treatments': 'Oncology consultation, surgery, chemotherapy, radiation, or targeted therapy.',
+        'medicines': 'Cancer treatment varies by diagnosis and stage.',
+        'when_serious': 'Any rapidly worsening pain, bleeding, breathing issues, or severe weakness.'
+    },
+    'uti': {
+        'title': 'Urinary Tract Infection',
+        'symptoms': 'Burning urination, frequent urination, lower abdominal pain, and fever.',
+        'causes': 'Bacterial infection in the urinary tract.',
+        'treatments': 'Antibiotics, fluids, urine testing, and kidney review if recurrent.',
+        'medicines': 'Nitrofurantoin, Fosfomycin, fluids, and pain relief as prescribed.',
+        'when_serious': 'Fever with chills, flank pain, vomiting, or reduced urine output.'
+    },
+    'gastroenteritis': {
+        'title': 'Gastroenteritis',
+        'symptoms': 'Loose motion, vomiting, stomach cramps, weakness, and dehydration.',
+        'causes': 'Food poisoning, viral infection, bacterial infection, or contaminated water.',
+        'treatments': 'ORS, fluids, bland diet, antiemetics, and doctor review if persistent.',
+        'medicines': 'ORS, Ondansetron, probiotics, and antibiotics only if advised.',
+        'when_serious': 'Blood in stool, severe dehydration, persistent vomiting, or confusion.'
+    },
+    'fracture': {
+        'title': 'Fracture',
+        'symptoms': 'Severe pain, swelling, deformity, and inability to move the affected part.',
+        'causes': 'Trauma, accident, fall, or sports injury.',
+        'treatments': 'X-ray, immobilization, pain relief, cast, or surgery when needed.',
+        'medicines': 'Pain medicines and orthopedic treatment as advised.',
+        'when_serious': 'Open fracture, loss of sensation, uncontrolled pain, or heavy bleeding.'
+    },
+    'allergy': {
+        'title': 'Allergy',
+        'symptoms': 'Sneezing, rash, itching, watery eyes, wheezing, or swelling.',
+        'causes': 'Dust, pollen, food, medicine, or environmental trigger.',
+        'treatments': 'Avoid triggers, antihistamines, inhalers, and urgent care for severe reactions.',
+        'medicines': 'Cetirizine, Levocetirizine, antihistamines, and inhalers when advised.',
+        'when_serious': 'Lip swelling, wheezing, breathing trouble, or fainting.'
+    }
+}
+
+SYMPTOM_KEYWORDS = [
+    'fever', 'cough', 'cold', 'headache', 'migraine', 'chest pain', 'breathing',
+    'shortness of breath', 'vomit', 'vomiting', 'loose motion', 'diarrhea',
+    'rash', 'pain', 'sore throat', 'pressure', 'burning urine', 'urine',
+    'weakness', 'joint pain', 'stomach pain', 'allergy', 'swelling', 'dizziness'
+]
+
+
+def find_area_from_query(query_lower):
+    areas = sorted(df_global['Area'].astype(str).unique(), key=len, reverse=True)
+    for area in areas:
+        if area.lower() in query_lower:
+            return area
+    return None
+
+
+def resolve_condition(query_lower):
+    for phrase, canonical in sorted(CONDITION_ALIASES.items(), key=lambda item: len(item[0]), reverse=True):
+        if phrase in query_lower:
+            return canonical
+
+    all_conditions = set(MEDICAL_KNOWLEDGE_BASE['diseases'].keys()) | set(DISEASE_COSTS.keys())
+    for condition in sorted(all_conditions, key=len, reverse=True):
+        if condition in query_lower:
+            return condition
+    return None
+
+
+def get_condition_info(condition_key):
+    if condition_key in MEDICAL_KNOWLEDGE_BASE['diseases']:
+        info = dict(MEDICAL_KNOWLEDGE_BASE['diseases'][condition_key])
+        info['title'] = condition_key.replace('-', ' ').title()
+        return info
+    if condition_key in FALLBACK_CONDITION_INFO:
+        return FALLBACK_CONDITION_INFO[condition_key]
+    return None
+
+
+def resolve_specialty(query_lower, condition_key=None):
+    specialty_aliases = {
+        'cardiologist': 'cardiologist',
+        'heart doctor': 'cardiologist',
+        'neurologist': 'neurologist',
+        'brain doctor': 'neurologist',
+        'pulmonologist': 'pulmonologist',
+        'chest doctor': 'pulmonologist',
+        'lung doctor': 'pulmonologist',
+        'endocrinologist': 'endocrinologist',
+        'diabetes doctor': 'endocrinologist',
+        'thyroid doctor': 'endocrinologist',
+        'rheumatologist': 'rheumatologist',
+        'infection doctor': 'infectious_disease',
+        'infectious disease': 'infectious_disease',
+        'gastroenterologist': 'gastroenterologist',
+        'stomach doctor': 'gastroenterologist',
+        'nephrologist': 'nephrologist',
+        'kidney doctor': 'nephrologist',
+        'oncologist': 'oncologist',
+        'cancer doctor': 'oncologist',
+        'psychiatrist': 'psychiatrist',
+        'orthopedic': 'orthopedic',
+        'ortho': 'orthopedic',
+        'bone doctor': 'orthopedic',
+        'general physician': 'general_physician',
+        'physician': 'general_physician'
+    }
+
+    for phrase, specialty in sorted(specialty_aliases.items(), key=lambda item: len(item[0]), reverse=True):
+        if phrase in query_lower:
+            return specialty
+
+    if condition_key and condition_key in CONDITION_SPECIALTY_MAP:
+        return CONDITION_SPECIALTY_MAP[condition_key]
+
+    if any(term in query_lower for term in ['chest pain', 'heartbeat', 'pressure']):
+        return 'cardiologist'
+    if any(term in query_lower for term in ['headache', 'migraine', 'dizziness', 'seizure']):
+        return 'neurologist'
+    if any(term in query_lower for term in ['cough', 'breathing', 'asthma', 'pneumonia']):
+        return 'pulmonologist'
+    if any(term in query_lower for term in ['vomit', 'stomach', 'loose motion', 'diarrhea']):
+        return 'gastroenterologist'
+    if any(term in query_lower for term in ['fracture', 'bone', 'joint', 'back pain']):
+        return 'orthopedic'
+    return 'general_physician'
+
+
+def get_hospital_subset(area=None, limit=5):
+    subset = df_global.copy()
+    if area:
+        subset = subset[subset['Area'].str.lower() == area.lower()]
+    if subset.empty:
+        subset = df_global.copy()
+
+    subset = subset.sort_values(
+        by=['risk_score', 'Doctors', 'Beds', 'efficiency_score'],
+        ascending=[True, False, False, False]
+    )
+    return subset.head(limit)
+
+
+def infer_conditions_from_symptoms(query_lower, limit=4):
+    scored_conditions = []
+    all_conditions = set(list(MEDICAL_KNOWLEDGE_BASE['diseases'].keys()) + list(FALLBACK_CONDITION_INFO.keys()))
+    for condition in all_conditions:
+        info = get_condition_info(condition)
+        if not info:
+            continue
+
+        searchable = ' '.join([
+            info.get('symptoms', ''),
+            info.get('causes', ''),
+            info.get('treatments', '')
+        ]).lower()
+
+        score = 0
+        for keyword in SYMPTOM_KEYWORDS:
+            if keyword in query_lower and keyword in searchable:
+                score += 1
+        if condition in query_lower:
+            score += 3
+
+        if score > 0:
+            scored_conditions.append((condition, score))
+
+    scored_conditions.sort(key=lambda item: item[1], reverse=True)
+    return [condition for condition, _ in scored_conditions[:limit]]
+
+
+def analyze_medical_query(user_query):
+    query_lower = user_query.lower().strip()
+    condition = resolve_condition(query_lower)
+    area = find_area_from_query(query_lower)
+    specialty = resolve_specialty(query_lower, condition)
+    symptom_hits = sum(1 for keyword in SYMPTOM_KEYWORDS if keyword in query_lower)
+
+    if any(word in query_lower for word in ['cost', 'price', 'expense', 'charges', 'expensive', 'affordable', 'how much', 'estimate', 'estimator']):
+        if condition:
+            return {'type': 'cost', 'entity': condition, 'area': area}
+        return {'type': 'cost_overview', 'entity': None, 'area': area}
+
+    for medicine in MEDICAL_KNOWLEDGE_BASE['medicines'].keys():
+        if medicine in query_lower:
+            return {'type': 'medicine', 'entity': medicine, 'area': area}
+
+    if any(word in query_lower for word in ['medicine', 'tablet', 'drug', 'syrup', 'injection', 'medicines']) and condition:
+        return {'type': 'medicine_for_condition', 'entity': condition, 'area': area}
+
+    if any(word in query_lower for word in ['doctor', 'specialist', 'physician', 'consult']):
+        return {'type': 'doctor', 'entity': specialty, 'area': area, 'condition': condition}
+
+    if any(word in query_lower for word in ['hospital', 'clinic', 'healthcare', 'medical center', 'best hospital', 'nearby hospital']):
+        return {'type': 'hospital', 'entity': condition, 'area': area}
+
+    if any(word in query_lower for word in ['emergency', 'urgent', 'ambulance', 'critical', 'severe', '108', '911']):
+        return {'type': 'emergency', 'entity': None, 'area': area}
+
+    if symptom_hits >= 2 or any(word in query_lower for word in ['i have', 'having', 'suffering', 'feeling']):
+        return {'type': 'symptom', 'entity': None, 'area': area}
+
+    if condition:
+        return {'type': 'disease', 'entity': condition, 'area': area}
+
+    if any(word in query_lower for word in ['symptom', 'pain', 'ache', 'rash', 'vomit', 'bleed', 'cough', 'headache', 'i have', 'having', 'suffering']):
+        return {'type': 'symptom', 'entity': None, 'area': area}
+
+    if any(word in query_lower for word in ['prevention', 'healthy', 'exercise', 'diet', 'tip', 'advice', 'fitness', 'wellness']):
+        return {'type': 'health_tip', 'entity': None, 'area': area}
+
+    return {'type': 'general', 'entity': None, 'area': area}
+
+
+def process_advanced_medical_query(user_query):
+    query_lower = user_query.lower()
+    query_type = analyze_medical_query(user_query)
+    area = query_type.get('area')
+
+    if query_type['type'] == 'cost':
+        condition = query_type['entity']
+        cost_key = condition if condition in DISEASE_COSTS else ('covid' if condition == 'covid-19' else None)
+        if not cost_key:
+            return "I can estimate costs for conditions like fever, pneumonia, dengue, diabetes, asthma, fracture, heart disease, cancer, UTI, and more. Try asking `Cost of dengue treatment in Delhi`."
+
+        disease_name = DISEASE_COSTS[cost_key]['name']
+        base_cost = DISEASE_COSTS[cost_key]['base_cost']
+        subset = df_global.copy()
+        if area:
+            subset = subset[subset['Area'].str.lower() == area.lower()]
+        if subset.empty:
+            subset = df_global.copy()
+
+        hospital_costs = []
+        for _, hospital in subset.iterrows():
+            hospital_costs.append({
+                'hospital': hospital['Hospital'],
+                'area': hospital['Area'],
+                'cost': get_disease_cost_for_hospital(cost_key, hospital),
+                'beds': int(hospital['Beds']),
+                'doctors': int(hospital['Doctors']),
+                'risk_level': str(hospital['risk_level'])
+            })
+
+        hospital_costs.sort(key=lambda item: item['cost'])
+        avg_cost = sum(item['cost'] for item in hospital_costs) / len(hospital_costs)
+
+        response = f"**Cost estimate for {disease_name}**\n\n"
+        response += f"Base reference cost: Rs {base_cost:,.0f}\n"
+        if area:
+            response += f"Area filter: {area}\n"
+        response += f"Average estimate: Rs {avg_cost:,.0f}\n\n"
+        response += "**Most affordable hospitals**\n"
+        for idx, hospital in enumerate(hospital_costs[:5], 1):
+            response += f"{idx}. {hospital['hospital']} ({hospital['area']}) - Rs {hospital['cost']:,.0f} | Beds: {hospital['beds']} | Doctors: {hospital['doctors']} | Risk: {hospital['risk_level']}\n"
+        response += "\nThese are model-based cost estimates, not final billing quotes."
+        return response
+
+    if query_type['type'] == 'cost_overview':
+        return (
+            "**Cost estimator is ready.**\n\n"
+            "Try questions like:\n"
+            "- Cost of fever treatment\n"
+            "- Pneumonia cost in Delhi\n"
+            "- Cheapest hospitals for dengue\n"
+            "- Heart disease treatment cost"
+        )
+
+    if query_type['type'] == 'disease':
+        condition = query_type['entity']
+        info = get_condition_info(condition)
+        if not info:
+            return "I could not find a clean medical profile for that condition yet. Try asking about fever, dengue, diabetes, asthma, migraine, pneumonia, heart disease, fracture, cancer, UTI, or gastroenteritis."
+
+        specialty = resolve_specialty(query_lower, condition)
+        hospitals = get_hospital_subset(area=area, limit=3)
+        title = info.get('title', condition.replace('-', ' ').title())
+        response = f"**{title}**\n\n"
+        response += f"Symptoms: {info.get('symptoms', 'Varies by patient.')}\n\n"
+        if info.get('causes'):
+            response += f"Causes: {info['causes']}\n\n"
+        response += f"Treatment approach: {info.get('treatments', 'Medical review is recommended.')}\n\n"
+        if info.get('medicines'):
+            response += f"Common medicines: {info['medicines']}\n\n"
+        response += f"Recommended doctor: {specialty.replace('_', ' ').title()}\n"
+        if info.get('when_serious'):
+            response += f"When to seek urgent care: {info['when_serious']}\n\n"
+        response += "**Hospitals to consider**\n"
+        for _, hospital in hospitals.iterrows():
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {int(hospital['Beds'])} | Doctors: {int(hospital['Doctors'])} | Risk: {hospital['risk_level']}\n"
+        response += "\nThis is educational guidance and should not replace a doctor's diagnosis."
+        return response
+
+    if query_type['type'] == 'medicine':
+        medicine = query_type['entity']
+        medicine_info = MEDICAL_KNOWLEDGE_BASE['medicines'][medicine]
+        response = f"**{medicine.title()}**\n\n"
+        response += f"Uses: {medicine_info['uses']}\n\n"
+        response += f"Typical dosage guidance: {medicine_info['dosage']}\n\n"
+        response += f"Possible side effects: {medicine_info['side_effects']}\n\n"
+        response += f"When to avoid or be careful: {medicine_info['contraindications']}\n\n"
+        response += "Use medicines only with proper medical advice, especially for children, pregnancy, kidney disease, liver disease, or ongoing prescriptions."
+        return response
+
+    if query_type['type'] == 'medicine_for_condition':
+        condition = query_type['entity']
+        info = get_condition_info(condition)
+        if info and info.get('medicines'):
+            response = f"**Common medicines used for {info.get('title', condition.title())}**\n\n"
+            response += f"{info['medicines']}\n\n"
+            response += f"Treatment approach: {info.get('treatments', 'A doctor should guide the treatment plan.')}\n\n"
+            response += "Please avoid self-medication for severe symptoms or long-lasting illness."
+            return response
+        return "I can help with medicine guidance for common conditions like fever, dengue, diabetes, asthma, migraine, UTI, or gastroenteritis. Try a more specific condition."
+
+    if query_type['type'] == 'doctor':
+        specialty = query_type['entity']
+        hospitals = get_hospital_subset(area=area, limit=5)
+        response = f"**Doctor guidance: {specialty.replace('_', ' ').title()}**\n\n"
+        response += f"Best for: {SPECIALTY_DETAILS.get(specialty, 'General medical consultation and first-line care.')}\n\n"
+        if query_type.get('condition'):
+            response += f"Based on your question, this specialty matches: {query_type['condition'].replace('-', ' ').title()}\n\n"
+        response += "**Hospitals to consider**\n"
+        for _, hospital in hospitals.iterrows():
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {int(hospital['Doctors'])} | Beds: {int(hospital['Beds'])} | Risk: {hospital['risk_level']}\n"
+        response += "\nIf symptoms are sudden or severe, use emergency care instead of waiting for a normal appointment."
+        return response
+
+    if query_type['type'] == 'hospital':
+        hospitals = get_hospital_subset(area=area, limit=5)
+        response = "**Hospital recommendations**\n\n"
+        if area:
+            response += f"Area: {area}\n\n"
+        response += "Top options based on lower risk, stronger staffing, and capacity:\n"
+        for _, hospital in hospitals.iterrows():
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {int(hospital['Beds'])} | Doctors: {int(hospital['Doctors'])} | Risk: {hospital['risk_level']} | Efficiency: {hospital['efficiency_score']:.2f}\n"
+        response += "\nYou can also ask for a specialty-linked request like `best hospitals for heart disease in Delhi`."
+        return response
+
+    if query_type['type'] == 'emergency':
+        return (
+            "**Emergency guidance**\n\n"
+            "Immediate action numbers in India:\n"
+            "1. 108 - Ambulance\n"
+            "2. 102 - Medical transport support in many regions\n"
+            "3. 100 - Police if safety help is needed\n\n"
+            "Go to emergency immediately for chest pain, severe breathing trouble, heavy bleeding, unconsciousness, stroke signs, seizures, or poisoning.\n\n"
+            "Use the Emergency Route tab on this website to find the nearest hospitals fast."
+        )
+
+    if query_type['type'] == 'symptom':
+        matches = infer_conditions_from_symptoms(query_lower, limit=4)
+        specialty = resolve_specialty(query_lower)
+        hospitals = get_hospital_subset(area=area, limit=3)
+        response = "**Symptom guidance**\n\n"
+        if matches:
+            response += "Possible conditions to discuss with a doctor:\n"
+            for condition in matches:
+                info = get_condition_info(condition)
+                label = info.get('title', condition.replace('-', ' ').title()) if info else condition.title()
+                response += f"- {label}\n"
+            response += "\n"
+        else:
+            response += "I could not confidently match the symptoms, so a doctor review is the safest next step.\n\n"
+        response += f"Suggested doctor: {specialty.replace('_', ' ').title()}\n\n"
+        response += "**Hospitals to consider**\n"
+        for _, hospital in hospitals.iterrows():
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {int(hospital['Doctors'])} | Beds: {int(hospital['Beds'])}\n"
+        response += "\nIf symptoms are fast-worsening or include chest pain, breathing trouble, confusion, fainting, or heavy bleeding, go for emergency care now."
+        return response
+
+    if query_type['type'] == 'health_tip':
+        return (
+            "**Health and wellness tips**\n\n"
+            "Exercise: Aim for at least 30 minutes of moderate activity most days.\n\n"
+            "Food: Choose vegetables, fruits, whole grains, protein, and less processed sugar and salt.\n\n"
+            "Sleep: Try for 7 to 8 hours with a regular routine.\n\n"
+            "Prevention: Get regular checkups, monitor blood pressure and sugar when needed, stay hydrated, and avoid smoking.\n\n"
+            "If you want, ask me for disease-specific advice like `diet tips for diabetes` or `how to prevent dengue`."
+        )
+
+    return (
+        "**Medical AI Assistant**\n\n"
+        "You can ask me about:\n"
+        "- Disease information and symptoms\n"
+        "- Medicine guidance\n"
+        "- Which doctor or specialist to visit\n"
+        "- Hospital recommendations by city\n"
+        "- Treatment cost estimation\n"
+        "- Emergency guidance\n\n"
+        "Examples:\n"
+        "- Cost of dengue treatment in Delhi\n"
+        "- Which doctor for migraine\n"
+        "- Medicine for fever\n"
+        "- Best hospitals in Mumbai\n"
+        "- I have cough and fever"
+    )
+
+
+def process_chatbot_query(user_query):
+    return process_advanced_medical_query(user_query)
+
+
 @app.route('/api/chatbot', methods=['POST'])
 def chatbot():
     """Chatbot endpoint"""

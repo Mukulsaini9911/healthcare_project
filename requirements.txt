@@ -1,4 +1,4 @@
---only-binary=:all:
+z--only-binary=:all:
 flask==2.3.0
 pandas==2.2.2
 numpy==1.26.4

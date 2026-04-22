@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare AI - Smart Hospital Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .pulse-animation {
+            animation: pulse-custom 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse-custom {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .alert-card {
+            background: linear-gradient(135deg, #ff6b6b15 0%, #ee5a6f15 100%);
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .success-card {
+            background: linear-gradient(135deg, #51cf6615 0%, #40c05f15 100%);
+            border-left: 4px solid #51cf66;
+        }
+        
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+        
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+        }
+        
+        .hospital-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .hospital-card:hover {
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+            transform: translateY(-8px);
+        }
+        
+        .risk-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .risk-critical {
+            background: #ff6b6b20;
+            color: #ff6b6b;
+        }
+        
+        .risk-high {
+            background: #ffa94d20;
+            color: #ffa94d;
+        }
+        
+        .risk-medium {
+            background: #ffd93d20;
+            color: #ffd93d;
+        }
+        
+        .risk-low {
+            background: #51cf6620;
+            color: #51cf66;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 glass-effect border-b border-slate-200 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 rounded-lg gradient-bg">
+                        <i class="fas fa-hospital text-white text-xl"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">HealthCare AI</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-slate-700 hover:text-blue-600 smooth-transition font-medium">Home</a>
+                    <a href="#services" class="text-slate-700 hover:text-blue-600 smooth-transition font-medium">Services</a>
+                    <a href="#dashboard" class="text-slate-700 hover:text-blue-600 smooth-transition font-medium">Dashboard</a>
+                    <button class="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:shadow-lg smooth-transition">
+                        Login
+                    </button>
+                </div>
+                
+                <button class="md:hidden text-slate-700">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 pb-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center fade-in">
+                <!-- Left Content -->
+                <div>
+                    <h1 class="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
+                        Smart Healthcare for <span class="gradient-text">Everyone</span>
+                    </h1>
+                    <p class="text-xl text-slate-600 mb-8 leading-relaxed">
+                        AI-powered hospital management system that optimizes patient care, reduces wait times, and improves resource allocation across 167+ hospitals in India.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="scrollToSearch()" class="px-8 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:shadow-lg smooth-transition transform hover:scale-105">
+                            <i class="fas fa-search mr-2"></i>Find Hospital
+                        </button>
+                        <button class="px-8 py-3 rounded-lg border-2 border-blue-600 text-blue-600 font-semibold hover:bg-blue-50 smooth-transition">
+                            <i class="fas fa-video mr-2"></i>Watch Demo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Right Illustration -->
+                <div class="flex justify-center">
+                    <div class="relative w-full h-96 rounded-2xl glass-effect p-8 shadow-xl">
+                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 opacity-10"></div>
+                        <div class="relative h-full flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-heartbeat text-6xl text-blue-600 mb-4 pulse-animation"></i>
+                                <p class="text-2xl font-bold text-slate-800">Live Health Network</p>
+                                <p class="text-slate-600 mt-2">Connecting 167 hospitals in real-time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patient Search Section -->
+    <section id="search" class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-effect rounded-2xl p-8 shadow-xl hover-lift">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">
+                    <i class="fas fa-search text-blue-600 mr-3"></i>Find Nearby Hospitals
+                </h2>
+                <p class="text-slate-600 mb-8">Enter your details to find the best hospital for your needs</p>
+                
+                <form id="searchForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Location -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-3">
+                                <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>Location / City
+                            </label>
+                            <input type="text" id="location" placeholder="Enter your city" 
+                                class="input-focus w-full px-4 py-3 rounded-lg border-2 border-slate-200 bg-slate-50 focus:bg-white focus:outline-none">
+                        </div>
+                        
+                        <!-- Patients Count -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-3">
+                                <i class="fas fa-users text-blue-500 mr-2"></i>Number of Patients
+                            </label>
+                            <input type="number" id="patientCount" placeholder="e.g., 150" min="1" 
+                                class="input-focus w-full px-4 py-3 rounded-lg border-2 border-slate-200 bg-slate-50 focus:bg-white focus:outline-none">
+                        </div>
+                    </div>
+                    
+                    <!-- Symptoms -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">
+                            <i class="fas fa-stethoscope text-green-500 mr-2"></i>Primary Concern
+                        </label>
+                        <select id="symptoms" class="input-focus w-full px-4 py-3 rounded-lg border-2 border-slate-200 bg-slate-50 focus:bg-white focus:outline-none">
+                            <option>Select your primary concern</option>
+                            <option>Emergency Care</option>
+                            <option>General Checkup</option>
+                            <option>Pediatrics</option>
+                            <option>Cardiology</option>
+                            <option>Orthopedics</option>
+                            <option>Neurology</option>
+                            <option>Oncology</option>
+                            <option>Mental Health</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold text-lg hover:shadow-xl smooth-transition transform hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-check-circle mr-2"></i>Find Available Hospitals
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="py-16 px-4 hidden">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">
+                <i class="fas fa-hospital text-blue-600 mr-3"></i>Available Hospitals
+            </h2>
+            
+            <!-- Hospital Cards Grid -->
+            <div id="hospitalsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Recommendations Section -->
+    <section id="recommendations" class="py-16 px-4 hidden">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">
+                <i class="fas fa-brain text-purple-600 mr-3"></i>AI Recommendations
+            </h2>
+            
+            <div class="space-y-4">
+                <!-- Will be populated by JavaScript -->
+                <div id="recommendationsContainer"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Dashboard Section -->
+    <section id="dashboard" class="py-16 px-4 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-white mb-4">
+                <i class="fas fa-chart-line mr-3"></i>Real-Time Dashboard
+            </h2>
+            <p class="text-purple-200 mb-12 text-lg">Live statistics across our hospital network</p>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Total Hospitals -->
+                <div class="stat-card rounded-xl p-6 backdrop-blur-sm border border-white/10 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-300 text-sm font-semibold mb-2">Total Hospitals</p>
+                            <p id="totalHospitals" class="text-3xl font-bold text-white">167</p>
+                            <p class="text-purple-300 text-xs mt-2">Across India</p>
+                        </div>
+                        <div class="text-5xl text-purple-400 opacity-30">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Critical Cases -->
+                <div class="stat-card rounded-xl p-6 backdrop-blur-sm border border-white/10 hover-lift bg-red-500/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-red-300 text-sm font-semibold mb-2">Critical Risk</p>
+                            <p id="criticalCount" class="text-3xl font-bold text-white">49</p>
+                            <p class="text-red-300 text-xs mt-2">Need attention</p>
+                        </div>
+                        <div class="text-5xl text-red-400 opacity-30">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- High Risk -->
+                <div class="stat-card rounded-xl p-6 backdrop-blur-sm border border-white/10 hover-lift bg-orange-500/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-orange-300 text-sm font-semibold mb-2">High Risk</p>
+                            <p id="highCount" class="text-3xl font-bold text-white">118</p>
+                            <p class="text-orange-300 text-xs mt-2">Monitor closely</p>
+                        </div>
+                        <div class="text-5xl text-orange-400 opacity-30">
+                            <i class="fas fa-alert"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Avg Patient-Doctor Ratio -->
+                <div class="stat-card rounded-xl p-6 backdrop-blur-sm border border-white/10 hover-lift bg-green-500/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-green-300 text-sm font-semibold mb-2">Avg P:D Ratio</p>
+                            <p id="avgPDR" class="text-3xl font-bold text-white">7.8</p>
+                            <p class="text-green-300 text-xs mt-2">Patients per doctor</p>
+                        </div>
+                        <div class="text-5xl text-green-400 opacity-30">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chart -->
+            <div class="glass-effect rounded-xl p-8 backdrop-blur-sm border border-white/10">
+                <h3 class="text-xl font-bold text-white mb-6">Hospital Risk Distribution</h3>
+                <canvas id="dashboardChart" class="max-h-80"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <h4 class="text-white font-bold mb-4">HealthCare AI</h4>
+                <p class="text-sm">Smart hospital management powered by artificial intelligence.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white smooth-transition">Home</a></li>
+                    <li><a href="#" class="hover:text-white smooth-transition">Dashboard</a></li>
+                    <li><a href="#" class="hover:text-white smooth-transition">Hospitals</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Support</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white smooth-transition">Help Center</a></li>
+                    <li><a href="#" class="hover:text-white smooth-transition">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white smooth-transition">Privacy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Follow Us</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-slate-400 hover:text-white smooth-transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-white smooth-transition"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-white smooth-transition"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-slate-700 pt-8 text-center text-sm">
+            <p>&copy; 2024 HealthCare AI. All rights reserved. | Made with <i class="fas fa-heart text-red-500"></i> for better healthcare</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mock hospital data
+        const mockHospitals = [
+            {
+                id: 1,
+                name: "AIIMS Delhi",
+                area: "Delhi",
+                beds: 1200,
+                doctors: 450,
+                availableBeds: 45,
+                waitTime: "15 mins",
+                riskLevel: "Low",
+                patientsPerDay: 1200,
+                efficiency: 94
+            },
+            {
+                id: 2,
+                name: "Apollo Hospital Delhi",
+                area: "Delhi",
+                beds: 950,
+                doctors: 380,
+                availableBeds: 23,
+                waitTime: "25 mins",
+                riskLevel: "Medium",
+                patientsPerDay: 850,
+                efficiency: 89
+            },
+            {
+                id: 3,
+                name: "Fortis Hospital Bangalore",
+                area: "Bangalore",
+                beds: 850,
+                doctors: 320,
+                availableBeds: 67,
+                waitTime: "10 mins",
+                riskLevel: "Low",
+                patientsPerDay: 720,
+                efficiency: 96
+            },
+            {
+                id: 4,
+                name: "Max Hospital Mumbai",
+                area: "Mumbai",
+                beds: 1100,
+                doctors: 410,
+                availableBeds: 12,
+                waitTime: "40 mins",
+                riskLevel: "High",
+                patientsPerDay: 1050,
+                efficiency: 85
+            },
+            {
+                id: 5,
+                name: "Medanta Gurgaon",
+                area: "Gurgaon",
+                beds: 650,
+                doctors: 280,
+                availableBeds: 89,
+                waitTime: "8 mins",
+                riskLevel: "Low",
+                patientsPerDay: 550,
+                efficiency: 98
+            },
+            {
+                id: 6,
+                name: "Lilavati Hospital",
+                area: "Mumbai",
+                beds: 900,
+                doctors: 360,
+                availableBeds: 34,
+                waitTime: "30 mins",
+                riskLevel: "Medium",
+                patientsPerDay: 820,
+                efficiency: 91
+            }
+        ];
+
+        // Load dashboard stats
+        function loadDashboardStats() {
+            fetch('/api/realtime-summary')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalHospitals').textContent = data.total_hospitals;
+                    document.getElementById('criticalCount').textContent = data.critical_risk;
+                    document.getElementById('highCount').textContent = data.high_risk;
+                    document.getElementById('avgPDR').textContent = data.avg_patient_doctor_ratio.toFixed(1);
+                    
+                    // Update chart
+                    updateDashboardChart({
+                        critical: data.critical_risk,
+                        high: data.high_risk,
+                        medium: data.medium_risk,
+                        low: data.low_risk
+                    });
+                })
+                .catch(err => {
+                    console.log('Using mock data');
+                    updateDashboardChart({
+                        critical: 49,
+                        high: 118,
+                        medium: 0,
+                        low: 0
+                    });
+                });
+        }
+
+        function updateDashboardChart(data) {
+            const ctx = document.getElementById('dashboardChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'],
+                    datasets: [{
+                        data: [data.critical, data.high, data.medium, data.low],
+                        backgroundColor: [
+                            'rgba(255, 107, 107, 0.8)',
+                            'rgba(255, 154, 77, 0.8)',
+                            'rgba(255, 217, 61, 0.8)',
+                            'rgba(81, 207, 102, 0.8)'
+                        ],
+                        borderColor: [
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff'
+                        ],
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#cbd5e1',
+                                font: { size: 14 },
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Search form handler
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const location = document.getElementById('location').value;
+            const symptom = document.getElementById('symptoms').value;
+            
+            if (!location || symptom === 'Select your primary concern') {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            showResults();
+            displayHospitals();
+            showRecommendations();
+            scrollToResults();
+        });
+
+        function displayHospitals() {
+            const grid = document.getElementById('hospitalsGrid');
+            grid.innerHTML = mockHospitals.map(hospital => `
+                <div class="hospital-card shadow-lg">
+                    <div class="p-6 bg-gradient-to-br from-blue-50 to-purple-50">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">${hospital.name}</h3>
+                                <p class="text-sm text-slate-600"><i class="fas fa-map-marker-alt mr-2"></i>${hospital.area}</p>
+                            </div>
+                            <span class="risk-badge risk-${hospital.riskLevel.toLowerCase()}">${hospital.riskLevel}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="stat-card rounded-lg p-3 bg-white">
+                                <p class="text-xs text-slate-600 font-semibold">Available Beds</p>
+                                <p class="text-2xl font-bold text-blue-600">${hospital.availableBeds}</p>
+                            </div>
+                            <div class="stat-card rounded-lg p-3 bg-white">
+                                <p class="text-xs text-slate-600 font-semibold">Wait Time</p>
+                                <p class="text-xl font-bold text-purple-600">${hospital.waitTime}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">Total Beds:</span>
+                                <span class="font-semibold">${hospital.beds}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">Doctors:</span>
+                                <span class="font-semibold">${hospital.doctors}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">Efficiency:</span>
+                                <span class="font-semibold text-green-600">${hospital.efficiency}%</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:shadow-lg smooth-transition">
+                            <i class="fas fa-check-circle mr-2"></i>Book Appointment
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showRecommendations() {
+            const container = document.getElementById('recommendationsContainer');
+            const recommendations = [
+                {
+                    icon: 'fa-exclamation-triangle',
+                    title: 'High Patient Load Detected',
+                    desc: 'Several hospitals in Delhi are experiencing 40% above average patient load.',
+                    type: 'alert'
+                },
+                {
+                    icon: 'fa-truck',
+                    title: 'Mobile Clinic Recommended',
+                    desc: 'Deploy mobile clinic to high-density areas to reduce wait times by 25%.',
+                    type: 'alert'
+                },
+                {
+                    icon: 'fa-users',
+                    title: 'Staff Optimization Needed',
+                    desc: 'Hire 5 additional doctors in critical hospitals to improve patient-doctor ratio.',
+                    type: 'alert'
+                },
+                {
+                    icon: 'fa-check-circle',
+                    title: 'Efficiency Improved',
+                    desc: 'Average hospital efficiency increased to 91% - well above national average.',
+                    type: 'success'
+                }
+            ];
+            
+            container.innerHTML = recommendations.map(rec => `
+                <div class="${rec.type === 'alert' ? 'alert-card' : 'success-card'} rounded-lg p-4">
+                    <div class="flex items-start">
+                        <div class="text-2xl mr-4 ${rec.type === 'alert' ? 'text-red-600' : 'text-green-600'}">
+                            <i class="fas ${rec.icon}"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-900">${rec.title}</h4>
+                            <p class="text-slate-600 text-sm mt-1">${rec.desc}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showResults() {
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('recommendations').classList.remove('hidden');
+        }
+
+        function scrollToResults() {
+            setTimeout(() => {
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        function scrollToSearch() {
+            document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize dashboard on page load
+        window.addEventListener('load', () => {
+            loadDashboardStats();
+        });
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
