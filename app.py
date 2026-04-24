@@ -11,15 +11,30 @@ import warnings
 import folium
 from io import BytesIO
 from datetime import datetime, timedelta
+import time
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
 from reportlab.lib import colors
 import re
+from urllib.parse import urlencode, quote_plus
+from urllib.request import Request, urlopen
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
+LIVE_HOSPITAL_CACHE = {}
+
+INDIA_DIRECTORY_CENTERS = [
+    {'label': 'Delhi', 'latitude': 28.6139, 'longitude': 77.2090},
+    {'label': 'Mumbai', 'latitude': 19.0760, 'longitude': 72.8777},
+    {'label': 'Bengaluru', 'latitude': 12.9716, 'longitude': 77.5946},
+    {'label': 'Chennai', 'latitude': 13.0827, 'longitude': 80.2707},
+    {'label': 'Hyderabad', 'latitude': 17.3850, 'longitude': 78.4867},
+    {'label': 'Kolkata', 'latitude': 22.5726, 'longitude': 88.3639},
+    {'label': 'Pune', 'latitude': 18.5204, 'longitude': 73.8567},
+    {'label': 'Ahmedabad', 'latitude': 23.0225, 'longitude': 72.5714}
+]
 
 # ===== MEDICAL KNOWLEDGE BASE FOR AI ASSISTANT =====
 MEDICAL_KNOWLEDGE_BASE = {
@@ -283,6 +298,34 @@ def index():
 def get_hospitals():
     hospitals = df_global.to_dict('records')
     return jsonify(hospitals)
+
+
+@app.route('/api/live-hospitals')
+def get_live_hospitals():
+    query = request.args.get('q', '').strip()
+    limit = request.args.get('limit', default=60, type=int)
+
+    try:
+        hospitals = get_live_hospital_directory(query, limit=max(5, min(limit, 80)))
+    except Exception as exc:
+        return jsonify({
+            'hospitals': [],
+            'query': query,
+            'data_source': 'OpenStreetMap live hospital data',
+            'warning': f'Live hospital lookup failed: {exc}'
+        }), 502
+
+    warning = None
+    if query and not hospitals:
+        warning = 'No nearby hospitals were found for that search. Try a city, locality, or landmark in India.'
+
+    return jsonify({
+        'hospitals': hospitals,
+        'query': query,
+        'data_source': 'OpenStreetMap live hospital data',
+        'warning': warning,
+        'count': len(hospitals)
+    })
 
 @app.route('/api/summary')
 def get_summary():
@@ -1077,6 +1120,12 @@ def find_area_from_query(query_lower):
     for area in areas:
         if area.lower() in query_lower:
             return area
+
+    for center in INDIA_DIRECTORY_CENTERS:
+        label = center['label']
+        if label.lower() in query_lower:
+            return label
+
     return None
 
 
@@ -1163,6 +1212,19 @@ def get_hospital_subset(area=None, limit=5):
         ascending=[True, False, False, False]
     )
     return subset.head(limit)
+
+
+def get_chat_hospital_subset(area=None, limit=5):
+    if area:
+        try:
+            live_hospitals = get_live_hospital_directory(area, limit=limit)
+            if live_hospitals:
+                return live_hospitals
+        except Exception:
+            pass
+
+    fallback = get_hospital_subset(area=area, limit=limit)
+    return fallback.to_dict('records')
 
 
 def infer_conditions_from_symptoms(query_lower, limit=4):
@@ -1297,7 +1359,7 @@ def process_advanced_medical_query(user_query):
             return "I could not find a clean medical profile for that condition yet. Try asking about fever, dengue, diabetes, asthma, migraine, pneumonia, heart disease, fracture, cancer, UTI, or gastroenteritis."
 
         specialty = resolve_specialty(query_lower, condition)
-        hospitals = get_hospital_subset(area=area, limit=3)
+        hospitals = get_chat_hospital_subset(area=area, limit=3)
         title = info.get('title', condition.replace('-', ' ').title())
         response = f"**{title}**\n\n"
         response += f"Symptoms: {info.get('symptoms', 'Varies by patient.')}\n\n"
@@ -1310,8 +1372,8 @@ def process_advanced_medical_query(user_query):
         if info.get('when_serious'):
             response += f"When to seek urgent care: {info['when_serious']}\n\n"
         response += "**Hospitals to consider**\n"
-        for _, hospital in hospitals.iterrows():
-            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {int(hospital['Beds'])} | Doctors: {int(hospital['Doctors'])} | Risk: {hospital['risk_level']}\n"
+        for hospital in hospitals:
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {hospital['Beds']} | Doctors: {hospital['Doctors']} | Risk: {hospital['risk_level']}\n"
         response += "\nThis is educational guidance and should not replace a doctor's diagnosis."
         return response
 
@@ -1339,25 +1401,27 @@ def process_advanced_medical_query(user_query):
 
     if query_type['type'] == 'doctor':
         specialty = query_type['entity']
-        hospitals = get_hospital_subset(area=area, limit=5)
+        hospitals = get_chat_hospital_subset(area=area, limit=5)
         response = f"**Doctor guidance: {specialty.replace('_', ' ').title()}**\n\n"
         response += f"Best for: {SPECIALTY_DETAILS.get(specialty, 'General medical consultation and first-line care.')}\n\n"
         if query_type.get('condition'):
             response += f"Based on your question, this specialty matches: {query_type['condition'].replace('-', ' ').title()}\n\n"
         response += "**Hospitals to consider**\n"
-        for _, hospital in hospitals.iterrows():
-            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {int(hospital['Doctors'])} | Beds: {int(hospital['Beds'])} | Risk: {hospital['risk_level']}\n"
+        for hospital in hospitals:
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {hospital['Doctors']} | Beds: {hospital['Beds']} | Risk: {hospital['risk_level']}\n"
         response += "\nIf symptoms are sudden or severe, use emergency care instead of waiting for a normal appointment."
         return response
 
     if query_type['type'] == 'hospital':
-        hospitals = get_hospital_subset(area=area, limit=5)
+        hospitals = get_chat_hospital_subset(area=area, limit=5)
         response = "**Hospital recommendations**\n\n"
         if area:
             response += f"Area: {area}\n\n"
         response += "Top options based on lower risk, stronger staffing, and capacity:\n"
-        for _, hospital in hospitals.iterrows():
-            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {int(hospital['Beds'])} | Doctors: {int(hospital['Doctors'])} | Risk: {hospital['risk_level']} | Efficiency: {hospital['efficiency_score']:.2f}\n"
+        for hospital in hospitals:
+            efficiency = hospital.get('efficiency_score')
+            efficiency_text = f"{efficiency:.2f}" if isinstance(efficiency, (int, float, np.floating)) else "Not rated"
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {hospital['Beds']} | Doctors: {hospital['Doctors']} | Risk: {hospital['risk_level']} | Efficiency: {efficiency_text}\n"
         response += "\nYou can also ask for a specialty-linked request like `best hospitals for heart disease in Delhi`."
         return response
 
@@ -1375,7 +1439,7 @@ def process_advanced_medical_query(user_query):
     if query_type['type'] == 'symptom':
         matches = infer_conditions_from_symptoms(query_lower, limit=4)
         specialty = resolve_specialty(query_lower)
-        hospitals = get_hospital_subset(area=area, limit=3)
+        hospitals = get_chat_hospital_subset(area=area, limit=3)
         response = "**Symptom guidance**\n\n"
         if matches:
             response += "Possible conditions to discuss with a doctor:\n"
@@ -1388,8 +1452,8 @@ def process_advanced_medical_query(user_query):
             response += "I could not confidently match the symptoms, so a doctor review is the safest next step.\n\n"
         response += f"Suggested doctor: {specialty.replace('_', ' ').title()}\n\n"
         response += "**Hospitals to consider**\n"
-        for _, hospital in hospitals.iterrows():
-            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {int(hospital['Doctors'])} | Beds: {int(hospital['Beds'])}\n"
+        for hospital in hospitals:
+            response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {hospital['Doctors']} | Beds: {hospital['Beds']}\n"
         response += "\nIf symptoms are fast-worsening or include chest pain, breathing trouble, confusion, fainting, or heavy bleeding, go for emergency care now."
         return response
 
@@ -1425,6 +1489,318 @@ def process_chatbot_query(user_query):
     return process_advanced_medical_query(user_query)
 
 
+def fetch_json(url, params=None, method='GET', data=None, timeout=35):
+    query_url = url
+    payload = None
+
+    if params:
+        query_string = urlencode(params)
+        separator = '&' if '?' in url else '?'
+        query_url = f"{url}{separator}{query_string}"
+
+    if data is not None:
+        payload = data.encode('utf-8')
+
+    request = Request(
+        query_url,
+        data=payload,
+        method=method,
+        headers={
+            'User-Agent': 'healthcare-project/1.0 (emergency routing)',
+            'Accept': 'application/json'
+        }
+    )
+
+    with urlopen(request, timeout=timeout) as response:
+        return json.loads(response.read().decode('utf-8'))
+
+
+def haversine_distance(lat1, lon1, lat2, lon2):
+    """Calculate distance between two coordinates in km."""
+    from math import radians, cos, sin, asin, sqrt
+
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    c = 2 * asin(sqrt(a))
+    return c * 6371
+
+
+def geocode_india_address(address):
+    if not address:
+        return None
+
+    results = fetch_json(
+        'https://nominatim.openstreetmap.org/search',
+        params={
+            'q': address,
+            'format': 'jsonv2',
+            'limit': 1,
+            'countrycodes': 'in',
+            'addressdetails': 1
+        }
+    )
+
+    if not results:
+        return None
+
+    best = results[0]
+    return {
+        'latitude': float(best['lat']),
+        'longitude': float(best['lon']),
+        'display_name': best.get('display_name', address)
+    }
+
+
+def build_overpass_hospital_query(lat, lon, radius_m):
+    return f"""
+    [out:json][timeout:25];
+    (
+      node["amenity"="hospital"](around:{radius_m},{lat},{lon});
+      way["amenity"="hospital"](around:{radius_m},{lat},{lon});
+      relation["amenity"="hospital"](around:{radius_m},{lat},{lon});
+    );
+    out center tags;
+    """
+
+
+def get_best_area_label(tags):
+    area_parts = [
+        tags.get('addr:suburb'),
+        tags.get('addr:city'),
+        tags.get('addr:town'),
+        tags.get('addr:village'),
+        tags.get('addr:state_district'),
+        tags.get('addr:state')
+    ]
+    cleaned = [part for part in area_parts if part]
+    return ', '.join(dict.fromkeys(cleaned)) if cleaned else 'Area not listed'
+
+
+def to_int_if_possible(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def derive_live_risk(service_score):
+    if service_score >= 82:
+        return 'Low'
+    if service_score >= 70:
+        return 'Medium'
+    if service_score >= 58:
+        return 'High'
+    return 'Critical'
+
+
+def safe_patient_doctor_ratio(doctors, patients_per_day):
+    doctors_value = to_int_if_possible(doctors)
+    patients_value = to_int_if_possible(patients_per_day)
+    if doctors_value and patients_value is not None and doctors_value > 0:
+        return round(patients_value / doctors_value, 2)
+    return None
+
+
+def normalize_live_hospital_record(item):
+    doctors_value = to_int_if_possible(item.get('doctors'))
+    patients_value = to_int_if_possible(item.get('patients_per_day'))
+    beds_value = to_int_if_possible(item.get('beds'))
+    service_score = int(item.get('safety_score', 60))
+
+    return {
+        'Area': item.get('area', 'Area not listed'),
+        'Hospital': item.get('name', 'Unnamed Hospital'),
+        'Beds': beds_value if beds_value is not None else 'Not listed',
+        'Doctors': doctors_value if doctors_value is not None else 'Not listed',
+        'Patients_Per_Day': patients_value if patients_value is not None else 'Not listed',
+        'Latitude': item.get('latitude'),
+        'Longitude': item.get('longitude'),
+        'patient_doctor_ratio': safe_patient_doctor_ratio(item.get('doctors'), item.get('patients_per_day')),
+        'bed_occupancy': None,
+        'efficiency_score': round(service_score / 100, 2),
+        'risk_score': max(0, 100 - service_score),
+        'risk_level': derive_live_risk(service_score),
+        'AI_Recommendation': item.get('ambulance_status', 'Call hospital to confirm emergency services.'),
+        'Cluster': 0,
+        'distance_km': item.get('distance_km'),
+        'eta_minutes': item.get('eta_minutes'),
+        'google_maps_url': item.get('google_maps_url'),
+        'phone': item.get('phone', 'Not listed'),
+        'data_source': item.get('data_source', 'OpenStreetMap')
+    }
+
+
+def get_cached_value(cache_key, max_age_seconds):
+    entry = LIVE_HOSPITAL_CACHE.get(cache_key)
+    if not entry:
+        return None
+    if time.time() - entry['created_at'] > max_age_seconds:
+        LIVE_HOSPITAL_CACHE.pop(cache_key, None)
+        return None
+    return entry['value']
+
+
+def set_cached_value(cache_key, value):
+    LIVE_HOSPITAL_CACHE[cache_key] = {
+        'created_at': time.time(),
+        'value': value
+    }
+
+
+def get_live_nearby_hospitals(user_lat, user_lon, route_type='nearest', desired_count=5):
+    radii = [5000, 10000, 20000, 50000]
+    collected = []
+    seen = set()
+
+    for radius in radii:
+        overpass_data = fetch_json(
+            'https://overpass-api.de/api/interpreter',
+            params={'data': build_overpass_hospital_query(user_lat, user_lon, radius)}
+        )
+
+        for element in overpass_data.get('elements', []):
+            tags = element.get('tags', {})
+            name = tags.get('name')
+            if not name:
+                continue
+
+            lat = element.get('lat') or element.get('center', {}).get('lat')
+            lon = element.get('lon') or element.get('center', {}).get('lon')
+            if lat is None or lon is None:
+                continue
+
+            dedupe_key = (name.strip().lower(), round(float(lat), 5), round(float(lon), 5))
+            if dedupe_key in seen:
+                continue
+            seen.add(dedupe_key)
+
+            distance_km = haversine_distance(user_lat, user_lon, float(lat), float(lon))
+            eta_minutes = max(3, int(round((distance_km / 35) * 60)))
+
+            service_score = 55
+            if tags.get('emergency') == 'yes':
+                service_score += 18
+            if tags.get('healthcare') == 'hospital':
+                service_score += 10
+            if tags.get('opening_hours') == '24/7':
+                service_score += 8
+            if tags.get('phone') or tags.get('contact:phone'):
+                service_score += 4
+            if tags.get('operator'):
+                service_score += 3
+            service_score = min(service_score, 98)
+
+            collected.append({
+                'name': name,
+                'area': get_best_area_label(tags),
+                'distance_km': round(distance_km, 2),
+                'eta_minutes': eta_minutes,
+                'beds': tags.get('beds', 'Not listed'),
+                'doctors': tags.get('staff_count:doctors', tags.get('doctors', 'Not listed')),
+                'patients_per_day': tags.get('patients', 'Not listed'),
+                'safety_score': service_score,
+                'latitude': float(lat),
+                'longitude': float(lon),
+                'google_maps_url': f"https://www.google.com/maps/dir/{user_lat},{user_lon}/{lat},{lon}",
+                'phone': tags.get('phone') or tags.get('contact:phone') or 'Not listed',
+                'ambulance_status': 'Emergency available' if tags.get('emergency') == 'yes' else 'Call to confirm',
+                'data_source': 'OpenStreetMap'
+            })
+
+        if len(collected) >= desired_count:
+            break
+
+    if route_type == 'safest':
+        collected.sort(key=lambda item: (-item['safety_score'], item['distance_km']))
+    else:
+        collected.sort(key=lambda item: item['distance_km'])
+
+    return collected[:desired_count]
+
+
+def get_default_live_directory(limit=60):
+    cache_key = f"default-directory:{limit}"
+    cached = get_cached_value(cache_key, 1800)
+    if cached is not None:
+        return cached
+
+    combined = []
+    seen = set()
+    for center in INDIA_DIRECTORY_CENTERS:
+        try:
+            hospitals = get_live_nearby_hospitals(center['latitude'], center['longitude'], desired_count=10)
+        except Exception:
+            continue
+
+        for hospital in hospitals:
+            dedupe_key = (
+                hospital['name'].strip().lower(),
+                round(float(hospital['latitude']), 4),
+                round(float(hospital['longitude']), 4)
+            )
+            if dedupe_key in seen:
+                continue
+            seen.add(dedupe_key)
+            combined.append(normalize_live_hospital_record(hospital))
+
+    combined = combined[:limit]
+    set_cached_value(cache_key, combined)
+    return combined
+
+
+def get_live_hospital_directory(search_query='', limit=60):
+    query = (search_query or '').strip()
+    if not query:
+        return get_default_live_directory(limit=limit)
+
+    cache_key = f"search-directory:{query.lower()}:{limit}"
+    cached = get_cached_value(cache_key, 900)
+    if cached is not None:
+        return cached
+
+    location = geocode_india_address(query)
+    if not location:
+        return []
+
+    hospitals = get_live_nearby_hospitals(location['latitude'], location['longitude'], desired_count=limit)
+    normalized = [normalize_live_hospital_record(hospital) for hospital in hospitals]
+    set_cached_value(cache_key, normalized)
+    return normalized
+
+
+def get_csv_fallback_hospitals(user_lat, user_lon, desired_count=5):
+    df = pd.read_csv('data.csv').copy()
+    df['distance_km'] = df.apply(
+        lambda row: haversine_distance(user_lat, user_lon, row['Latitude'], row['Longitude']),
+        axis=1
+    )
+
+    fallback = []
+    for idx, row in df.sort_values('distance_km').head(desired_count).iterrows():
+        eta_minutes = max(3, int(round((row['distance_km'] / 40) * 60)))
+        safety_score = min(100, int((row['Doctors'] / row['Beds']) * 100))
+        fallback.append({
+            'name': row['Hospital'],
+            'area': row['Area'],
+            'distance_km': round(row['distance_km'], 2),
+            'eta_minutes': eta_minutes,
+            'beds': int(row['Beds']),
+            'doctors': int(row['Doctors']),
+            'patients_per_day': int(row['Patients_Per_Day']),
+            'safety_score': safety_score,
+            'latitude': float(row['Latitude']),
+            'longitude': float(row['Longitude']),
+            'google_maps_url': f"https://www.google.com/maps/dir/{user_lat},{user_lon}/{row['Latitude']},{row['Longitude']}",
+            'phone': 'Not listed',
+            'ambulance_status': 'Unknown',
+            'data_source': 'Local CSV fallback'
+        })
+
+    return fallback
+
+
 @app.route('/api/chatbot', methods=['POST'])
 def chatbot():
     """Chatbot endpoint"""
@@ -1445,74 +1821,55 @@ def chatbot():
 @app.route('/api/emergency-route', methods=['POST'])
 def emergency_route():
     """Find nearest hospitals from emergency location"""
-    from math import radians, cos, sin, asin, sqrt
-    
     data = request.json
-    user_lat = float(data.get('latitude', 0))
-    user_lon = float(data.get('longitude', 0))
+    raw_lat = data.get('latitude')
+    raw_lon = data.get('longitude')
+    address = (data.get('address') or '').strip()
     route_type = data.get('type', 'nearest')  # nearest, shortest, safest
-    
-    if user_lat == 0 and user_lon == 0:
-        return jsonify({'error': 'Invalid location'}), 400
-    
-    df = pd.read_csv('data.csv')
-    
-    # Calculate distances using Haversine formula
-    def haversine_distance(lat1, lon1, lat2, lon2):
-        """Calculate distance between two coordinates in km"""
-        lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-        dlat = lat2 - lat1
-        dlon = lon2 - lon1
-        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-        c = 2 * asin(sqrt(a))
-        r = 6371  # Radius of earth in kilometers
-        return c * r
-    
-    # Add distance calculation
-    df['distance_km'] = df.apply(
-        lambda row: haversine_distance(user_lat, user_lon, row['Latitude'], row['Longitude']),
-        axis=1
-    )
-    
-    # Sort by distance
-    df_nearest = df.sort_values('distance_km').head(3)
-    
-    hospitals = []
-    for idx, row in df_nearest.iterrows():
-        # Calculate ETA (assuming average ambulance speed of 40 km/h in city)
-        speed_kmh = 40
-        eta_minutes = int((row['distance_km'] / speed_kmh) * 60)
-        
-        # Safety score (higher = safer) based on beds and doctors
-        safety_score = min(100, int((row['Doctors'] / row['Beds']) * 100))
-        
-        # Google Maps URL for directions
-        google_maps_url = f"https://www.google.com/maps/dir/{user_lat},{user_lon}/{row['Latitude']},{row['Longitude']}"
-        
-        hospital_data = {
-            'name': row['Hospital'],
-            'area': row['Area'],
-            'distance_km': round(row['distance_km'], 2),
-            'eta_minutes': eta_minutes,
-            'beds': int(row['Beds']),
-            'doctors': int(row['Doctors']),
-            'patients_per_day': int(row['Patients_Per_Day']),
-            'safety_score': safety_score,
-            'latitude': row['Latitude'],
-            'longitude': row['Longitude'],
-            'google_maps_url': google_maps_url,
-            'phone': f"+91-{11000 + idx}",  # Mock phone number
-            'ambulance_status': 'Available'
-        }
-        hospitals.append(hospital_data)
-    
+
+    user_lat = float(raw_lat) if raw_lat not in (None, '', 'null') else None
+    user_lon = float(raw_lon) if raw_lon not in (None, '', 'null') else None
+    geocoded_location = None
+
+    if user_lat is None or user_lon is None:
+        if not address:
+            return jsonify({'error': 'Invalid location'}), 400
+        try:
+            geocoded_location = geocode_india_address(address)
+        except Exception as exc:
+            return jsonify({'error': f'Unable to geocode the entered location: {exc}'}), 502
+
+        if not geocoded_location:
+            return jsonify({'error': 'Could not find that location in India. Please try a more specific place name.'}), 404
+
+        user_lat = geocoded_location['latitude']
+        user_lon = geocoded_location['longitude']
+
+    try:
+        hospitals = get_live_nearby_hospitals(user_lat, user_lon, route_type=route_type, desired_count=5)
+        data_source = 'OpenStreetMap live hospital data'
+        warning = 'Community-mapped results; call ahead for emergency readiness.' if hospitals else None
+    except Exception as exc:
+        hospitals = []
+        data_source = 'Local CSV fallback'
+        warning = f'Live lookup unavailable, showing fallback data instead: {exc}'
+
+    if not hospitals:
+        hospitals = get_csv_fallback_hospitals(user_lat, user_lon, desired_count=5)
+        data_source = 'Local CSV fallback'
+        if warning is None:
+            warning = 'Live nearby hospital data was unavailable, so local fallback data is shown.'
+
     return jsonify({
         'emergency_location': {
             'latitude': user_lat,
-            'longitude': user_lon
+            'longitude': user_lon,
+            'label': geocoded_location['display_name'] if geocoded_location else address
         },
         'route_type': route_type,
         'nearest_hospitals': hospitals,
+        'data_source': data_source,
+        'warning': warning,
         'timestamp': datetime.now().isoformat()
     })
 

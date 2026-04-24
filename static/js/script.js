@@ -1,6 +1,24 @@
 let allHospitals = [];
+let directoryHospitals = [];
 let charts = {};
 let autoRefreshInterval = null;
+let hospitalSearchTimeout = null;
+
+function getThemePalette() {
+    const styles = getComputedStyle(document.body);
+    return {
+        text: styles.getPropertyValue('--text').trim() || '#18302c',
+        muted: styles.getPropertyValue('--muted').trim() || '#59716b',
+        heading: styles.getPropertyValue('--heading').trim() || '#102723',
+        primary: styles.getPropertyValue('--primary').trim() || '#114f46',
+        critical: styles.getPropertyValue('--critical').trim() || '#d25b4d',
+        high: styles.getPropertyValue('--high').trim() || '#db8d37',
+        medium: styles.getPropertyValue('--medium').trim() || '#ba9f2d',
+        low: styles.getPropertyValue('--low').trim() || '#259466',
+        borderStrong: styles.getPropertyValue('--border-strong').trim() || 'rgba(29, 58, 52, 0.18)',
+        surfaceStrong: styles.getPropertyValue('--surface-strong').trim() || '#ffffff'
+    };
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem('darkMode') === 'true') {
@@ -10,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateModeButton();
 
     loadData();
+    loadLiveHospitalDirectory();
     loadComparisonData();
     loadAlerts();
     loadPredictions();
@@ -76,7 +95,6 @@ function loadData() {
         .then(response => response.json())
         .then(data => {
             allHospitals = data.hospitals;
-            displayHospitals(data.hospitals);
         })
         .catch(err => console.error('Error loading hospitals:', err));
 
@@ -99,6 +117,11 @@ function displayHospitals(hospitals) {
     const container = document.getElementById('hospitalsContainer');
     container.innerHTML = '';
 
+    if (!hospitals || hospitals.length === 0) {
+        container.innerHTML = '<div class="empty-alerts">No hospitals found for this search. Try another city, landmark, or hospital name.</div>';
+        return;
+    }
+
     hospitals.forEach(hospital => {
         const riskClass = getClothing(hospital.risk_level).replace(' ', '-').toLowerCase();
         const card = document.createElement('div');
@@ -116,29 +139,53 @@ function displayHospitals(hospitals) {
             <div class="hospital-info">
                 <div class="info-item">
                     <span>Beds</span>
-                    <strong>${hospital.Beds}</strong>
+                    <strong>${formatHospitalValue(hospital.Beds)}</strong>
                 </div>
                 <div class="info-item">
                     <span>Doctors</span>
-                    <strong>${hospital.Doctors}</strong>
+                    <strong>${formatHospitalValue(hospital.Doctors)}</strong>
                 </div>
                 <div class="info-item">
                     <span>Patients per day</span>
-                    <strong>${hospital.Patients_Per_Day}</strong>
+                    <strong>${formatHospitalValue(hospital.Patients_Per_Day)}</strong>
                 </div>
                 <div class="info-item">
                     <span>P:D ratio</span>
-                    <strong>${hospital.patient_doctor_ratio.toFixed(1)}</strong>
+                    <strong>${formatHospitalRatio(hospital.patient_doctor_ratio)}</strong>
                 </div>
             </div>
             <div class="hospital-card-footer">
-                <div class="risk-score">Risk score: ${hospital.risk_score}/100</div>
+                <div class="risk-score">${buildHospitalFooterText(hospital)}</div>
                 <div class="risk-score">View details</div>
             </div>
         `;
 
         container.appendChild(card);
     });
+}
+
+function formatHospitalValue(value) {
+    if (value === null || value === undefined || value === '') {
+        return 'Not listed';
+    }
+    return value;
+}
+
+function formatHospitalRatio(value) {
+    if (typeof value === 'number' && Number.isFinite(value)) {
+        return value.toFixed(1);
+    }
+    return 'Not listed';
+}
+
+function buildHospitalFooterText(hospital) {
+    if (typeof hospital.distance_km === 'number') {
+        return `Distance: ${hospital.distance_km.toFixed(2)} km`;
+    }
+    if (typeof hospital.risk_score === 'number') {
+        return `Risk score: ${hospital.risk_score}/100`;
+    }
+    return `Source: ${hospital.data_source || 'Hospital directory'}`;
 }
 
 function showHospitalDetail(hospital) {
@@ -155,35 +202,35 @@ function showHospitalDetail(hospital) {
         <div class="hospital-detail-grid">
             <div class="hospital-detail-item">
                 <span>Beds</span>
-                <strong>${hospital.Beds}</strong>
+                <strong>${formatHospitalValue(hospital.Beds)}</strong>
             </div>
             <div class="hospital-detail-item">
                 <span>Doctors</span>
-                <strong>${hospital.Doctors}</strong>
+                <strong>${formatHospitalValue(hospital.Doctors)}</strong>
             </div>
             <div class="hospital-detail-item">
                 <span>Patients per day</span>
-                <strong>${hospital.Patients_Per_Day}</strong>
+                <strong>${formatHospitalValue(hospital.Patients_Per_Day)}</strong>
             </div>
             <div class="hospital-detail-item">
                 <span>Patient-doctor ratio</span>
-                <strong>${hospital.patient_doctor_ratio.toFixed(2)}</strong>
+                <strong>${formatHospitalRatio(hospital.patient_doctor_ratio)}</strong>
             </div>
             <div class="hospital-detail-item">
                 <span>Bed occupancy</span>
-                <strong>${hospital.bed_occupancy.toFixed(2)}</strong>
+                <strong>${typeof hospital.bed_occupancy === 'number' ? hospital.bed_occupancy.toFixed(2) : 'Not listed'}</strong>
             </div>
             <div class="hospital-detail-item">
                 <span>Efficiency score</span>
-                <strong>${hospital.efficiency_score.toFixed(3)}</strong>
+                <strong>${typeof hospital.efficiency_score === 'number' ? hospital.efficiency_score.toFixed(3) : 'Not listed'}</strong>
             </div>
             <div class="hospital-detail-item">
                 <span>Risk score</span>
-                <strong>${hospital.risk_score}/100</strong>
+                <strong>${typeof hospital.risk_score === 'number' ? `${hospital.risk_score}/100` : 'Not listed'}</strong>
             </div>
             <div class="hospital-detail-item">
-                <span>Cluster</span>
-                <strong>${hospital['Cluster'] + 1}</strong>
+                <span>Contact / source</span>
+                <strong>${hospital.phone || hospital.data_source || 'Not listed'}</strong>
             </div>
         </div>
         <div class="hospital-recommendation">${hospital.AI_Recommendation}</div>
@@ -200,10 +247,17 @@ function closeHospitalDetail() {
 }
 
 function filterHospitals() {
+    clearTimeout(hospitalSearchTimeout);
+    hospitalSearchTimeout = setTimeout(() => {
+        loadLiveHospitalDirectory(document.getElementById('searchInput').value.trim());
+    }, 350);
+}
+
+function applyHospitalRiskFilter() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const riskFilter = document.getElementById('riskFilter').value;
 
-    const filtered = allHospitals.filter(hospital => {
+    const filtered = directoryHospitals.filter(hospital => {
         const matchesSearch =
             hospital.Hospital.toLowerCase().includes(search) ||
             hospital.Area.toLowerCase().includes(search);
@@ -214,7 +268,43 @@ function filterHospitals() {
     displayHospitals(filtered);
 }
 
+function updateHospitalDirectoryMeta(text) {
+    const meta = document.getElementById('hospitalDirectoryMeta');
+    if (meta) {
+        meta.textContent = text || '';
+    }
+}
+
+function loadLiveHospitalDirectory(query = '') {
+    const params = new URLSearchParams();
+    if (query) {
+        params.set('q', query);
+    }
+    params.set('limit', query ? '24' : '60');
+
+    updateHospitalDirectoryMeta(query ? 'Searching live hospitals across India...' : 'Loading live India-wide hospital directory...');
+
+    fetch(`/api/live-hospitals?${params.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            directoryHospitals = data.hospitals || [];
+            updateHospitalDirectoryMeta(
+                data.warning
+                    ? `${data.data_source || 'Live directory'} | ${data.warning}`
+                    : `${data.data_source || 'Live directory'} | ${directoryHospitals.length} hospitals loaded${data.query ? ` for "${data.query}"` : ''}`
+            );
+            applyHospitalRiskFilter();
+        })
+        .catch(err => {
+            console.error('Error loading live hospitals:', err);
+            updateHospitalDirectoryMeta('Live hospital directory is temporarily unavailable.');
+            directoryHospitals = [];
+            displayHospitals([]);
+        });
+}
+
 function displayRiskChart(data) {
+    const palette = getThemePalette();
     const riskCounts = {
         Critical: 0,
         High: 0,
@@ -239,8 +329,8 @@ function displayRiskChart(data) {
             labels: Object.keys(riskCounts),
             datasets: [{
                 data: Object.values(riskCounts),
-                backgroundColor: ['#d94f45', '#e48b2f', '#d4a31c', '#249a5d'],
-                borderColor: '#ffffff',
+                backgroundColor: [palette.critical, palette.high, palette.medium, palette.low],
+                borderColor: palette.surfaceStrong,
                 borderWidth: 2
             }]
         },
@@ -248,7 +338,12 @@ function displayRiskChart(data) {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
-                legend: { position: 'bottom' }
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: palette.heading
+                    }
+                }
             }
         }
     });
@@ -257,6 +352,7 @@ function displayRiskChart(data) {
 function displayRiskScoresChart() {}
 
 function displayEfficiencyChart(data) {
+    const palette = getThemePalette();
     if (charts.efficiency) {
         charts.efficiency.destroy();
     }
@@ -269,9 +365,9 @@ function displayEfficiencyChart(data) {
             datasets: [{
                 label: 'Efficiency Score',
                 data: data.efficiency,
-                backgroundColor: '#0c6c8f',
+                backgroundColor: palette.primary,
                 borderRadius: 10,
-                borderColor: '#ffffff',
+                borderColor: palette.surfaceStrong,
                 borderWidth: 2
             }]
         },
@@ -282,12 +378,24 @@ function displayEfficiencyChart(data) {
                 legend: { display: false }
             },
             scales: {
+                x: {
+                    ticks: {
+                        color: palette.muted
+                    },
+                    grid: {
+                        color: palette.borderStrong
+                    }
+                },
                 y: {
                     beginAtZero: true,
                     ticks: {
+                        color: palette.muted,
                         callback: function (value) {
                             return value.toFixed(2);
                         }
+                    },
+                    grid: {
+                        color: palette.borderStrong
                     }
                 }
             }
@@ -336,6 +444,7 @@ function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
     updateModeButton();
+    refreshThemeUI();
 }
 
 function updateModeButton() {
@@ -343,10 +452,16 @@ function updateModeButton() {
     if (!button) {
         return;
     }
-    button.textContent = 'Mode';
+    button.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
     button.title = document.body.classList.contains('dark-mode')
         ? 'Mode: gradient night view'
         : 'Mode: light view';
+}
+
+function refreshThemeUI() {
+    loadData();
+    loadAlerts();
+    loadPredictions();
 }
 
 function loadComparisonData() {
@@ -502,6 +617,7 @@ function displayPredictionCards(predictions) {
 }
 
 function displayPredictionsChart(predictions) {
+    const palette = getThemePalette();
     const canvasElement = document.getElementById('predictionsChart');
     if (!canvasElement) {
         return;
@@ -522,15 +638,15 @@ function displayPredictionsChart(predictions) {
                 {
                     label: 'Today (Current)',
                     data: topPredictions.map(prediction => Math.round(prediction.current)),
-                    backgroundColor: '#0c6c8f',
-                    borderColor: '#0c6c8f',
+                    backgroundColor: palette.primary,
+                    borderColor: palette.primary,
                     borderWidth: 2
                 },
                 {
                     label: 'Best Case (-5%)',
                     data: topPredictions.map(prediction => Math.round(prediction.optimistic)),
-                    backgroundColor: '#249a5d',
-                    borderColor: '#249a5d',
+                    backgroundColor: palette.low,
+                    borderColor: palette.low,
                     borderDash: [5, 5],
                     borderWidth: 2,
                     fill: false
@@ -538,8 +654,8 @@ function displayPredictionsChart(predictions) {
                 {
                     label: 'Worst Case (+15%)',
                     data: topPredictions.map(prediction => Math.round(prediction.pessimistic)),
-                    backgroundColor: '#d94f45',
-                    borderColor: '#d94f45',
+                    backgroundColor: palette.critical,
+                    borderColor: palette.critical,
                     borderDash: [5, 5],
                     borderWidth: 2,
                     fill: false
@@ -550,12 +666,35 @@ function displayPredictionsChart(predictions) {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
-                legend: { position: 'bottom' }
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: palette.heading
+                    }
+                }
             },
             scales: {
+                x: {
+                    ticks: {
+                        color: palette.muted
+                    },
+                    grid: {
+                        color: palette.borderStrong
+                    }
+                },
                 y: {
                     beginAtZero: true,
-                    title: { display: true, text: 'Expected Patient Count' }
+                    title: {
+                        display: true,
+                        text: 'Expected Patient Count',
+                        color: palette.heading
+                    },
+                    ticks: {
+                        color: palette.muted
+                    },
+                    grid: {
+                        color: palette.borderStrong
+                    }
                 }
             }
         }
@@ -594,6 +733,73 @@ function sendChatMessage() {
         });
 }
 
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function formatInlineText(text) {
+    return escapeHtml(text)
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>');
+}
+
+function formatBotResponse(text) {
+    const normalized = (text || '').replace(/\r\n/g, '\n').trim();
+    if (!normalized) {
+        return '<p class="bot-paragraph">No response available.</p>';
+    }
+
+    const sections = normalized.split(/\n\s*\n/);
+    const html = sections.map(section => {
+        const lines = section
+            .split('\n')
+            .map(line => line.trim())
+            .filter(Boolean);
+
+        if (!lines.length) {
+            return '';
+        }
+
+        const bulletLines = lines.filter(line => /^[-*•]\s+/.test(line));
+        if (bulletLines.length === lines.length) {
+            const items = bulletLines
+                .map(line => `<li>${formatInlineText(line.replace(/^[-*•]\s+/, ''))}</li>`)
+                .join('');
+            return `<ul class="bot-list">${items}</ul>`;
+        }
+
+        const renderedLines = lines.map((line, index) => {
+            const headingMatch = line.match(/^([A-Za-z][A-Za-z\s/&()-]{2,40}):\s*(.*)$/);
+            if (headingMatch) {
+                const title = formatInlineText(headingMatch[1].trim());
+                const content = headingMatch[2].trim();
+                if (content) {
+                    return `
+                        <div class="bot-section-row">
+                            <div class="bot-section-label">${title}</div>
+                            <div class="bot-section-body">${formatInlineText(content)}</div>
+                        </div>
+                    `;
+                }
+
+                return `<div class="bot-subheading">${title}</div>`;
+            }
+
+            if (index === 0 && lines.length > 1 && line.length <= 70) {
+                return `<div class="bot-subheading">${formatInlineText(line)}</div>`;
+            }
+
+            return `<p class="bot-paragraph">${formatInlineText(line)}</p>`;
+        }).join('');
+
+        return `<div class="bot-section">${renderedLines}</div>`;
+    }).join('');
+
+    return `<div class="bot-response">${html}</div>`;
+}
+
 function addChatMessage(text, sender) {
     const chatMessages = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
@@ -603,10 +809,7 @@ function addChatMessage(text, sender) {
     bubble.className = `message-bubble ${sender === 'bot' ? 'bot-bubble' : 'user-bubble'}`;
 
     if (sender === 'bot') {
-        bubble.innerHTML = text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/\n/g, '<br>');
+        bubble.innerHTML = formatBotResponse(text);
     } else {
         bubble.textContent = text;
     }
@@ -758,7 +961,7 @@ function toggleAdvanced() {
 function findEmergencyRoute() {
     let latitude = null;
     let longitude = null;
-    const locationName = document.getElementById('emergencyAddress').value;
+    const locationName = document.getElementById('emergencyAddress').value.trim();
 
     const manualLat = parseFloat(document.getElementById('emergencyLat').value);
     const manualLon = parseFloat(document.getElementById('emergencyLon').value);
@@ -766,17 +969,16 @@ function findEmergencyRoute() {
     if (!isNaN(manualLat) && !isNaN(manualLon)) {
         latitude = manualLat;
         longitude = manualLon;
-    } else if (locationName.trim() !== '') {
+    } else if (locationName !== '') {
         const coordMatch = locationName.match(/\(([\d.]+)\s*,\s*([\d.]+)\)/);
         if (coordMatch) {
             latitude = parseFloat(coordMatch[1]);
             longitude = parseFloat(coordMatch[2]);
-        } else {
-            alert('Please enter coordinates or use GPS or a quick place.');
-            return;
         }
-    } else {
-        alert('Please enter a location, use GPS, or select a quick place.');
+    }
+
+    if (latitude === null && longitude === null && locationName === '') {
+        alert('Please enter a location, use GPS, select a quick place, or add manual coordinates.');
         return;
     }
 
@@ -794,6 +996,7 @@ function findEmergencyRoute() {
         body: JSON.stringify({
             latitude: latitude,
             longitude: longitude,
+            address: locationName,
             type: routeType
         })
     })

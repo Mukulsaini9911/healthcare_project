@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -16,60 +16,117 @@
         <header class="hero">
             <div class="hero-backdrop"></div>
             <div class="hero-inner">
-                <div class="brand-row">
-                    <div class="brand-mark">CG</div>
-                    <div class="brand-copy">
-                        <p class="eyebrow">CareGrid AI</p>
-                        <h1>Professional hospital intelligence for faster healthcare decisions</h1>
-                        <p class="hero-text">
-                            A cleaner front page for your existing healthcare platform with real-time analytics,
-                            emergency routing, hospital search, predictions, alerts, and an AI medical assistant.
-                        </p>
-                    </div>
-                </div>
+                <div class="hero-grid">
+                    <div class="hero-copy-panel">
+                        <div class="brand-row">
+                            <div class="brand-mark">CG</div>
+                            <div class="brand-copy">
+                                <p class="eyebrow">CareGrid AI</p>
+                                <h1>Professional hospital intelligence for faster healthcare decisions</h1>
+                                <p class="hero-text">
+                                    A cleaner front page for your existing healthcare platform with real-time analytics,
+                                    emergency routing, hospital search, predictions, alerts, and an AI medical assistant.
+                                </p>
+                            </div>
+                        </div>
 
-                <div class="hero-actions">
-                    <button class="primary-btn" onclick="switchTab('dashboard', this)">Open Dashboard</button>
-                    <button class="secondary-btn" onclick="switchTab('emergency', document.querySelector('[data-tab-button=&quot;emergency&quot;]'))">Emergency Routing</button>
-                    <button class="ghost-btn" onclick="switchTab('hospitals', document.querySelector('[data-tab-button=&quot;hospitals&quot;]'))">Browse Hospitals</button>
-                </div>
+                        <div class="hero-actions">
+                            <button class="primary-btn" onclick="switchTab('dashboard', this)">Open Dashboard</button>
+                            <button class="secondary-btn" onclick="switchTab('emergency', document.querySelector('[data-tab-button=&quot;emergency&quot;]'))">Emergency Routing</button>
+                            <button class="ghost-btn" onclick="switchTab('hospitals', document.querySelector('[data-tab-button=&quot;hospitals&quot;]'))">Browse Hospitals</button>
+                        </div>
 
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <span class="hero-stat-label">Network Status</span>
-                        <strong>Live monitoring</strong>
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <span class="hero-stat-label">Network Status</span>
+                                <strong>Live monitoring</strong>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-label">Last refresh</span>
+                                <strong id="last-update-time">Just now</strong>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-label">Coverage</span>
+                                <strong id="total-hospitals-hero">0 hospitals</strong>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hero-stat">
-                        <span class="hero-stat-label">Last refresh</span>
-                        <strong id="last-update-time">Just now</strong>
-                    </div>
-                    <div class="hero-stat">
-                        <span class="hero-stat-label">Coverage</span>
-                        <strong id="total-hospitals-hero">0 hospitals</strong>
-                    </div>
+
+                    <aside class="hero-preview">
+                        <div class="preview-shell">
+                            <div class="preview-topline">
+                                <span class="preview-badge">Executive View</span>
+                                <span class="preview-live">Live data stream</span>
+                            </div>
+
+                            <div class="preview-card primary-preview">
+                                <p class="preview-label">Platform capabilities</p>
+                                <h3>Operations, alerts, routing, forecasting and AI support in one system.</h3>
+                                <div class="preview-metrics">
+                                    <div>
+                                        <span>Monitoring</span>
+                                        <strong>24/7</strong>
+                                    </div>
+                                    <div>
+                                        <span>Response mode</span>
+                                        <strong>Realtime</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="preview-card preview-stack">
+                                <div class="preview-stack-item">
+                                    <span class="stack-dot teal"></span>
+                                    <div>
+                                        <strong>Hospital network visibility</strong>
+                                        <p>Search, compare, and inspect care capacity instantly.</p>
+                                    </div>
+                                </div>
+                                <div class="preview-stack-item">
+                                    <span class="stack-dot amber"></span>
+                                    <div>
+                                        <strong>Risk-led prioritization</strong>
+                                        <p>Critical and high-pressure facilities surfaced first.</p>
+                                    </div>
+                                </div>
+                                <div class="preview-stack-item">
+                                    <span class="stack-dot coral"></span>
+                                    <div>
+                                        <strong>Emergency workflow support</strong>
+                                        <p>GPS, routing options, and rapid action shortcuts.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             </div>
         </header>
 
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-group">
-                    <button class="nav-btn active" data-tab-button="dashboard" onclick="switchTab('dashboard', this)">Dashboard</button>
-                    <button class="nav-btn" data-tab-button="emergency" onclick="switchTab('emergency', this)">Emergency Route</button>
-                    <button class="nav-btn" data-tab-button="compare" onclick="switchTab('compare', this)">Compare</button>
-                    <button class="nav-btn" data-tab-button="alerts" onclick="switchTab('alerts', this)">Alerts</button>
-                    <button class="nav-btn" data-tab-button="hospitals" onclick="switchTab('hospitals', this)">Hospitals</button>
-                    <button class="nav-btn" data-tab-button="predictions" onclick="switchTab('predictions', this)">Predictions</button>
-                    <button class="nav-btn" data-tab-button="chatbot" onclick="switchTab('chatbot', this)">AI Assistant</button>
+        <div class="content-stage">
+            <nav class="navbar">
+                <div class="nav-container">
+                    <div class="nav-title">
+                        <span class="nav-title-label">Platform navigation</span>
+                        <strong>Operational modules</strong>
+                    </div>
+                    <div class="nav-group">
+                        <button class="nav-btn active" data-tab-button="dashboard" onclick="switchTab('dashboard', this)">Dashboard</button>
+                        <button class="nav-btn" data-tab-button="emergency" onclick="switchTab('emergency', this)">Emergency Route</button>
+                        <button class="nav-btn" data-tab-button="compare" onclick="switchTab('compare', this)">Compare</button>
+                        <button class="nav-btn" data-tab-button="alerts" onclick="switchTab('alerts', this)">Alerts</button>
+                        <button class="nav-btn" data-tab-button="hospitals" onclick="switchTab('hospitals', this)">Hospitals</button>
+                        <button class="nav-btn" data-tab-button="predictions" onclick="switchTab('predictions', this)">Predictions</button>
+                        <button class="nav-btn" data-tab-button="chatbot" onclick="switchTab('chatbot', this)">AI Assistant</button>
+                    </div>
+                    <div class="nav-actions">
+                        <button class="export-btn" onclick="showExportMenu()">Export</button>
+                        <button class="theme-toggle" id="modeToggle" onclick="toggleDarkMode()">Mode</button>
+                    </div>
                 </div>
-                <div class="nav-actions">
-                    <button class="export-btn" onclick="showExportMenu()">Export</button>
-                    <button class="theme-toggle" id="modeToggle" onclick="toggleDarkMode()">Mode</button>
-                </div>
-            </div>
-        </nav>
+            </nav>
 
-        <main class="container">
+            <main class="container">
             <section id="dashboard" class="tab-content active">
                 <div class="section-heading">
                     <div>
@@ -237,10 +294,12 @@
                     <p class="section-note">Search hospitals by name or area and filter by risk level.</p>
                 </div>
 
+                <p id="hospitalDirectoryMeta" class="directory-meta"></p>
+
                 <div class="panel hospitals-panel">
                     <div class="filters">
                         <input type="text" id="searchInput" placeholder="Search hospital or area" onkeyup="filterHospitals()">
-                        <select id="riskFilter" onchange="filterHospitals()">
+                        <select id="riskFilter" onchange="applyHospitalRiskFilter()">
                             <option value="">All Risk Levels</option>
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
@@ -387,11 +446,11 @@
                             <div id="advancedPanel" style="display: none; margin-top: 15px;">
                                 <div class="input-group">
                                     <label>Latitude</label>
-                                    <input type="number" id="emergencyLat" placeholder="28.5677" step="0.0001" value="28.5677">
+                                    <input type="number" id="emergencyLat" placeholder="28.5677" step="0.0001">
                                 </div>
                                 <div class="input-group">
                                     <label>Longitude</label>
-                                    <input type="number" id="emergencyLon" placeholder="77.1950" step="0.0001" value="77.1950">
+                                    <input type="number" id="emergencyLon" placeholder="77.1950" step="0.0001">
                                 </div>
                             </div>
                         </div>
@@ -437,11 +496,12 @@
                     </div>
                 </div>
             </section>
-        </main>
+            </main>
 
-        <footer class="footer">
-            <p>CareGrid AI Healthcare Platform | Real-time analytics, emergency response, and hospital operations support</p>
-        </footer>
+            <footer class="footer">
+                <p>CareGrid AI Healthcare Platform | Real-time analytics, emergency response, and hospital operations support</p>
+            </footer>
+        </div>
     </div>
 
     <div id="exportModal" class="modal">
