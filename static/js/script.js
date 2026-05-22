@@ -1,488 +1,305 @@
+/* ================================================================
+   CAREGRID AI — Premium Healthcare Dashboard
+   Interactive Engine v3.0
+   ================================================================ */
+
 let allHospitals = [];
-let directoryHospitals = [];
 let charts = {};
 let autoRefreshInterval = null;
-let hospitalSearchTimeout = null;
+let predictionLibrary = [];
 
 function getThemePalette() {
-    const styles = getComputedStyle(document.body);
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     return {
-        text: styles.getPropertyValue('--text').trim() || '#18302c',
-        muted: styles.getPropertyValue('--muted').trim() || '#59716b',
-        heading: styles.getPropertyValue('--heading').trim() || '#102723',
-        primary: styles.getPropertyValue('--primary').trim() || '#114f46',
-        critical: styles.getPropertyValue('--critical').trim() || '#d25b4d',
-        high: styles.getPropertyValue('--high').trim() || '#db8d37',
-        medium: styles.getPropertyValue('--medium').trim() || '#ba9f2d',
-        low: styles.getPropertyValue('--low').trim() || '#259466',
-        borderStrong: styles.getPropertyValue('--border-strong').trim() || 'rgba(29, 58, 52, 0.18)',
-        surfaceStrong: styles.getPropertyValue('--surface-strong').trim() || '#ffffff'
+        text: '#f0f6ff', muted: '#94a3b8', heading: '#f0f6ff',
+        primary: '#00d4ff', critical: '#f43f5e', high: '#f59e0b',
+        medium: '#6366f1', low: '#10b981',
+        borderStrong: isLight ? 'rgba(100,116,139,.15)' : 'rgba(255,255,255,.08)',
+        surfaceStrong: isLight ? '#ffffff' : '#0a1628'
     };
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
-    }
-
+    const darkMode = localStorage.getItem('darkMode');
+    document.documentElement.setAttribute('data-theme', darkMode === 'false' ? 'light' : 'dark');
     updateModeButton();
 
+    initParticleCanvas();
+    initCursorGlow();
+    initNavScroll();
+    initSplashAnimation();
+    initGlassReveal();
+
     loadData();
-    loadLiveHospitalDirectory();
     loadComparisonData();
     loadAlerts();
     loadPredictions();
-    generateMap();
-    startRealTimeUpdates();
+    initRouteTypeSelector();
 
     const chatInput = document.getElementById('chatInput');
-    if (chatInput) {
-        chatInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                sendChatMessage();
-            }
-        });
-    }
+    if (chatInput) chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendChatMessage(); });
+
+    const predInput = document.getElementById('predictionHospitalInput');
+    if (predInput) predInput.addEventListener('keypress', e => { if (e.key === 'Enter') predictSelectedHospital(); });
+
+    startRealTimeUpdates();
 });
 
-function startRealTimeUpdates() {
-    autoRefreshInterval = setInterval(() => {
-        loadData();
-    }, 10000);
-}
+// ============ PARTICLE CANVAS ============
+function initParticleCanvas() {
+    const canvas = document.getElementById('particleCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-function stopRealTimeUpdates() {
-    if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 20000));
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.3, speedY: (Math.random() - 0.5) * 0.3,
+            opacity: Math.random() * 0.5 + 0.1
+        });
     }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.speedX; p.y += p.speedY;
+            if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`;
+            ctx.fill();
+        });
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(0, 212, 255, ${(1 - dist / 120) * 0.12})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
 }
 
+// ============ CURSOR GLOW ============
+function initCursorGlow() {
+    const glow = document.getElementById('cursorGlow');
+    if (!glow) return;
+    let mx = -500, my = -500, cx = -500, cy = -500;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animate() {
+        cx += (mx - cx) * 0.08; cy += (my - cy) * 0.08;
+        glow.style.transform = `translate(${cx - 250}px, ${cy - 250}px)`;
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+// ============ NAV SCROLL ============
+function initNavScroll() {
+    const nav = document.getElementById('topNav');
+    if (!nav) return;
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+}
+
+// ============ SPLASH ============
+function initSplashAnimation() {
+    const splash = document.getElementById('splashScreen');
+    if (!splash) return;
+    setTimeout(() => { const s = document.getElementById('step2'); if (s) s.classList.add('active'); }, 1800);
+    setTimeout(() => { const s = document.getElementById('step3'); if (s) s.classList.add('active'); }, 3200);
+    setTimeout(() => {
+        splash.classList.add('hidden');
+        document.body.style.overflow = '';
+        revealGlassCards();
+    }, 4200);
+    splash.addEventListener('click', () => {
+        splash.classList.add('hidden');
+        document.body.style.overflow = '';
+        revealGlassCards();
+    });
+}
+
+// ============ GLASS CARD REVEAL ============
+function initGlassReveal() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.glass-card').forEach(c => observer.observe(c));
+}
+
+function revealGlassCards() {
+    document.querySelectorAll('.glass-card').forEach((c, i) => setTimeout(() => c.classList.add('revealed'), i * 70));
+}
+
+// ============ ROUTE TYPE SELECTOR (FIX) ============
+function initRouteTypeSelector() {
+    document.querySelectorAll('.route-opt').forEach(label => {
+        label.addEventListener('click', function() {
+            // Remove selected class from all
+            document.querySelectorAll('.route-opt').forEach(l => l.classList.remove('selected'));
+            // Add selected class to this
+            this.classList.add('selected');
+            // Check the radio inside
+            const radio = this.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            // Auto-search when route type is selected
+            setTimeout(() => findEmergencyRoute(), 200);
+        });
+    });
+}
+
+// ============ REAL-TIME ============
+function startRealTimeUpdates() {
+    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+    autoRefreshInterval = setInterval(() => loadData(), 12000);
+}
+
+// ============ LOAD DATA ============
 function loadData() {
-    fetch('/api/realtime-summary')
-        .then(response => response.json())
+    fetch('/api/summary')
+        .then(r => r.json())
         .then(data => {
-            document.getElementById('critical-count').textContent = data.critical_risk;
-            document.getElementById('high-count').textContent = data.high_risk;
-            document.getElementById('medium-count').textContent = data.medium_risk;
-            document.getElementById('low-count').textContent = data.low_risk;
-            document.getElementById('total-hospitals').textContent = data.total_hospitals;
-            document.getElementById('avg-pdr').textContent = data.avg_patient_doctor_ratio.toFixed(2);
-            document.getElementById('avg-occupancy').textContent = data.avg_bed_occupancy.toFixed(2);
+            animateNumber('critical-count', data.critical_risk || 0);
+            animateNumber('high-count', data.high_risk || 0);
+            animateNumber('medium-count', data.medium_risk || 0);
+            animateNumber('low-count', data.low_risk || 0);
+            animateNumber('total-hospitals', data.total_hospitals || 0);
+
+            const pdr = data.avg_patient_doctor_ratio || 0;
+            const occ = data.avg_bed_occupancy || 0;
+
+            const pdrEl = document.getElementById('avg-pdr');
+            if (pdrEl) {
+                pdrEl.textContent = pdr.toFixed(2);
+                const bar = document.getElementById('pdr-bar');
+                if (bar) bar.style.width = Math.min((pdr / 15) * 100, 100) + '%';
+            }
+
+            const occEl = document.getElementById('avg-occupancy');
+            if (occEl) {
+                occEl.textContent = occ.toFixed(2);
+                const bar = document.getElementById('occ-bar');
+                if (bar) bar.style.width = Math.min((occ / 3) * 100, 100) + '%';
+            }
 
             const heroTotal = document.getElementById('total-hospitals-hero');
-            if (heroTotal) {
-                heroTotal.textContent = `${data.total_hospitals} hospitals`;
-            }
-
-            const timestamp = new Date(data.timestamp);
-            const now = new Date();
-            const diff = Math.floor((now - timestamp) / 1000);
-
-            let timeStr = 'Just now';
-            if (diff > 60) {
-                timeStr = `${Math.floor(diff / 60)} min ago`;
-            } else if (diff > 0) {
-                timeStr = `${diff} sec ago`;
-            }
-
-            const lastUpdate = document.getElementById('last-update-time');
-            lastUpdate.textContent = timeStr;
-            lastUpdate.title = `${data.timestamp} | Activity: ${data.activity_level}`;
+            if (heroTotal) heroTotal.textContent = String(data.total_hospitals || 0);
         })
-        .catch(err => console.error('Error loading summary:', err));
+        .catch(err => console.error('Summary error:', err));
 
-    fetch('/api/realtime-hospitals')
-        .then(response => response.json())
-        .then(data => {
-            allHospitals = data.hospitals;
-        })
-        .catch(err => console.error('Error loading hospitals:', err));
+    fetch('/api/hospitals')
+        .then(r => r.json())
+        .then(data => { allHospitals = Array.isArray(data) ? data : []; })
+        .catch(err => console.error('Hospitals error:', err));
 
     fetch('/api/risk-data')
-        .then(response => response.json())
-        .then(data => {
-            displayRiskChart(data);
-        })
-        .catch(err => console.error('Error loading risk data:', err));
-
-    fetch('/api/efficiency-data')
-        .then(response => response.json())
-        .then(data => {
-            displayEfficiencyChart(data);
-        })
-        .catch(err => console.error('Error loading efficiency:', err));
+        .then(r => r.json())
+        .then(data => displayRiskChart(data))
+        .catch(err => console.error('Risk data error:', err));
 }
 
-function displayHospitals(hospitals) {
-    const container = document.getElementById('hospitalsContainer');
-    container.innerHTML = '';
-
-    if (!hospitals || hospitals.length === 0) {
-        container.innerHTML = '<div class="empty-alerts">No hospitals found for this search. Try another city, landmark, or hospital name.</div>';
-        return;
-    }
-
-    hospitals.forEach(hospital => {
-        const riskClass = getClothing(hospital.risk_level).replace(' ', '-').toLowerCase();
-        const card = document.createElement('div');
-        card.className = `hospital-card ${riskClass}-card`;
-        card.onclick = () => showHospitalDetail(hospital);
-
-        card.innerHTML = `
-            <div class="hospital-card-top">
-                <div>
-                    <div class="hospital-name">${hospital.Hospital}</div>
-                    <div class="hospital-area">${hospital.Area}</div>
-                </div>
-                <div class="hospital-risk risk-${riskClass}">${hospital.risk_level}</div>
-            </div>
-            <div class="hospital-info">
-                <div class="info-item">
-                    <span>Beds</span>
-                    <strong>${formatHospitalValue(hospital.Beds)}</strong>
-                </div>
-                <div class="info-item">
-                    <span>Doctors</span>
-                    <strong>${formatHospitalValue(hospital.Doctors)}</strong>
-                </div>
-                <div class="info-item">
-                    <span>Patients per day</span>
-                    <strong>${formatHospitalValue(hospital.Patients_Per_Day)}</strong>
-                </div>
-                <div class="info-item">
-                    <span>P:D ratio</span>
-                    <strong>${formatHospitalRatio(hospital.patient_doctor_ratio)}</strong>
-                </div>
-            </div>
-            <div class="hospital-card-footer">
-                <div class="risk-score">${buildHospitalFooterText(hospital)}</div>
-                <div class="risk-score">View details</div>
-            </div>
-        `;
-
-        container.appendChild(card);
-    });
-}
-
-function formatHospitalValue(value) {
-    if (value === null || value === undefined || value === '') {
-        return 'Not listed';
-    }
-    return value;
-}
-
-function formatHospitalRatio(value) {
-    if (typeof value === 'number' && Number.isFinite(value)) {
-        return value.toFixed(1);
-    }
-    return 'Not listed';
-}
-
-function buildHospitalFooterText(hospital) {
-    if (typeof hospital.distance_km === 'number') {
-        return `Distance: ${hospital.distance_km.toFixed(2)} km`;
-    }
-    if (typeof hospital.risk_score === 'number') {
-        return `Risk score: ${hospital.risk_score}/100`;
-    }
-    return `Source: ${hospital.data_source || 'Hospital directory'}`;
-}
-
-function showHospitalDetail(hospital) {
-    const modal = document.getElementById('hospitalDetailModal');
-    const title = document.getElementById('hospitalDetailTitle');
-    const body = document.getElementById('hospitalDetailBody');
-    if (!modal || !title || !body) {
-        return;
-    }
-
-    title.textContent = hospital.Hospital;
-    body.innerHTML = `
-        <p class="hospital-detail-meta">${hospital.Area} | Risk level: ${hospital.risk_level}</p>
-        <div class="hospital-detail-grid">
-            <div class="hospital-detail-item">
-                <span>Beds</span>
-                <strong>${formatHospitalValue(hospital.Beds)}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Doctors</span>
-                <strong>${formatHospitalValue(hospital.Doctors)}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Patients per day</span>
-                <strong>${formatHospitalValue(hospital.Patients_Per_Day)}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Patient-doctor ratio</span>
-                <strong>${formatHospitalRatio(hospital.patient_doctor_ratio)}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Bed occupancy</span>
-                <strong>${typeof hospital.bed_occupancy === 'number' ? hospital.bed_occupancy.toFixed(2) : 'Not listed'}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Efficiency score</span>
-                <strong>${typeof hospital.efficiency_score === 'number' ? hospital.efficiency_score.toFixed(3) : 'Not listed'}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Risk score</span>
-                <strong>${typeof hospital.risk_score === 'number' ? `${hospital.risk_score}/100` : 'Not listed'}</strong>
-            </div>
-            <div class="hospital-detail-item">
-                <span>Contact / source</span>
-                <strong>${hospital.phone || hospital.data_source || 'Not listed'}</strong>
-            </div>
-        </div>
-        <div class="hospital-recommendation">${hospital.AI_Recommendation}</div>
-    `;
-
-    modal.classList.add('show');
-}
-
-function closeHospitalDetail() {
-    const modal = document.getElementById('hospitalDetailModal');
-    if (modal) {
-        modal.classList.remove('show');
-    }
-}
-
-function filterHospitals() {
-    clearTimeout(hospitalSearchTimeout);
-    hospitalSearchTimeout = setTimeout(() => {
-        loadLiveHospitalDirectory(document.getElementById('searchInput').value.trim());
-    }, 350);
-}
-
-function applyHospitalRiskFilter() {
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const riskFilter = document.getElementById('riskFilter').value;
-
-    const filtered = directoryHospitals.filter(hospital => {
-        const matchesSearch =
-            hospital.Hospital.toLowerCase().includes(search) ||
-            hospital.Area.toLowerCase().includes(search);
-        const matchesRisk = !riskFilter || hospital.risk_level === riskFilter;
-        return matchesSearch && matchesRisk;
-    });
-
-    displayHospitals(filtered);
-}
-
-function updateHospitalDirectoryMeta(text) {
-    const meta = document.getElementById('hospitalDirectoryMeta');
-    if (meta) {
-        meta.textContent = text || '';
-    }
-}
-
-function loadLiveHospitalDirectory(query = '') {
-    const params = new URLSearchParams();
-    if (query) {
-        params.set('q', query);
-    }
-    params.set('limit', query ? '24' : '60');
-
-    updateHospitalDirectoryMeta(query ? 'Searching live hospitals across India...' : 'Loading live India-wide hospital directory...');
-
-    fetch(`/api/live-hospitals?${params.toString()}`)
-        .then(response => response.json())
-        .then(data => {
-            directoryHospitals = data.hospitals || [];
-            updateHospitalDirectoryMeta(
-                data.warning
-                    ? `${data.data_source || 'Live directory'} | ${data.warning}`
-                    : `${data.data_source || 'Live directory'} | ${directoryHospitals.length} hospitals loaded${data.query ? ` for "${data.query}"` : ''}`
-            );
-            applyHospitalRiskFilter();
-        })
-        .catch(err => {
-            console.error('Error loading live hospitals:', err);
-            updateHospitalDirectoryMeta('Live hospital directory is temporarily unavailable.');
-            directoryHospitals = [];
-            displayHospitals([]);
-        });
-}
-
-function displayRiskChart(data) {
-    const palette = getThemePalette();
-    const riskCounts = {
-        Critical: 0,
-        High: 0,
-        Medium: 0,
-        Low: 0
-    };
-
-    data.risk_levels.forEach(level => {
-        if (riskCounts.hasOwnProperty(level)) {
-            riskCounts[level] += 1;
+// ============ ANIMATE NUMBER ============
+function animateNumber(id, target) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cur = parseInt(el.textContent) || 0;
+    if (cur === target) return;
+    const dur = 500, start = performance.now();
+    function upd(now) {
+        const p = Math.min((now - start) / dur, 1);
+        el.textContent = Math.round(cur + (target - cur) * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(upd);
+        else {
+            el.textContent = target;
+            el.classList.remove('updated');
+            void el.offsetWidth;
+            el.classList.add('updated');
         }
-    });
-
-    if (charts.risk) {
-        charts.risk.destroy();
     }
+    requestAnimationFrame(upd);
+}
 
-    const ctx = document.getElementById('riskChart').getContext('2d');
-    charts.risk = new Chart(ctx, {
+// ============ RISK CHART ============
+function displayRiskChart(data) {
+    if (!data || !data.risk_levels) return;
+    const counts = { Critical: 0, High: 0, Medium: 0, Low: 0 };
+    data.risk_levels.forEach(l => { if (counts.hasOwnProperty(l)) counts[l] += 1; });
+    if (charts.risk) charts.risk.destroy();
+    const canvas = document.getElementById('riskChart');
+    if (!canvas) return;
+
+    charts.risk = new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
-            labels: Object.keys(riskCounts),
+            labels: Object.keys(counts),
             datasets: [{
-                data: Object.values(riskCounts),
-                backgroundColor: [palette.critical, palette.high, palette.medium, palette.low],
-                borderColor: palette.surfaceStrong,
-                borderWidth: 2
+                data: Object.values(counts),
+                backgroundColor: ['#f43f5e', '#f59e0b', '#6366f1', '#10b981'],
+                borderColor: '#0a1628', borderWidth: 3, hoverOffset: 12
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: true,
+            responsive: true, cutout: '68%',
             plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: palette.heading
-                    }
-                }
-            }
-        }
-    });
-}
-
-function displayRiskScoresChart() {}
-
-function displayEfficiencyChart(data) {
-    const palette = getThemePalette();
-    if (charts.efficiency) {
-        charts.efficiency.destroy();
-    }
-
-    const ctx = document.getElementById('efficiencyChart').getContext('2d');
-    charts.efficiency = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data.hospitals,
-            datasets: [{
-                label: 'Efficiency Score',
-                data: data.efficiency,
-                backgroundColor: palette.primary,
-                borderRadius: 10,
-                borderColor: palette.surfaceStrong,
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: { display: false }
+                legend: { position: 'bottom', labels: { color: '#f0f6ff', padding: 16, font: { size: 12, weight: '600' }, usePointStyle: true, pointStyle: 'circle' } },
+                tooltip: { backgroundColor: 'rgba(15,23,42,.9)', padding: 12, cornerRadius: 8, callbacks: { label: function(ctx) { const t = ctx.dataset.data.reduce((a,b) => a+b, 0); return ` ${ctx.label}: ${ctx.parsed} (${((ctx.parsed/t)*100).toFixed(1)}%)`; } } }
             },
-            scales: {
-                x: {
-                    ticks: {
-                        color: palette.muted
-                    },
-                    grid: {
-                        color: palette.borderStrong
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        color: palette.muted,
-                        callback: function (value) {
-                            return value.toFixed(2);
-                        }
-                    },
-                    grid: {
-                        color: palette.borderStrong
-                    }
-                }
-            }
+            animation: { animateRotate: true, duration: 1000 }
         }
     });
 }
 
-function displayClusterChart() {}
+// ============ NAVIGATION ============
+function switchTab(tabName) { window.location.href = tabName === 'dashboard' ? '/' : `/page/${tabName}`; }
 
-function switchTab(tabName, clickedButton = null) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-    });
-
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-
-    const tabElement = document.getElementById(tabName);
-    if (tabElement) {
-        tabElement.classList.add('active');
-    }
-
-    if (clickedButton && clickedButton.classList.contains('nav-btn')) {
-        clickedButton.classList.add('active');
-    }
-}
-
-function getClothing(riskLevel) {
-    const clothingMap = {
-        Critical: 'critical',
-        High: 'high',
-        Medium: 'medium',
-        Low: 'low'
-    };
-    return clothingMap[riskLevel] || 'low';
-}
-
-function generateMap() {
-    fetch('/api/map')
-        .then(response => response.json())
-        .catch(() => console.log('Map already generated or will be generated on first access'));
-}
-
+// ============ DARK MODE ============
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('darkMode', next === 'dark');
     updateModeButton();
     refreshThemeUI();
 }
 
 function updateModeButton() {
-    const button = document.getElementById('modeToggle');
-    if (!button) {
-        return;
-    }
-    button.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-    button.title = document.body.classList.contains('dark-mode')
-        ? 'Mode: gradient night view'
-        : 'Mode: light view';
+    const btn = document.getElementById('modeToggle');
+    if (!btn) return;
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    btn.innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    btn.title = dark ? 'Light mode' : 'Dark mode';
 }
 
-function refreshThemeUI() {
-    loadData();
-    loadAlerts();
-    loadPredictions();
-}
+function refreshThemeUI() { loadData(); loadAlerts(); loadPredictions(); }
 
+// ============ COMPARISON ============
 function loadComparisonData() {
-    fetch('/api/compare-hospitals')
-        .then(response => response.json())
-        .then(data => {
-            populateComparisonSelects(data);
-        })
-        .catch(err => console.error('Error loading comparison data:', err));
+    fetch('/api/compare-hospitals').then(r => r.json()).then(populateComparisonSelects).catch(err => console.error(err));
 }
 
 function populateComparisonSelects(hospitals) {
-    ['hospital1', 'hospital2', 'hospital3'].forEach(selectId => {
-        const select = document.getElementById(selectId);
-        select.innerHTML = '<option value="">Select Hospital</option>';
-        hospitals.forEach(hospital => {
-            const option = document.createElement('option');
-            option.value = hospital.name;
-            option.textContent = hospital.name;
-            select.appendChild(option);
-        });
+    ['hospital1', 'hospital2', 'hospital3'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        sel.innerHTML = '<option value="">Select Hospital</option>';
+        hospitals.forEach(h => { const o = document.createElement('option'); o.value = h.name; o.textContent = h.name; sel.appendChild(o); });
     });
 }
 
@@ -490,591 +307,429 @@ function updateComparison() {
     const h1 = document.getElementById('hospital1').value;
     const h2 = document.getElementById('hospital2').value;
     const h3 = document.getElementById('hospital3').value;
-
-    fetch('/api/compare-hospitals')
-        .then(response => response.json())
-        .then(data => {
-            const selected = [h1, h2, h3].filter(Boolean);
-            if (selected.length === 0) {
-                document.getElementById('comparisonBody').innerHTML = '';
-                return;
-            }
-
-            document.getElementById('h1-name').textContent = h1 || 'Hospital 1';
-            document.getElementById('h2-name').textContent = h2 || 'Hospital 2';
-            document.getElementById('h3-name').textContent = h3 || 'Hospital 3';
-
-            const tbody = document.getElementById('comparisonBody');
-            tbody.innerHTML = '';
-
-            const hospitals = data.filter(hospital => selected.includes(hospital.name));
-            const metrics = ['beds', 'doctors', 'patients', 'pdr', 'efficiency', 'risk_score', 'risk_level'];
-
-            metrics.forEach(metric => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td><strong>${metric.toUpperCase().replace('_', ' - ')}</strong></td>`;
-
-                [0, 1, 2].forEach(idx => {
-                    const cell = document.createElement('td');
-                    if (hospitals[idx]) {
-                        const value = hospitals[idx][metric];
-                        cell.textContent = typeof value === 'number' ? value.toFixed(2) : value;
-                    } else {
-                        cell.textContent = '-';
-                    }
-                    row.appendChild(cell);
-                });
-
-                tbody.appendChild(row);
-            });
+    fetch('/api/compare-hospitals').then(r => r.json()).then(data => {
+        const selected = [h1, h2, h3].filter(Boolean);
+        const tbody = document.getElementById('comparisonBody');
+        if (!tbody) return;
+        if (selected.length === 0) { tbody.innerHTML = '<tr><td colspan="4" class="table-empty">Select hospitals above to compare data.</td></tr>'; return; }
+        document.getElementById('h1-name').textContent = h1 || 'Hospital 1';
+        document.getElementById('h2-name').textContent = h2 || 'Hospital 2';
+        document.getElementById('h3-name').textContent = h3 || 'Hospital 3';
+        tbody.innerHTML = '';
+        const hospitals = selected.map(n => data.find(h => h.name === n)).filter(Boolean);
+        ['beds','doctors','patients','pdr','efficiency','risk_score','risk_level'].forEach(m => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td><strong>${m.toUpperCase().replace('_', ' - ')}</strong></td>`;
+            [0,1,2].forEach(i => { const c = document.createElement('td'); c.textContent = hospitals[i] ? (typeof hospitals[i][m] === 'number' ? hospitals[i][m].toFixed(2) : hospitals[i][m]) : '-'; row.appendChild(c); });
+            tbody.appendChild(row);
         });
+    }).catch(err => console.error(err));
 }
 
+// ============ ALERTS ============
 function loadAlerts() {
-    fetch('/api/alerts')
-        .then(response => response.json())
-        .then(data => {
-            displayAlerts(data);
-        })
-        .catch(err => console.error('Error loading alerts:', err));
+    fetch('/api/alerts').then(r => r.json()).then(displayAlerts).catch(err => console.error(err));
 }
 
 function displayAlerts(alerts) {
     const container = document.getElementById('alertsList');
-
-    if (alerts.length === 0) {
-        container.innerHTML = '<div class="empty-alerts">No critical alerts. Hospitals are currently operating within safer limits.</div>';
+    if (!container) return;
+    const badge = document.getElementById('alertBadge');
+    if (!alerts || alerts.length === 0) {
+        container.innerHTML = '<div class="empty-alerts">No critical alerts. Hospitals are operating within safer limits.</div>';
+        if (badge) badge.style.display = 'none';
         return;
     }
-
+    if (badge) { badge.style.display = 'flex'; badge.textContent = alerts.length; }
     container.innerHTML = '';
-    alerts.forEach(alert => {
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `alert-card ${alert.risk_score >= 75 ? '' : 'high'}`;
-        alertDiv.innerHTML = `
-            <div class="alert-hospital">${alert.hospital}</div>
-            <div class="alert-area">${alert.area}</div>
-            <div class="alert-issue">${alert.issue}</div>
-            <div class="alert-score">Risk Score: ${alert.risk_score}/100 | P-D Ratio: ${alert.pdr.toFixed(2)}</div>
-        `;
-        container.appendChild(alertDiv);
+    alerts.forEach((a, i) => {
+        const div = document.createElement('div');
+        div.className = a.risk_score >= 75 ? 'alert-card' : 'alert-card high';
+        div.style.animationDelay = `${i * 0.08}s`;
+        div.innerHTML = `<div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="alert-body"><div class="alert-hospital">${a.hospital||''}</div>
+            <div class="alert-area">${a.area||''}</div>
+            <div class="alert-issue">${a.issue||'Critical stress'}</div></div>
+            <div class="alert-meta"><div class="alert-score-badge"><strong>${a.risk_score||0}</strong><span>Risk Score</span></div></div>`;
+        container.appendChild(div);
     });
 }
 
+// ============ PREDICTIONS ============
 function loadPredictions() {
-    fetch('/api/predictions')
-        .then(response => response.json())
-        .then(data => {
-            displayPredictionCards(data);
-            displayPredictionsChart(data);
-        })
-        .catch(err => console.error('Error loading predictions:', err));
+    fetch('/api/predictions').then(r => r.json()).then(data => {
+        predictionLibrary = Array.isArray(data) ? data : [];
+        const list = document.getElementById('predictionHospitalList');
+        if (list) {
+            list.innerHTML = '';
+            predictionLibrary.slice().sort((a,b) => a.hospital.localeCompare(b.hospital)).forEach(p => { const o = document.createElement('option'); o.value = p.hospital; list.appendChild(o); });
+        }
+        const input = document.getElementById('predictionHospitalInput');
+        if (input && predictionLibrary.length > 0) {
+            const def = predictionLibrary.slice().sort((a,b) => b.current - a.current)[0];
+            input.value = def.hospital;
+            renderPredictionFocus(def);
+        } else renderPredictionFocus(null);
+    }).catch(err => console.error(err));
 }
 
-function displayPredictionCards(predictions) {
+function predictSelectedHospital() {
+    const input = document.getElementById('predictionHospitalInput');
+    if (!input) return;
+    const v = input.value.trim().toLowerCase();
+    if (!v) { showToast('Enter a hospital name.'); return; }
+    const match = predictionLibrary.find(p => p.hospital.toLowerCase() === v) || predictionLibrary.find(p => p.hospital.toLowerCase().includes(v));
+    if (!match) { showToast('Hospital not found.'); return; }
+    input.value = match.hospital;
+    renderPredictionFocus(match);
+}
+
+function renderPredictionFocus(p) {
     const container = document.getElementById('predictionsContainer');
-    if (!container) {
-        return;
-    }
-
+    if (!container) return;
     container.innerHTML = '';
+    if (!p) { container.innerHTML = '<div class="empty-alerts">No prediction data available.</div>'; displayPredictionsChart(null); return; }
 
-    const topHospitals = predictions.sort((a, b) => b.current - a.current).slice(0, 6);
+    const cur = Math.round(p.current), opt = Math.round(p.optimistic), real = Math.round(p.realistic), pes = Math.round(p.pessimistic);
+    const inc = Math.round(((p.realistic-p.current)/p.current)*100), peak = Math.round(((p.pessimistic-p.current)/p.current)*100);
+    const trend = peak >= 15 ? 'Urgent planning' : peak >= 8 ? 'Watch closely' : 'Stable load';
 
-    topHospitals.forEach(prediction => {
-        const increase = Math.round(((prediction.pessimistic - prediction.current) / prediction.current) * 100);
-        const currentPatients = Math.round(prediction.current);
-        const maxPatients = Math.round(prediction.pessimistic);
+    const c1 = document.createElement('div');
+    c1.className = 'prediction-card prediction-card-hero';
+    c1.innerHTML = `<div class="prediction-hero-header"><div><div class="pred-label"><i class="fa-solid fa-hospital"></i> Hospital</div>
+        <div style="font-size:1.15rem;font-weight:800;">${p.hospital}</div>
+        <div class="prediction-hospital-meta">${p.area||''} · Risk ${p.risk_level} · Efficiency ${(p.efficiency||0).toFixed(2)}</div></div>
+        <div class="prediction-status-badge">${trend}</div></div>
+        <div class="prediction-highlight-grid"><div class="prediction-highlight"><span>Current</span><strong>${cur}</strong></div>
+        <div class="prediction-highlight"><span>Expected</span><strong>${real}</strong></div>
+        <div class="prediction-highlight"><span>Peak</span><strong>${pes}</strong></div>
+        <div class="prediction-highlight"><span>Increase</span><strong>+${inc}%</strong></div></div>
+        <div class="hospital-recommendation prediction-recommendation">Beds: ${p.beds} · Doctors: ${p.doctors} · Risk: ${Math.round(p.risk_score)}/100. ${peak >= 15 ? 'Prepare overflow staffing.' : 'Monitor schedules.'}</div>`;
+    container.appendChild(c1);
 
-        const card = document.createElement('div');
-        card.className = 'prediction-card';
+    const c2 = document.createElement('div');
+    c2.className = 'prediction-card prediction-card-metrics';
+    c2.innerHTML = `<div class="prediction-mini-grid"><div class="prediction-mini-item"><span>Best</span><strong>${opt}</strong><small>-5%</small></div>
+        <div class="prediction-mini-item"><span>Expected</span><strong>${real}</strong><small>+5%</small></div>
+        <div class="prediction-mini-item"><span>Worst</span><strong>${pes}</strong><small>+${peak}%</small></div></div>`;
+    container.appendChild(c2);
 
-        let statusLabel = 'Stable';
-        let topBorder = '#249a5d';
-        if (increase > 10) {
-            statusLabel = 'Urgent';
-            topBorder = '#d94f45';
-        } else if (increase > 5) {
-            statusLabel = 'Watch';
-            topBorder = '#e48b2f';
-        }
+    displayPredictionsChart(p);
 
-        card.style.borderTop = `4px solid ${topBorder}`;
-        card.innerHTML = `
-            <div class="pred-label">${statusLabel} ${prediction.hospital}</div>
-            <div class="pred-desc">
-                <div><strong>Today:</strong> ${currentPatients} patients</div>
-                <div><strong>Worst case:</strong> ${maxPatients} patients</div>
-                <div><strong>Expected increase:</strong> +${increase}%</div>
-            </div>
-            <div class="hospital-recommendation" style="margin-top: 12px;">
-                Action: plan additional staffing or redistribute workload early.
-            </div>
-        `;
-
-        container.appendChild(card);
+    container.querySelectorAll('.prediction-card').forEach(c => {
+        c.style.opacity = '0'; c.style.transform = 'translateY(20px)';
+        requestAnimationFrame(() => { c.style.transition = 'all 0.5s ease'; c.style.opacity = '1'; c.style.transform = 'translateY(0)'; });
     });
 }
 
-function displayPredictionsChart(predictions) {
-    const palette = getThemePalette();
-    const canvasElement = document.getElementById('predictionsChart');
-    if (!canvasElement) {
-        return;
-    }
+function displayPredictionsChart(p) {
+    const canvas = document.getElementById('predictionsChart');
+    if (!canvas) return;
+    if (charts.predictions) charts.predictions.destroy();
+    if (!p) return;
 
-    const ctx = canvasElement.getContext('2d');
-    const topPredictions = predictions.sort((a, b) => b.current - a.current).slice(0, 10);
-
-    if (charts.predictions) {
-        charts.predictions.destroy();
-    }
-
-    charts.predictions = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: topPredictions.map(prediction => prediction.hospital),
-            datasets: [
-                {
-                    label: 'Today (Current)',
-                    data: topPredictions.map(prediction => Math.round(prediction.current)),
-                    backgroundColor: palette.primary,
-                    borderColor: palette.primary,
-                    borderWidth: 2
-                },
-                {
-                    label: 'Best Case (-5%)',
-                    data: topPredictions.map(prediction => Math.round(prediction.optimistic)),
-                    backgroundColor: palette.low,
-                    borderColor: palette.low,
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    fill: false
-                },
-                {
-                    label: 'Worst Case (+15%)',
-                    data: topPredictions.map(prediction => Math.round(prediction.pessimistic)),
-                    backgroundColor: palette.critical,
-                    borderColor: palette.critical,
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    fill: false
-                }
-            ]
-        },
+    charts.predictions = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: ['Current','Best','Expected','Worst'], datasets: [{ label: p.hospital, data: [Math.round(p.current), Math.round(p.optimistic), Math.round(p.realistic), Math.round(p.pessimistic)], backgroundColor: ['#00d4ff','#10b981','#6366f1','#f43f5e'], borderRadius: 6, barPercentage: 0.6 }] },
         options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: palette.heading
-                    }
-                }
-            },
+            responsive: true, maintainAspectRatio: true,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(15,23,42,.9)', padding: 12, cornerRadius: 8 } },
             scales: {
-                x: {
-                    ticks: {
-                        color: palette.muted
-                    },
-                    grid: {
-                        color: palette.borderStrong
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Expected Patient Count',
-                        color: palette.heading
-                    },
-                    ticks: {
-                        color: palette.muted
-                    },
-                    grid: {
-                        color: palette.borderStrong
-                    }
-                }
-            }
+                x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { display: false } },
+                y: { beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,.05)' } }
+            },
+            animation: { duration: 800 }
         }
     });
 }
 
+// ============ CHATBOT ============
 function sendChatMessage() {
-    const chatInput = document.getElementById('chatInput');
-    const message = chatInput.value.trim();
-
-    if (!message) {
-        return;
-    }
-
-    addChatMessage(message, 'user');
-    chatInput.value = '';
+    const input = document.getElementById('chatInput');
+    if (!input) return;
+    const msg = input.value.trim();
+    if (!msg) return;
+    addChatMessage(msg, 'user');
+    input.value = '';
     showTypingIndicator();
 
+    const ctx = { address: '', latitude: null, longitude: null };
+    const addr = document.getElementById('emergencyAddress');
+    const lat = document.getElementById('emergencyLat');
+    const lon = document.getElementById('emergencyLon');
+    if (addr) ctx.address = addr.value.trim();
+    if (lat) ctx.latitude = parseFloat(lat.value) || null;
+    if (lon) ctx.longitude = parseFloat(lon.value) || null;
+
     fetch('/api/chatbot', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: message })
-    })
-        .then(response => response.json())
-        .then(data => {
-            removeTypingIndicator();
-            addChatMessage(data.bot, 'bot');
-            scrollChatToBottom();
-        })
-        .catch(err => {
-            removeTypingIndicator();
-            addChatMessage('Sorry, I encountered an error. Please try again or rephrase your question.', 'bot');
-            console.error('Chatbot error:', err);
-        });
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, address: ctx.address, latitude: ctx.latitude, longitude: ctx.longitude })
+    }).then(r => r.json()).then(data => {
+        removeTypingIndicator();
+        addChatMessage(data.bot || 'No response.', 'bot');
+        scrollChatToBottom();
+    }).catch(() => { removeTypingIndicator(); addChatMessage('Error.', 'bot'); });
 }
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function formatInlineText(text) {
-    return escapeHtml(text)
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>');
-}
+function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+function formatInlineText(t) { return escapeHtml(t).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>'); }
 
 function formatBotResponse(text) {
-    const normalized = (text || '').replace(/\r\n/g, '\n').trim();
-    if (!normalized) {
-        return '<p class="bot-paragraph">No response available.</p>';
-    }
-
-    const sections = normalized.split(/\n\s*\n/);
-    const html = sections.map(section => {
-        const lines = section
-            .split('\n')
-            .map(line => line.trim())
-            .filter(Boolean);
-
-        if (!lines.length) {
-            return '';
-        }
-
-        const bulletLines = lines.filter(line => /^[-*•]\s+/.test(line));
-        if (bulletLines.length === lines.length) {
-            const items = bulletLines
-                .map(line => `<li>${formatInlineText(line.replace(/^[-*•]\s+/, ''))}</li>`)
-                .join('');
-            return `<ul class="bot-list">${items}</ul>`;
-        }
-
-        const renderedLines = lines.map((line, index) => {
-            const headingMatch = line.match(/^([A-Za-z][A-Za-z\s/&()-]{2,40}):\s*(.*)$/);
-            if (headingMatch) {
-                const title = formatInlineText(headingMatch[1].trim());
-                const content = headingMatch[2].trim();
-                if (content) {
-                    return `
-                        <div class="bot-section-row">
-                            <div class="bot-section-label">${title}</div>
-                            <div class="bot-section-body">${formatInlineText(content)}</div>
-                        </div>
-                    `;
-                }
-
-                return `<div class="bot-subheading">${title}</div>`;
-            }
-
-            if (index === 0 && lines.length > 1 && line.length <= 70) {
-                return `<div class="bot-subheading">${formatInlineText(line)}</div>`;
-            }
-
-            return `<p class="bot-paragraph">${formatInlineText(line)}</p>`;
-        }).join('');
-
-        return `<div class="bot-section">${renderedLines}</div>`;
+    const norm = (text || '').replace(/\r\n/g, '\n').trim();
+    if (!norm) return '<p class="bot-paragraph">No response.</p>';
+    return norm.split(/\n\s*\n/).map(sec => {
+        const lines = sec.split('\n').map(l => l.trim()).filter(Boolean);
+        if (!lines.length) return '';
+        const bullets = lines.filter(l => /^[-*•]\s+/.test(l));
+        if (bullets.length === lines.length) return `<ul class="bot-list">${bullets.map(l => `<li>${formatInlineText(l.replace(/^[-*•]\s+/, ''))}</li>`).join('')}</ul>`;
+        return `<div class="bot-section">${lines.map((l, i) => {
+            const m = l.match(/^([A-Za-z][A-Za-z\s/&()-]{2,40}):\s*(.*)/);
+            if (m) { const c = m[2].trim(); return c ? `<div class="bot-section-row"><div class="bot-section-label">${formatInlineText(m[1].trim())}</div><div class="bot-section-body">${formatInlineText(c)}</div></div>` : `<div class="bot-subheading">${formatInlineText(m[1].trim())}</div>`; }
+            if (i === 0 && lines.length > 1 && l.length <= 70) return `<div class="bot-subheading">${formatInlineText(l)}</div>`;
+            return `<p class="bot-paragraph">${formatInlineText(l)}</p>`;
+        }).join('')}</div>`;
     }).join('');
-
-    return `<div class="bot-response">${html}</div>`;
 }
 
-function addChatMessage(text, sender) {
-    const chatMessages = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `${sender}-message message`;
-
+function addChatMessage(text, sender, meta = {}) {
+    const msgs = document.getElementById('chatMessages');
+    if (!msgs) return;
+    const row = document.createElement('div');
+    row.className = `msg-row ${sender}`;
+    const av = document.createElement('div');
+    av.className = 'msg-avatar';
+    av.innerHTML = sender === 'bot' ? '<i class="fa-solid fa-robot"></i>' : '<i class="fa-solid fa-user"></i>';
     const bubble = document.createElement('div');
-    bubble.className = `message-bubble ${sender === 'bot' ? 'bot-bubble' : 'user-bubble'}`;
-
+    bubble.className = `msg-bubble ${sender === 'bot' ? 'bot-bubble' : 'user-bubble'}`;
     if (sender === 'bot') {
         bubble.innerHTML = formatBotResponse(text);
-    } else {
-        bubble.textContent = text;
-    }
-
-    messageDiv.appendChild(bubble);
-    chatMessages.appendChild(messageDiv);
+        const t = document.createElement('div'); t.className = 'msg-time'; t.textContent = 'Just now · Local Assistant';
+        bubble.appendChild(t);
+    } else bubble.textContent = text;
+    row.appendChild(av); row.appendChild(bubble);
+    msgs.appendChild(row);
     scrollChatToBottom();
 }
 
 function showTypingIndicator() {
-    const chatMessages = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'bot-message message';
-    messageDiv.id = 'typingIndicator';
-
-    const typing = document.createElement('div');
-    typing.className = 'typing-indicator';
-    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-
-    messageDiv.appendChild(typing);
-    chatMessages.appendChild(messageDiv);
+    const msgs = document.getElementById('chatMessages');
+    if (!msgs) return;
+    const row = document.createElement('div'); row.className = 'msg-row bot'; row.id = 'typingIndicator';
+    row.innerHTML = `<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div><div class="msg-bubble bot-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+    msgs.appendChild(row);
     scrollChatToBottom();
 }
 
-function removeTypingIndicator() {
-    const indicator = document.getElementById('typingIndicator');
-    if (indicator) {
-        indicator.remove();
-    }
-}
+function removeTypingIndicator() { const el = document.getElementById('typingIndicator'); if (el) el.remove(); }
+function scrollChatToBottom() { const msgs = document.getElementById('chatMessages'); if (msgs) msgs.scrollTop = msgs.scrollHeight; }
+function askQuestion(q) { const input = document.getElementById('chatInput'); if (input) { input.value = q; sendChatMessage(); } }
 
-function scrollChatToBottom() {
-    const chatMessages = document.getElementById('chatMessages');
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function askQuestion(question) {
-    document.getElementById('chatInput').value = question;
-    sendChatMessage();
-}
-
+// ============ EXPORT ============
 function showExportMenu() {
     const modal = document.getElementById('exportModal');
+    if (!modal) return;
     modal.classList.add('show');
-
-    const select = document.getElementById('hospitalSelect');
-    select.innerHTML = '<option value="">Select Hospital...</option>';
-    allHospitals.forEach(hospital => {
-        const option = document.createElement('option');
-        option.value = hospital.Hospital;
-        option.textContent = hospital.Hospital;
-        select.appendChild(option);
-    });
+    document.body.style.overflow = 'hidden';
+    const sel = document.getElementById('hospitalSelect');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Select Hospital...</option>';
+    allHospitals.forEach(h => { const o = document.createElement('option'); o.value = h.Hospital||''; o.textContent = h.Hospital||''; sel.appendChild(o); });
 }
 
-function closeExportMenu() {
-    const modal = document.getElementById('exportModal');
-    modal.classList.remove('show');
-}
-
-function updateHospitalSelect() {}
-
-function exportSingleHospital() {
-    const select = document.getElementById('hospitalSelect');
-    const hospital = select.value;
-
-    if (!hospital) {
-        alert('Please select a hospital first');
-        return;
-    }
-
-    window.open(`/api/export/hospital/${hospital}`, '_blank');
-    closeExportMenu();
-}
-
-function exportAllHospitals() {
-    window.open('/api/export/all-hospitals', '_blank');
-    closeExportMenu();
-}
+function closeExportMenu() { const modal = document.getElementById('exportModal'); if (modal) { modal.classList.remove('show'); document.body.style.overflow = ''; } }
+function exportSingleHospital() { const sel = document.getElementById('hospitalSelect'); if (!sel || !sel.value) { showToast('Select a hospital.'); return; } window.open(`/api/export/hospital/${encodeURIComponent(sel.value)}`, '_blank'); closeExportMenu(); }
+function exportAllHospitals() { window.open('/api/export/all-hospitals', '_blank'); closeExportMenu(); }
 
 function exportDataCSV() {
     let csv = 'Hospital,Area,Beds,Doctors,Patients_Per_Day,Patient_Doctor_Ratio,Risk_Level,Risk_Score\n';
-
-    allHospitals.forEach(hospital => {
-        csv += `"${hospital.Hospital}","${hospital.Area}",${hospital.Beds},${hospital.Doctors},${hospital.Patients_Per_Day},${hospital.patient_doctor_ratio.toFixed(2)},"${hospital.risk_level}",${hospital.risk_score}\n`;
-    });
-
+    allHospitals.forEach(h => { csv += `"${h.Hospital}","${h.Area}",${h.Beds},${h.Doctors},${h.Patients_Per_Day},${(h.patient_doctor_ratio||0).toFixed(2)},"${h.risk_level}",${h.risk_score}\n`; });
     const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'hospitals_data.csv';
-    link.click();
-    window.URL.revokeObjectURL(url);
-    closeExportMenu();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'hospitals_data.csv'; a.click();
+    URL.revokeObjectURL(url);
+    closeExportMenu(); showToast('CSV downloaded!');
 }
 
-window.addEventListener('click', function (e) {
-    const exportModal = document.getElementById('exportModal');
-    if (e.target === exportModal) {
-        closeExportMenu();
-    }
+window.addEventListener('click', e => { const modal = document.getElementById('exportModal'); if (e.target === modal) closeExportMenu(); });
 
-    const hospitalModal = document.getElementById('hospitalDetailModal');
-    if (e.target === hospitalModal) {
-        closeHospitalDetail();
-    }
-});
-
+// ============ EMERGENCY ROUTING - FIXED ============
+// GPS Location
 function useMyLocation() {
-    if ('geolocation' in navigator) {
-        document.getElementById('emergencyLoading').style.display = 'block';
-        document.getElementById('emergencyLoading').textContent = 'Getting your location...';
-
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-                document.getElementById('emergencyLat').value = lat.toFixed(4);
-                document.getElementById('emergencyLon').value = lon.toFixed(4);
-                document.getElementById('emergencyAddress').value = `Current Location (${lat.toFixed(4)}, ${lon.toFixed(4)})`;
-
-                document.getElementById('emergencyLoading').style.display = 'none';
-                alert('Location detected. Click "Find nearest hospitals now" to continue.');
-            },
-            function (error) {
-                document.getElementById('emergencyLoading').style.display = 'none';
-                alert('Unable to get location. Please enter an address manually or use a quick place.');
-                console.log('Geolocation error:', error);
-            }
-        );
-    } else {
-        alert('GPS is not available on this device. Please enter an address manually.');
-    }
+    if (!('geolocation' in navigator)) { showToast('GPS not available.'); return; }
+    const loading = document.getElementById('emergencyLoading');
+    if (loading) { loading.style.display = 'block'; const p = loading.querySelector('.em-loader p'); if (p) p.textContent = 'Getting your location...'; }
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            const lat = pos.coords.latitude.toFixed(4);
+            const lon = pos.coords.longitude.toFixed(4);
+            document.getElementById('emergencyLat') && (document.getElementById('emergencyLat').value = lat);
+            document.getElementById('emergencyLon') && (document.getElementById('emergencyLon').value = lon);
+            document.getElementById('emergencyAddress') && (document.getElementById('emergencyAddress').value = `My Location (${lat}, ${lon})`);
+            if (loading) loading.style.display = 'none';
+            showToast('✅ GPS location detected! Click "Find Nearest Hospitals Now".');
+        },
+        () => {
+            if (loading) loading.style.display = 'none';
+            showToast('❌ GPS failed. Enter a location manually or click a quick place.');
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
 }
 
-function selectLocation(placeName, lat, lon) {
-    document.getElementById('emergencyAddress').value = placeName;
-    document.getElementById('emergencyLat').value = lat.toFixed(4);
-    document.getElementById('emergencyLon').value = lon.toFixed(4);
+// Quick location select
+function selectLocation(name, lat, lon) {
+    const a = document.getElementById('emergencyAddress');
+    const la = document.getElementById('emergencyLat');
+    const lo = document.getElementById('emergencyLon');
+    if (a) a.value = name;
+    if (la) la.value = lat.toFixed(4);
+    if (lo) lo.value = lon.toFixed(4);
+    // Automatically find nearest hospitals
+    setTimeout(() => findEmergencyRoute(), 300);
 }
 
+// Toggle advanced panel
 function toggleAdvanced() {
-    const panel = document.getElementById('advancedPanel');
-    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    const p = document.getElementById('advancedPanel');
+    if (!p) return;
+    const h = p.style.display === 'none' || !p.style.display;
+    p.style.display = h ? 'block' : 'none';
+    const c = document.querySelector('.adv-chevron');
+    if (c) c.style.transform = h ? 'rotate(180deg)' : '';
 }
 
+// ===== FIXED: findEmergencyRoute - uses CSV hospital data directly =====
 function findEmergencyRoute() {
-    let latitude = null;
-    let longitude = null;
-    const locationName = document.getElementById('emergencyAddress').value.trim();
+    const addr = document.getElementById('emergencyAddress');
+    const latI = document.getElementById('emergencyLat');
+    const lonI = document.getElementById('emergencyLon');
 
-    const manualLat = parseFloat(document.getElementById('emergencyLat').value);
-    const manualLon = parseFloat(document.getElementById('emergencyLon').value);
+    const address = addr ? addr.value.trim() : '';
+    const latVal = latI ? parseFloat(latI.value) : NaN;
+    const lonVal = lonI ? parseFloat(lonI.value) : NaN;
 
-    if (!isNaN(manualLat) && !isNaN(manualLon)) {
-        latitude = manualLat;
-        longitude = manualLon;
-    } else if (locationName !== '') {
-        const coordMatch = locationName.match(/\(([\d.]+)\s*,\s*([\d.]+)\)/);
-        if (coordMatch) {
-            latitude = parseFloat(coordMatch[1]);
-            longitude = parseFloat(coordMatch[2]);
-        }
-    }
-
-    if (latitude === null && longitude === null && locationName === '') {
-        alert('Please enter a location, use GPS, select a quick place, or add manual coordinates.');
+    if (!address && !Number.isFinite(latVal)) {
+        showToast('⚠️ Please enter a location or use GPS first.');
         return;
     }
 
-    const routeType = document.querySelector('input[name="routeType"]:checked').value;
+    const loading = document.getElementById('emergencyLoading');
+    const results = document.getElementById('emergencyResults');
+    const cards = document.getElementById('routeCardsContainer');
 
-    document.getElementById('emergencyLoading').style.display = 'block';
-    document.getElementById('emergencyLoading').textContent = 'Finding nearest hospitals...';
-    document.getElementById('emergencyResults').style.display = 'none';
+    if (loading) loading.style.display = 'block';
+    if (results) results.style.display = 'none';
 
+    // Get selected route type
+    const checkedRadio = document.querySelector('input[name="routeType"]:checked');
+    const routeType = checkedRadio ? checkedRadio.value : 'nearest';
+
+    const payload = {
+        address: address,
+        latitude: Number.isFinite(latVal) ? latVal : null,
+        longitude: Number.isFinite(lonVal) ? lonVal : null,
+        type: routeType
+    };
+
+    // Use POST /api/emergency-route (uses local CSV data as fallback)
     fetch('/api/emergency-route', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            latitude: latitude,
-            longitude: longitude,
-            address: locationName,
-            type: routeType
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
     })
-        .then(response => response.json())
-        .then(data => {
-            displayEmergencyRoutes(data);
-        })
-        .catch(err => {
-            console.error('Error:', err);
-            alert('Error finding hospitals. Please check your location and try again.');
-            document.getElementById('emergencyLoading').style.display = 'none';
+    .then(r => r.json())
+    .then(data => {
+        if (loading) loading.style.display = 'none';
+        if (results) results.style.display = 'block';
+        if (!cards) return;
+
+        cards.innerHTML = '';
+
+        // Backend returns: { nearest_hospitals: [...] } or { hospitals: [...] } or just [...]
+        let hospitals = data.nearest_hospitals || data.hospitals || (Array.isArray(data) ? data : null);
+        if (!hospitals || hospitals.length === 0) {
+            cards.innerHTML = '<div class="empty-alerts">❌ No hospitals found nearby. Try a different location.</div>';
+            return;
+        }
+
+        hospitals.forEach((h, i) => {
+            if (i >= 6) return;
+            const name = h.name || h.Hospital || 'Unknown Hospital';
+            const area = h.area || h.Area || h.address || '';
+            const distInfo = h.distance_km ? `📍 ${h.distance_km} km` : (h.distance || '📍 Nearby');
+            const phone = h.phone || '+';
+            const mapsUrl = h.google_maps_url || `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(name)}+${encodeURIComponent(area)}`;
+
+            const card = document.createElement('div');
+            card.className = 'route-card';
+            card.style.animationDelay = `${i * 0.07}s`;
+            card.innerHTML = `
+                <div class="rc-rank">${i + 1}</div>
+                <div class="rc-body">
+                    <div class="rc-name">${name}</div>
+                    <div class="rc-area">${area}</div>
+                    <div class="rc-dist">${distInfo}</div>
+                </div>
+                <div class="rc-actions">
+                    <a href="tel:${phone}" class="rc-btn" title="Call"><i class="fa-solid fa-phone"></i></a>
+                    <a href="${mapsUrl}" target="_blank" class="rc-btn map" title="Navigate"><i class="fa-solid fa-location-arrow"></i></a>
+                </div>`;
+            cards.appendChild(card);
         });
-}
+    })
+    .catch(err => {
+        console.error('Emergency POST error:', err);
+        // Fallback: use local /api/hospitals data to compute nearest
+        if (allHospitals.length > 0 && Number.isFinite(latVal)) {
+            if (loading) loading.style.display = 'none';
+            if (results) results.style.display = 'block';
+            if (!cards) return;
 
-function displayEmergencyRoutes(data) {
-    document.getElementById('emergencyLoading').style.display = 'none';
-    document.getElementById('emergencyResults').style.display = 'block';
+            // Compute distances locally
+            const userLat = latVal, userLon = lonVal;
+            const withDist = allHospitals.map(h => {
+                const dLat = h.Latitude - userLat;
+                const dLon = h.Longitude - userLon;
+                const dist = Math.sqrt(dLat * dLat + dLon * dLon) * 111.32; // rough km
+                return { ...h, dist_km: dist.toFixed(2) };
+            });
+            withDist.sort((a, b) => a.dist_km - b.dist_km);
+            const top5 = withDist.slice(0, 6);
 
-    const container = document.getElementById('routeCardsContainer');
-    container.innerHTML = '';
-
-    data.nearest_hospitals.forEach((hospital, index) => {
-        const card = document.createElement('div');
-        card.className = 'route-card';
-        card.innerHTML = `
-            <div class="route-card-header">
-                <div class="rank">Hospital #${index + 1}</div>
-                <div class="hospital-name">${hospital.name}</div>
-                <div class="distance-badge">${hospital.distance_km} km away</div>
-            </div>
-            <div class="route-card-content">
-                <div class="card-row">
-                    <span class="label">Location</span>
-                    <span class="value">${hospital.area}</span>
-                </div>
-                <div class="card-row">
-                    <span class="label">ETA</span>
-                    <span class="value">${hospital.eta_minutes} minutes</span>
-                </div>
-                <div class="card-row">
-                    <span class="label">Available beds</span>
-                    <span class="value">${hospital.beds}</span>
-                </div>
-                <div class="card-row">
-                    <span class="label">Doctors</span>
-                    <span class="value">${hospital.doctors}</span>
-                </div>
-                <div class="card-row">
-                    <span class="label">Daily patients</span>
-                    <span class="value">${hospital.patients_per_day}</span>
-                </div>
-                <div class="card-row">
-                    <span class="label">Safety score</span>
-                    <div class="safety-score-bar">
-                        <div class="safety-score-fill" style="width: ${hospital.safety_score}%; background-color: ${getSafetyColor(hospital.safety_score)};"></div>
-                        <span class="safety-score-text">${hospital.safety_score}%</span>
+            cards.innerHTML = '';
+            top5.forEach((h, i) => {
+                const name = h.Hospital || 'Hospital';
+                const area = h.Area || '';
+                const dist = `📍 ${h.dist_km} km`;
+                const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(name)}+${encodeURIComponent(area)}`;
+                const card = document.createElement('div');
+                card.className = 'route-card';
+                card.style.animationDelay = `${i * 0.07}s`;
+                card.innerHTML = `
+                    <div class="rc-rank">${i + 1}</div>
+                    <div class="rc-body">
+                        <div class="rc-name">${name}</div>
+                        <div class="rc-area">${area}</div>
+                        <div class="rc-dist">${dist}</div>
                     </div>
-                </div>
-                <div class="card-actions">
-                    <a href="${hospital.google_maps_url}" target="_blank" class="btn-google-maps">Get directions</a>
-                    <button onclick="callHospital('${hospital.phone}')" class="btn-call">Call hospital</button>
-                </div>
-            </div>
-        `;
-        container.appendChild(card);
+                    <div class="rc-actions">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(name)}+${encodeURIComponent(area)}" target="_blank" class="rc-btn map" title="Navigate"><i class="fa-solid fa-location-arrow"></i></a>
+                    </div>`;
+                cards.appendChild(card);
+            });
+        } else {
+            if (loading) loading.style.display = 'none';
+            if (results) results.style.display = 'block';
+            if (cards) cards.innerHTML = '<div class="empty-alerts">❌ Service unavailable. Try clicking a "Quick place" button above.</div>';
+        }
     });
 }
 
-function getSafetyColor(score) {
-    if (score >= 80) {
-        return '#249a5d';
-    }
-    if (score >= 60) {
-        return '#e48b2f';
-    }
-    return '#d94f45';
-}
-
-function callHospital(phone) {
-    alert(`Calling hospital at ${phone}\n\nIn production, this would dial the hospital directly.`);
+// ============ TOAST ============
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
 }

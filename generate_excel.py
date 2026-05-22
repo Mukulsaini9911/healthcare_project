@@ -10,7 +10,7 @@ df['bed_occupancy'] = df['Patients_Per_Day'] / df['Beds']
 df['efficiency_score'] = (df['Beds'] + df['Doctors']) / df['Patients_Per_Day']
 
 # Risk scoring
-def calculate_risk_score(row):
+def calculate_risk_score(row):0
     score = 0
     pdr = row['patient_doctor_ratio']
     if pdr > 30: score += 40

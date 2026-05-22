@@ -13,7 +13,7 @@ python app.py
 
 # 3. Open browser
 # Go to: 
-```http://127.0.0.1:5000
+```
 
 ✅ Done! Dashboard is live with 167 hospitals.
 
@@ -77,6 +77,12 @@ python -c "import flask; import pandas; import numpy; import sklearn; import fol
 **Start the application:**
 
 ```powershell
+# Optional: enable AI-backed assistant for broader answers
+$env:AI_PROVIDER="gemini"
+$env:GEMINI_API_KEY="your_gemini_api_key_here"
+# Optional model override
+# $env:GEMINI_MODEL="gemini-2.5-flash"
+
 python app.py
 ```
 
@@ -97,7 +103,8 @@ python app.py
 **Option A: Automatic (if browser doesn't open)**
 
 1. Open your web browser
-2. Go to: **http://127.0.0.1:5000**
+2. Go to: ****
+http:5000//127.0.0.1:
 
 **You should see:**
 - ✓ Healthcare Analytics Dashboard title

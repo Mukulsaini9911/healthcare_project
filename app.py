@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, send_file, request
+from flask import Flask, render_template, jsonify, send_file, request, abort
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.neural_network import MLPRegressor
 import json
+import os
 import warnings
 import folium
 from io import BytesIO
@@ -20,10 +21,13 @@ from reportlab.lib import colors
 import re
 from urllib.parse import urlencode, quote_plus
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 LIVE_HOSPITAL_CACHE = {}
+AI_PROVIDER = 'local'
+CURRENT_AI_PROVIDER = 'local'
 
 INDIA_DIRECTORY_CENTERS = [
     {'label': 'Delhi', 'latitude': 28.6139, 'longitude': 77.2090},
@@ -292,7 +296,19 @@ m.save('static/hospital_map.html')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_dashboard_page('dashboard')
+
+
+def render_dashboard_page(active_tab):
+    valid_tabs = {'dashboard', 'emergency', 'compare', 'alerts', 'predictions', 'chatbot'}
+    if active_tab not in valid_tabs:
+        abort(404)
+    return render_template('index.html', active_tab=active_tab)
+
+
+@app.route('/page/<tab_name>')
+def tab_page(tab_name):
+    return render_dashboard_page(tab_name)
 
 @app.route('/api/hospitals')
 def get_hospitals():
@@ -391,16 +407,25 @@ def compare_hospitals():
 @app.route('/api/predictions')
 def get_predictions():
     # Simple trend prediction based on current data
+    hospital_query = (request.args.get('hospital') or '').strip().lower()
     hospitals = df_global['Hospital'].tolist()
     predictions = []
     
     for h in hospitals:
         hosp = df_global[df_global['Hospital'] == h].iloc[0]
+        if hospital_query and h.lower() != hospital_query:
+            continue
         current_patients = hosp['Patients_Per_Day']
         
         # Simulate future predictions (with 5%, 10%, 15% increase scenarios)
         predictions.append({
             'hospital': h,
+            'area': str(hosp['Area']),
+            'beds': int(hosp['Beds']),
+            'doctors': int(hosp['Doctors']),
+            'risk_level': str(hosp['risk_level']),
+            'risk_score': float(hosp['risk_score']),
+            'efficiency': float(hosp['efficiency_score']),
             'current': float(current_patients),
             'optimistic': float(current_patients * 0.95),
             'realistic': float(current_patients * 1.05),
@@ -981,9 +1006,7 @@ def process_advanced_medical_query(user_query):
     
     return response
 
-def process_chatbot_query(user_query):
-    """Legacy function - wrapper for advanced medical query"""
-    return process_advanced_medical_query(user_query)
+# Legacy function moved - using the newer version with location_context support below
 
 
 # ===== ENHANCED MEDICAL AI ASSISTANT =====
@@ -1116,11 +1139,40 @@ SYMPTOM_KEYWORDS = [
 
 
 def find_area_from_query(query_lower):
+    # City name aliases and variations
+    city_aliases = {
+        'faridabad': 'Faridabad',
+        'faraidabad': 'Faridabad',
+        'delhi': 'Delhi',
+        'delhi ncr': 'Delhi',
+        'ncr': 'Delhi',
+        'mumbai': 'Mumbai',
+        'bombay': 'Mumbai',
+        'bangalore': 'Bangalore',
+        'bengaluru': 'Bangalore',
+        'bangalore': 'Bangalore',
+        'chennai': 'Chennai',
+        'madras': 'Chennai',
+        'hyderabad': 'Hyderabad',
+        'hyderabad': 'Hyderabad',
+        'kolkata': 'Kolkata',
+        'calcutta': 'Kolkata',
+        'pune': 'Pune',
+        'poona': 'Pune',
+    }
+    
+    # Check aliases first
+    for alias, canonical_name in city_aliases.items():
+        if alias in query_lower:
+            return canonical_name
+    
+    # Then check database areas (exact match)
     areas = sorted(df_global['Area'].astype(str).unique(), key=len, reverse=True)
     for area in areas:
         if area.lower() in query_lower:
             return area
 
+    # Check INDIA_DIRECTORY_CENTERS
     for center in INDIA_DIRECTORY_CENTERS:
         label = center['label']
         if label.lower() in query_lower:
@@ -1214,7 +1266,15 @@ def get_hospital_subset(area=None, limit=5):
     return subset.head(limit)
 
 
-def get_chat_hospital_subset(area=None, limit=5):
+def get_chat_hospital_subset(area=None, limit=5, latitude=None, longitude=None, require_local=False):
+    if latitude is not None and longitude is not None:
+        try:
+            live_hospitals = get_live_nearby_hospitals(float(latitude), float(longitude), desired_count=limit)
+            if live_hospitals:
+                return [normalize_live_hospital_record(hospital) for hospital in live_hospitals]
+        except Exception:
+            pass
+
     if area:
         try:
             live_hospitals = get_live_hospital_directory(area, limit=limit)
@@ -1223,8 +1283,63 @@ def get_chat_hospital_subset(area=None, limit=5):
         except Exception:
             pass
 
+    if require_local:
+        return []
+
     fallback = get_hospital_subset(area=area, limit=limit)
     return fallback.to_dict('records')
+
+
+def resolve_chat_location_context(area=None, latitude=None, longitude=None, location_text=None):
+    resolved_area = area
+    resolved_lat = latitude
+    resolved_lon = longitude
+    resolved_label = location_text.strip() if isinstance(location_text, str) and location_text.strip() else None
+
+    if resolved_area:
+        return resolved_area, resolved_lat, resolved_lon, resolved_label or resolved_area
+
+    if resolved_lat is not None and resolved_lon is not None:
+        try:
+            reverse_results = fetch_json(
+                'https://nominatim.openstreetmap.org/reverse',
+                params={
+                    'lat': resolved_lat,
+                    'lon': resolved_lon,
+                    'format': 'jsonv2',
+                    'addressdetails': 1,
+                    'zoom': 12
+                }
+            )
+            address = reverse_results.get('address', {}) if isinstance(reverse_results, dict) else {}
+            area_parts = [
+                address.get('suburb'),
+                address.get('city'),
+                address.get('town'),
+                address.get('village'),
+                address.get('state_district'),
+                address.get('state')
+            ]
+            cleaned = [part for part in area_parts if part]
+            if cleaned:
+                resolved_area = cleaned[0]
+            if not resolved_label:
+                resolved_label = reverse_results.get('display_name') if isinstance(reverse_results, dict) else None
+        except Exception:
+            pass
+
+    if not resolved_area and resolved_label:
+        resolved_area = find_area_from_query(resolved_label.lower())
+
+    if not resolved_area and location_text:
+        geocoded = geocode_india_address(location_text)
+        if geocoded:
+            resolved_lat = geocoded['latitude']
+            resolved_lon = geocoded['longitude']
+            resolved_label = geocoded.get('display_name', location_text)
+            resolved_area = find_area_from_query(resolved_label.lower())
+
+    return resolved_area, resolved_lat, resolved_lon, resolved_label or resolved_area
 
 
 def infer_conditions_from_symptoms(query_lower, limit=4):
@@ -1298,10 +1413,32 @@ def analyze_medical_query(user_query):
     return {'type': 'general', 'entity': None, 'area': area}
 
 
-def process_advanced_medical_query(user_query):
+def process_advanced_medical_query(user_query, location_context=None):
     query_lower = user_query.lower()
     query_type = analyze_medical_query(user_query)
-    area = query_type.get('area')
+    raw_area = query_type.get('area')
+    area, latitude, longitude, location_label = resolve_chat_location_context(
+        area=raw_area,
+        latitude=location_context.get('latitude') if location_context else None,
+        longitude=location_context.get('longitude') if location_context else None,
+        location_text=location_context.get('address') if location_context else None
+    )
+
+    def get_local_hospitals(limit):
+        return get_chat_hospital_subset(
+            area=area,
+            limit=limit,
+            latitude=latitude,
+            longitude=longitude,
+            require_local=True
+        )
+
+    def local_hospital_prompt():
+        return (
+            "I can suggest only nearby hospitals.\n\n"
+            "Please add your city, area, or landmark in the message, or set your location in the Emergency Route section first.\n\n"
+            "Example: `best hospitals near Andheri Mumbai` or `hospitals in Delhi`."
+        )
 
     if query_type['type'] == 'cost':
         condition = query_type['entity']
@@ -1311,35 +1448,83 @@ def process_advanced_medical_query(user_query):
 
         disease_name = DISEASE_COSTS[cost_key]['name']
         base_cost = DISEASE_COSTS[cost_key]['base_cost']
-        subset = df_global.copy()
-        if area:
-            subset = subset[subset['Area'].str.lower() == area.lower()]
-        if subset.empty:
-            subset = df_global.copy()
-
-        hospital_costs = []
-        for _, hospital in subset.iterrows():
-            hospital_costs.append({
+        
+        # RELOAD CSV to ensure latest data (especially after adding new cities)
+        df_fresh = pd.read_csv('data.csv')
+        
+        # Calculate global efficiency baseline
+        df_fresh['efficiency_score'] = (df_fresh['Beds'] + df_fresh['Doctors']) / df_fresh['Patients_Per_Day']
+        global_avg_efficiency = df_fresh['efficiency_score'].mean()
+        
+        # Process all hospitals from fresh CSV
+        all_hospitals_costs = []
+        for _, hospital in df_fresh.iterrows():
+            # Risk calculation for hospital
+            pdr = hospital['Patients_Per_Day'] / hospital['Doctors']
+            bo = hospital['Patients_Per_Day'] / hospital['Beds']
+            risk_score = 50
+            if pdr > 10: risk_score += 30
+            elif pdr > 8: risk_score += 15
+            elif pdr > 6.5: risk_score += 5
+            else: risk_score -= 10
+            if bo > 1.8: risk_score += 20
+            elif bo > 1.6: risk_score += 10
+            elif bo > 1.4: risk_score += 5
+            
+            efficiency_multiplier = hospital['efficiency_score'] / global_avg_efficiency
+            risk_multiplier = 1 + (risk_score / 100) * 0.1
+            adjusted_cost = base_cost * risk_multiplier / efficiency_multiplier
+            
+            risk_level = 'Low' if risk_score < 35 else 'Medium' if risk_score < 55 else 'High' if risk_score < 75 else 'Critical'
+            
+            all_hospitals_costs.append({
                 'hospital': hospital['Hospital'],
                 'area': hospital['Area'],
-                'cost': get_disease_cost_for_hospital(cost_key, hospital),
+                'cost': round(adjusted_cost, 0),
                 'beds': int(hospital['Beds']),
                 'doctors': int(hospital['Doctors']),
-                'risk_level': str(hospital['risk_level'])
+                'risk_level': risk_level
             })
-
-        hospital_costs.sort(key=lambda item: item['cost'])
-        avg_cost = sum(item['cost'] for item in hospital_costs) / len(hospital_costs)
-
-        response = f"**Cost estimate for {disease_name}**\n\n"
-        response += f"Base reference cost: Rs {base_cost:,.0f}\n"
+        
+        # STRICT LOCATION FILTERING - Never show other cities when location is specified
+        display_hospitals = all_hospitals_costs
+        location_context = "across India"
+        
         if area:
-            response += f"Area filter: {area}\n"
-        response += f"Average estimate: Rs {avg_cost:,.0f}\n\n"
-        response += "**Most affordable hospitals**\n"
-        for idx, hospital in enumerate(hospital_costs[:5], 1):
-            response += f"{idx}. {hospital['hospital']} ({hospital['area']}) - Rs {hospital['cost']:,.0f} | Beds: {hospital['beds']} | Doctors: {hospital['doctors']} | Risk: {hospital['risk_level']}\n"
-        response += "\nThese are model-based cost estimates, not final billing quotes."
+            # Find exact match in fresh data
+            area_hospitals = [h for h in all_hospitals_costs if h['area'].lower() == area.lower()]
+            
+            if area_hospitals:
+                # Location found - ONLY show that location
+                display_hospitals = area_hospitals
+                location_context = f"in {area}"
+            else:
+                # Location NOT found - check if it was a typo
+                available_areas = sorted(set(h['area'] for h in all_hospitals_costs))
+                similar = [a for a in available_areas if area.lower() in a.lower() or a.lower() in area.lower()]
+                
+                if similar:
+                    return f"❌ **'{area}' not found in database.**\n\nDid you mean?\n• " + "\n• ".join(similar[:5]) + f"\n\nAvailable cities: {', '.join(available_areas[:10])}..."
+                else:
+                    return f"❌ **'{area}' not in our database.**\n\n📍 Available cities:\n{', '.join(available_areas)}"
+        
+        display_hospitals.sort(key=lambda item: item['cost'])
+        avg_cost = sum(item['cost'] for item in display_hospitals) / len(display_hospitals)
+
+        response = f"💰 **{disease_name.upper()} - Cost Estimate**\n\n"
+        response += f"📍 Location: {location_context}\n"
+        response += f"💵 Base reference cost: ₹{base_cost:,.0f}\n"
+        response += f"📊 Average cost at available hospitals: ₹{avg_cost:,.0f}\n\n"
+        
+        response += "**🏥 Most Affordable Options:**\n"
+        for idx, hospital in enumerate(display_hospitals[:5], 1):
+            response += f"{idx}. **{hospital['hospital']}** ({hospital['area']})\n"
+            response += f"   💰 Est. Cost: ₹{hospital['cost']:,.0f} | 🛏️ Beds: {hospital['beds']} | 👨‍⚕️ Doctors: {hospital['doctors']} | Risk: {hospital['risk_level']}\n"
+        
+        if len(display_hospitals) > 5:
+            response += f"\n**💬 Other Options:** {len(display_hospitals) - 5} more hospitals available\n"
+        
+        response += f"\n**📝 Note:** These are model-based estimates based on hospital efficiency, infrastructure, and resources. Actual costs may vary. For confirmed pricing, contact the hospital directly."
         return response
 
     if query_type['type'] == 'cost_overview':
@@ -1359,7 +1544,7 @@ def process_advanced_medical_query(user_query):
             return "I could not find a clean medical profile for that condition yet. Try asking about fever, dengue, diabetes, asthma, migraine, pneumonia, heart disease, fracture, cancer, UTI, or gastroenteritis."
 
         specialty = resolve_specialty(query_lower, condition)
-        hospitals = get_chat_hospital_subset(area=area, limit=3)
+        hospitals = get_local_hospitals(limit=3)
         title = info.get('title', condition.replace('-', ' ').title())
         response = f"**{title}**\n\n"
         response += f"Symptoms: {info.get('symptoms', 'Varies by patient.')}\n\n"
@@ -1371,6 +1556,9 @@ def process_advanced_medical_query(user_query):
         response += f"Recommended doctor: {specialty.replace('_', ' ').title()}\n"
         if info.get('when_serious'):
             response += f"When to seek urgent care: {info['when_serious']}\n\n"
+        if not hospitals:
+            response += "\n" + local_hospital_prompt()
+            return response
         response += "**Hospitals to consider**\n"
         for hospital in hospitals:
             response += f"- {hospital['Hospital']} ({hospital['Area']}) | Beds: {hospital['Beds']} | Doctors: {hospital['Doctors']} | Risk: {hospital['risk_level']}\n"
@@ -1401,11 +1589,14 @@ def process_advanced_medical_query(user_query):
 
     if query_type['type'] == 'doctor':
         specialty = query_type['entity']
-        hospitals = get_chat_hospital_subset(area=area, limit=5)
+        hospitals = get_local_hospitals(limit=5)
         response = f"**Doctor guidance: {specialty.replace('_', ' ').title()}**\n\n"
         response += f"Best for: {SPECIALTY_DETAILS.get(specialty, 'General medical consultation and first-line care.')}\n\n"
         if query_type.get('condition'):
             response += f"Based on your question, this specialty matches: {query_type['condition'].replace('-', ' ').title()}\n\n"
+        if not hospitals:
+            response += local_hospital_prompt()
+            return response
         response += "**Hospitals to consider**\n"
         for hospital in hospitals:
             response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {hospital['Doctors']} | Beds: {hospital['Beds']} | Risk: {hospital['risk_level']}\n"
@@ -1413,10 +1604,14 @@ def process_advanced_medical_query(user_query):
         return response
 
     if query_type['type'] == 'hospital':
-        hospitals = get_chat_hospital_subset(area=area, limit=5)
+        hospitals = get_local_hospitals(limit=5)
+        if not hospitals:
+            return local_hospital_prompt()
         response = "**Hospital recommendations**\n\n"
         if area:
             response += f"Area: {area}\n\n"
+        elif location_label:
+            response += f"Based on your location: {location_label}\n\n"
         response += "Top options based on lower risk, stronger staffing, and capacity:\n"
         for hospital in hospitals:
             efficiency = hospital.get('efficiency_score')
@@ -1439,7 +1634,7 @@ def process_advanced_medical_query(user_query):
     if query_type['type'] == 'symptom':
         matches = infer_conditions_from_symptoms(query_lower, limit=4)
         specialty = resolve_specialty(query_lower)
-        hospitals = get_chat_hospital_subset(area=area, limit=3)
+        hospitals = get_local_hospitals(limit=3)
         response = "**Symptom guidance**\n\n"
         if matches:
             response += "Possible conditions to discuss with a doctor:\n"
@@ -1451,6 +1646,9 @@ def process_advanced_medical_query(user_query):
         else:
             response += "I could not confidently match the symptoms, so a doctor review is the safest next step.\n\n"
         response += f"Suggested doctor: {specialty.replace('_', ' ').title()}\n\n"
+        if not hospitals:
+            response += local_hospital_prompt()
+            return response
         response += "**Hospitals to consider**\n"
         for hospital in hospitals:
             response += f"- {hospital['Hospital']} ({hospital['Area']}) | Doctors: {hospital['Doctors']} | Beds: {hospital['Beds']}\n"
@@ -1485,11 +1683,94 @@ def process_advanced_medical_query(user_query):
     )
 
 
-def process_chatbot_query(user_query):
-    return process_advanced_medical_query(user_query)
+def process_chatbot_query(user_query, location_context=None):
+    return {
+        'text': process_advanced_medical_query(user_query, location_context=location_context),
+        'provider': 'local',
+        'provider_errors': [],
+        'fallback_used': False
+    }
 
 
-def fetch_json(url, params=None, method='GET', data=None, timeout=35):
+def build_chatbot_hospital_context(user_query, location_context=None):
+    query_lower = (user_query or '').lower()
+    area = find_area_from_query(query_lower)
+    area, latitude, longitude, location_label = resolve_chat_location_context(
+        area=area,
+        latitude=location_context.get('latitude') if location_context else None,
+        longitude=location_context.get('longitude') if location_context else None,
+        location_text=location_context.get('address') if location_context else None
+    )
+
+    hospital_rows = get_chat_hospital_subset(
+        area=area,
+        limit=6,
+        latitude=latitude,
+        longitude=longitude,
+        require_local=False
+    )
+
+    hospital_lines = []
+    for hospital in hospital_rows:
+        efficiency = hospital.get('efficiency_score')
+        efficiency_text = f"{efficiency:.2f}" if isinstance(efficiency, (int, float, np.floating)) else "Not rated"
+        distance = hospital.get('distance_km')
+        distance_text = f"{distance:.2f} km" if isinstance(distance, (int, float, np.floating)) else "N/A"
+        hospital_lines.append(
+            f"- {hospital.get('Hospital', 'Unknown')} | Area: {hospital.get('Area', 'Unknown')} | "
+            f"Beds: {hospital.get('Beds', 'N/A')} | Doctors: {hospital.get('Doctors', 'N/A')} | "
+            f"Patients/Day: {hospital.get('Patients_Per_Day', 'N/A')} | Risk: {hospital.get('risk_level', 'N/A')} | "
+            f"Efficiency: {efficiency_text} | Distance: {distance_text}"
+        )
+
+    summary = (
+        f"Dataset summary: total hospitals={len(df_global)}, "
+        f"critical={len(df_global[df_global['risk_level'] == 'Critical'])}, "
+        f"high={len(df_global[df_global['risk_level'] == 'High'])}, "
+        f"medium={len(df_global[df_global['risk_level'] == 'Medium'])}, "
+        f"low={len(df_global[df_global['risk_level'] == 'Low'])}."
+    )
+
+    location_summary = f"Resolved location: {location_label or area or 'Not provided'}."
+    if latitude is not None and longitude is not None:
+        location_summary += f" Coordinates: {latitude:.4f}, {longitude:.4f}."
+
+    return {
+        'area': area,
+        'latitude': latitude,
+        'longitude': longitude,
+        'location_label': location_label,
+        'summary': summary,
+        'hospitals_text': '\n'.join(hospital_lines) if hospital_lines else 'No nearby or matching hospital records found in current context.'
+    }
+
+
+def get_llm_prompts(user_query, location_context=None):
+    context = build_chatbot_hospital_context(user_query, location_context=location_context)
+
+    system_prompt = (
+        "You are a hospital-focused healthcare assistant inside a hospital analytics dashboard. "
+        "Answer the user's question clearly and directly using the provided hospital dataset context when relevant. "
+        "Do not invent hospitals, metrics, distances, doctors, or bed counts not present in the provided context. "
+        "If location is missing for a nearby-hospital request, ask for city, area, landmark, or GPS-enabled routing. "
+        "For medical questions, give concise educational guidance and include a short safety note for emergencies. "
+        "Prefer bullet points for hospital recommendations. "
+        "If the question is about hospitals, prioritize the supplied hospital context over generic advice."
+    )
+
+    user_prompt = (
+        f"User question: {user_query}\n\n"
+        f"{context['summary']}\n"
+        f"Location context: {context['location_label'] or 'Not provided'}\n"
+        f"Relevant hospitals:\n{context['hospitals_text']}\n\n"
+        "Answer helpfully. If hospital recommendations are requested, explain why the suggested hospitals fit the question."
+    )
+
+    return system_prompt, user_prompt
+
+
+
+def fetch_json(url, params=None, method='GET', data=None, timeout=35, headers=None):
     query_url = url
     payload = None
 
@@ -1501,18 +1782,32 @@ def fetch_json(url, params=None, method='GET', data=None, timeout=35):
     if data is not None:
         payload = data.encode('utf-8')
 
+    request_headers = {
+        'User-Agent': 'healthcare-project/1.0 (emergency routing)',
+        'Accept': 'application/json'
+    }
+    if headers:
+        request_headers.update(headers)
+
     request = Request(
         query_url,
         data=payload,
         method=method,
-        headers={
-            'User-Agent': 'healthcare-project/1.0 (emergency routing)',
-            'Accept': 'application/json'
-        }
+        headers=request_headers
     )
 
-    with urlopen(request, timeout=timeout) as response:
-        return json.loads(response.read().decode('utf-8'))
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            return json.loads(response.read().decode('utf-8'))
+    except HTTPError as exc:
+        error_body = ''
+        try:
+            error_body = exc.read().decode('utf-8', errors='replace')
+        except Exception:
+            error_body = ''
+
+        detail = error_body.strip() or exc.reason
+        raise RuntimeError(f'HTTP {exc.code}: {detail}')
 
 
 def haversine_distance(lat1, lon1, lat2, lon2):
@@ -1603,7 +1898,133 @@ def safe_patient_doctor_ratio(doctors, patients_per_day):
     return None
 
 
+def normalize_hospital_name(name):
+    if not name:
+        return ''
+
+    normalized = re.sub(r'[^a-z0-9\s]', ' ', str(name).lower())
+    normalized = re.sub(
+        r'\b(hospital|hosp|medical|college|centre|center|institute|institutes|clinic|healthcare|super|speciality|specialty|the)\b',
+        ' ',
+        normalized
+    )
+    normalized = re.sub(r'\s+', ' ', normalized).strip()
+    return normalized
+
+
+def get_name_tokens(name):
+    return {token for token in normalize_hospital_name(name).split() if len(token) > 2}
+
+
+def find_local_hospital_match(name=None, area=None, latitude=None, longitude=None):
+    normalized_name = normalize_hospital_name(name)
+    name_tokens = get_name_tokens(name)
+    area_text = (area or '').strip().lower()
+
+    best_match = None
+    best_score = -1
+
+    for _, row in df_global.iterrows():
+        row_name = str(row['Hospital'])
+        row_area = str(row['Area'])
+        row_normalized = normalize_hospital_name(row_name)
+        row_tokens = get_name_tokens(row_name)
+
+        score = 0
+
+        if normalized_name and row_normalized:
+            if normalized_name == row_normalized:
+                score += 120
+            elif normalized_name in row_normalized or row_normalized in normalized_name:
+                score += 80
+
+        if name_tokens and row_tokens:
+            overlap = len(name_tokens & row_tokens)
+            if overlap:
+                score += overlap * 18
+
+        if area_text and row_area.lower() == area_text:
+            score += 25
+        elif area_text and area_text in row_area.lower():
+            score += 12
+
+        if latitude is not None and longitude is not None:
+            distance = haversine_distance(float(latitude), float(longitude), float(row['Latitude']), float(row['Longitude']))
+            if distance <= 1.5:
+                score += 50
+            elif distance <= 4:
+                score += 35
+            elif distance <= 8:
+                score += 20
+            elif distance <= 15:
+                score += 8
+
+        if score > best_score:
+            best_score = score
+            best_match = row
+
+    if best_match is None:
+        return None
+
+    if best_score >= 80:
+        return best_match
+
+    if best_score >= 45 and latitude is not None and longitude is not None:
+        return best_match
+
+    return None
+
+
+def find_nearest_local_hospital(latitude, longitude, max_distance_km=12):
+    if latitude is None or longitude is None:
+        return None
+
+    nearest_row = None
+    nearest_distance = None
+
+    for _, row in df_global.iterrows():
+        distance = haversine_distance(float(latitude), float(longitude), float(row['Latitude']), float(row['Longitude']))
+        if nearest_distance is None or distance < nearest_distance:
+            nearest_distance = distance
+            nearest_row = row
+
+    if nearest_row is None or nearest_distance is None or nearest_distance > max_distance_km:
+        return None
+
+    return nearest_row
+
+
+def enrich_live_hospital_metrics(item):
+    local_match = find_local_hospital_match(
+        name=item.get('name'),
+        area=item.get('area'),
+        latitude=item.get('latitude'),
+        longitude=item.get('longitude')
+    )
+
+    match_source = 'matched'
+    if local_match is None:
+        local_match = find_nearest_local_hospital(item.get('latitude'), item.get('longitude'))
+        match_source = 'nearest'
+
+    if local_match is None:
+        return item
+
+    enriched = dict(item)
+    enriched['area'] = local_match['Area']
+    enriched['beds'] = int(local_match['Beds'])
+    enriched['doctors'] = int(local_match['Doctors'])
+    enriched['patients_per_day'] = int(local_match['Patients_Per_Day'])
+    enriched['matched_local_hospital'] = local_match['Hospital']
+    if match_source == 'nearest':
+        enriched['data_source'] = f"{item.get('data_source', 'OpenStreetMap')} + nearest local hospital dataset"
+    else:
+        enriched['data_source'] = f"{item.get('data_source', 'OpenStreetMap')} + local hospital dataset"
+    return enriched
+
+
 def normalize_live_hospital_record(item):
+    item = enrich_live_hospital_metrics(item)
     doctors_value = to_int_if_possible(item.get('doctors'))
     patients_value = to_int_if_possible(item.get('patients_per_day'))
     beds_value = to_int_if_possible(item.get('beds'))
@@ -1649,6 +2070,62 @@ def set_cached_value(cache_key, value):
     }
 
 
+def build_google_maps_directions_url(origin_lat, origin_lon, dest_lat, dest_lon):
+    query = urlencode({
+        'api': 1,
+        'origin': f'{origin_lat},{origin_lon}',
+        'destination': f'{dest_lat},{dest_lon}',
+        'travelmode': 'driving',
+        'dir_action': 'navigate'
+    })
+    return f'https://www.google.com/maps/dir/?{query}'
+
+
+def get_route_distance_and_eta(origin_lat, origin_lon, dest_lat, dest_lon, fallback_distance_km=None):
+    try:
+        route_data = fetch_json(
+            f'https://router.project-osrm.org/route/v1/driving/{origin_lon},{origin_lat};{dest_lon},{dest_lat}',
+            params={
+                'overview': 'false',
+                'steps': 'false'
+            }
+        )
+        routes = route_data.get('routes', [])
+        if routes:
+            route = routes[0]
+            route_distance_km = round(route['distance'] / 1000, 2)
+            eta_minutes = max(3, int(round(route['duration'] / 60)))
+            return route_distance_km, eta_minutes
+    except Exception:
+        pass
+
+    if fallback_distance_km is None:
+        fallback_distance_km = haversine_distance(origin_lat, origin_lon, dest_lat, dest_lon)
+    fallback_eta = max(3, int(round((fallback_distance_km / 35) * 60)))
+    return round(fallback_distance_km, 2), fallback_eta
+
+
+def attach_route_metrics(hospitals, user_lat, user_lon):
+    enriched_hospitals = []
+    for hospital in hospitals:
+        enriched = dict(hospital)
+        dest_lat = float(hospital['latitude'])
+        dest_lon = float(hospital['longitude'])
+        route_distance_km, eta_minutes = get_route_distance_and_eta(
+            user_lat,
+            user_lon,
+            dest_lat,
+            dest_lon,
+            fallback_distance_km=hospital.get('distance_km')
+        )
+        enriched['distance_km'] = route_distance_km
+        enriched['eta_minutes'] = eta_minutes
+        enriched['google_maps_url'] = build_google_maps_directions_url(user_lat, user_lon, dest_lat, dest_lon)
+        enriched_hospitals.append(enriched)
+
+    return enriched_hospitals
+
+
 def get_live_nearby_hospitals(user_lat, user_lon, route_type='nearest', desired_count=5):
     radii = [5000, 10000, 20000, 50000]
     collected = []
@@ -1692,7 +2169,7 @@ def get_live_nearby_hospitals(user_lat, user_lon, route_type='nearest', desired_
                 service_score += 3
             service_score = min(service_score, 98)
 
-            collected.append({
+            collected.append(enrich_live_hospital_metrics({
                 'name': name,
                 'area': get_best_area_label(tags),
                 'distance_km': round(distance_km, 2),
@@ -1707,7 +2184,7 @@ def get_live_nearby_hospitals(user_lat, user_lon, route_type='nearest', desired_
                 'phone': tags.get('phone') or tags.get('contact:phone') or 'Not listed',
                 'ambulance_status': 'Emergency available' if tags.get('emergency') == 'yes' else 'Call to confirm',
                 'data_source': 'OpenStreetMap'
-            })
+            }))
 
         if len(collected) >= desired_count:
             break
@@ -1810,12 +2287,48 @@ def chatbot():
     if not user_message:
         return jsonify({'error': 'Empty message'}), 400
     
-    bot_response = process_chatbot_query(user_message)
+    location_context = {
+        'address': (data.get('address') or '').strip(),
+        'latitude': data.get('latitude'),
+        'longitude': data.get('longitude')
+    }
+
+    chatbot_result = process_chatbot_query(user_message, location_context=location_context)
     
     return jsonify({
         'user': user_message,
-        'bot': bot_response,
+        'bot': chatbot_result['text'],
+        'provider': chatbot_result['provider'],
+        'fallback_used': chatbot_result['fallback_used'],
+        'provider_errors': chatbot_result['provider_errors'],
         'timestamp': datetime.now().isoformat()
+    })
+
+
+@app.route('/api/ai-status')
+def ai_status():
+    return jsonify({
+        'ai_provider_setting': CURRENT_AI_PROVIDER,
+        'default_ai_provider': AI_PROVIDER,
+        'enabled_providers': ['local'],
+        'local_fallback_available': True
+    })
+
+
+@app.route('/api/ai-provider', methods=['GET', 'POST'])
+def ai_provider():
+    if request.method == 'GET':
+        return jsonify({
+            'current_provider': CURRENT_AI_PROVIDER,
+            'default_provider': AI_PROVIDER,
+            'providers': [
+                {'id': 'local', 'label': 'Local'}
+            ]
+        })
+
+    return jsonify({
+        'current_provider': CURRENT_AI_PROVIDER,
+        'message': 'Local AI assistant is active.'
     })
 
 @app.route('/api/emergency-route', methods=['POST'])
@@ -1859,6 +2372,12 @@ def emergency_route():
         data_source = 'Local CSV fallback'
         if warning is None:
             warning = 'Live nearby hospital data was unavailable, so local fallback data is shown.'
+
+    hospitals = attach_route_metrics(hospitals, user_lat, user_lon)
+    if route_type == 'safest':
+        hospitals.sort(key=lambda item: (-item.get('safety_score', 0), item.get('distance_km', float('inf'))))
+    else:
+        hospitals.sort(key=lambda item: item.get('distance_km', float('inf')))
 
     return jsonify({
         'emergency_location': {
