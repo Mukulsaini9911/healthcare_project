@@ -2595,3 +2595,84 @@ img { max-width: 100%; display: block; }
     transition-duration: .01ms !important;
   }
 }
+
+/* ================================================================
+   CareGrid clarity refresh — calm, clinical, operator-first UI
+   ================================================================ */
+:root {
+  --bg-0: #f4f8fb;
+  --bg-1: #ffffff;
+  --bg-2: #eef5f7;
+  --bg-3: #e2eef1;
+  --bg-4: #d4e6ea;
+  --glass: rgba(255,255,255,.88);
+  --glass-border: #dce8eb;
+  --glass-hover: #f7fbfc;
+  --glass-strong: #ffffff;
+  --text-primary: #12313a;
+  --text-secondary: #57727b;
+  --text-tertiary: #78919a;
+  --text-muted: #9aafb5;
+  --cyan: #147d8c;
+  --blue: #176b8a;
+  --violet: #3c6f91;
+  --pink: #bc6d63;
+  --teal: #238c86;
+  --emerald: #268b72;
+  --amber: #b7791f;
+  --rose: #c24c58;
+  --grad-brand: linear-gradient(135deg, #147d8c, #3c6f91);
+  --grad-glow: linear-gradient(135deg, rgba(20,125,140,.08), rgba(60,111,145,.08));
+  --shadow-sm: 0 2px 8px rgba(23,67,78,.06);
+  --shadow-md: 0 8px 24px rgba(23,67,78,.08);
+  --shadow-lg: 0 16px 40px rgba(23,67,78,.10);
+}
+
+html[data-theme="dark"] {
+  --bg-0: #10252b; --bg-1: #15323a; --bg-2: #1b3e47; --bg-3: #244d57; --bg-4: #2d5e68;
+  --glass: rgba(24,57,65,.9); --glass-border: rgba(180,220,225,.16); --glass-hover: #204650; --glass-strong: #1b3e47;
+  --text-primary: #f1fbfc; --text-secondary: #b4ced2; --text-tertiary: #88abb2; --text-muted: #6b929a;
+}
+
+body { background: var(--bg-0); letter-spacing: -0.1px; }
+.bg-canvas { opacity: .35; }
+.bg-orb { filter: blur(110px); opacity: .28; }
+.bg-grid, #particleCanvas, .cursor-glow { display: none; }
+.topnav { background: rgba(255,255,255,.94); border-bottom: 1px solid var(--glass-border); box-shadow: 0 2px 14px rgba(20,70,80,.05); backdrop-filter: blur(18px); }
+html[data-theme="dark"] .topnav { background: rgba(17,48,56,.94); }
+.topnav-inner { max-width: 1380px; }
+.brand-icon-wrap { background: var(--grad-brand); box-shadow: 0 6px 16px rgba(20,125,140,.2); }
+.brand-name { color: var(--text-primary); }
+.brand-ai { color: var(--cyan); }
+.brand-tag { color: var(--text-tertiary); }
+.navlink { color: var(--text-secondary); border-radius: 10px; }
+.navlink:hover, .navlink.active { color: var(--cyan); background: rgba(20,125,140,.08); }
+.navlink-glow { display: none; }
+.live-indicator { color: var(--emerald); background: rgba(38,139,114,.09); border: 1px solid rgba(38,139,114,.18); border-radius: 999px; padding: .4rem .7rem; }
+.action-icon-btn { color: var(--text-secondary); border: 1px solid var(--glass-border); background: var(--glass); border-radius: 10px; }
+.hero-section { min-height: auto; padding-top: calc(var(--nav-h) + 4.5rem); padding-bottom: 4rem; }
+.hero-inner, .main-content { max-width: 1380px; }
+.hero-eyebrow { color: var(--cyan); letter-spacing: .04em; }
+.hero-title { font-size: clamp(2.8rem, 5vw, 5.25rem); letter-spacing: -0.07em; }
+.gradient-text { background: linear-gradient(135deg, #147d8c 10%, #3c6f91 90%); -webkit-background-clip: text; background-clip: text; }
+.hero-desc { max-width: 620px; color: var(--text-secondary); font-size: 1.05rem; line-height: 1.75; }
+.cta-primary { background: var(--grad-brand); box-shadow: 0 10px 22px rgba(20,125,140,.2); border-radius: 10px; }
+.cta-secondary { color: var(--text-primary); border: 1px solid var(--glass-border); background: var(--glass); border-radius: 10px; }
+.hstat-icon { color: var(--cyan); background: rgba(20,125,140,.09); }
+.hero-card-float, .glass-card, .hcf-main-card { background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md); border-radius: 16px; }
+.hero-card-float { box-shadow: var(--shadow-lg); }
+.hcf-glow { display: none; }
+.section-label, .panel-title, .card-title { color: var(--text-primary); }
+.badge, .status-badge { border-radius: 999px; }
+.splash-screen { background: #f4f8fb; }
+html[data-theme="dark"] .splash-screen { background: #10252b; }
+.splash-logo-icon { background: var(--grad-brand); }
+.splash-title { color: #12313a; }
+html[data-theme="dark"] .splash-title { color: #f1fbfc; }
+.splash-word.accent, .splash-word.glow { color: var(--cyan); text-shadow: none; }
+.splash-subtitle { color: var(--text-secondary); }
+@media (max-width: 768px) {
+  .topnav-links { overflow-x: auto; }
+  .hero-title { font-size: 2.65rem; }
+  .hero-desc { font-size: .98rem; }
+}

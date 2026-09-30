@@ -21,7 +21,7 @@ function getThemePalette() {
 
 document.addEventListener('DOMContentLoaded', function () {
     const darkMode = localStorage.getItem('darkMode');
-    document.documentElement.setAttribute('data-theme', darkMode === 'false' ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', darkMode === 'true' ? 'dark' : 'light');
     updateModeButton();
 
     initParticleCanvas();
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initRouteTypeSelector();
 
     const chatInput = document.getElementById('chatInput');
-    if (chatInput) chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendChatMessage(); });
+    if (chatInput) chatInput.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.isComposing && e.keyCode !== 229) sendChatMessage(); });
 
     const predInput = document.getElementById('predictionHospitalInput');
     if (predInput) predInput.addEventListener('keypress', e => { if (e.key === 'Enter') predictSelectedHospital(); });
@@ -122,13 +122,13 @@ function initNavScroll() {
 function initSplashAnimation() {
     const splash = document.getElementById('splashScreen');
     if (!splash) return;
-    setTimeout(() => { const s = document.getElementById('step2'); if (s) s.classList.add('active'); }, 1800);
-    setTimeout(() => { const s = document.getElementById('step3'); if (s) s.classList.add('active'); }, 3200);
+    setTimeout(() => { const s = document.getElementById('step2'); if (s) s.classList.add('active'); }, 350);
+    setTimeout(() => { const s = document.getElementById('step3'); if (s) s.classList.add('active'); }, 650);
     setTimeout(() => {
         splash.classList.add('hidden');
         document.body.style.overflow = '';
         revealGlassCards();
-    }, 4200);
+    }, 1100);
     splash.addEventListener('click', () => {
         splash.classList.add('hidden');
         document.body.style.overflow = '';
