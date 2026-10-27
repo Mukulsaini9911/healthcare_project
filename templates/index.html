@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareGrid AI | Premium Healthcare Command Center</title>
-    <meta name="description" content="World-class healthcare intelligence dashboard with live hospital analytics, emergency routing, AI medical assistance, and predictive operations.">
+    <title>CareGrid AI | Hospital Operations Dashboard</title>
+    <meta name="description" content="Hospital operations dashboard for facility risk, emergency routing, analytics, and patient-load forecasting.">
 
     <!-- Preload critical fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,8 +17,13 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Three.js & GSAP for 3D Visuals -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=client-ready-1">
 </head>
 <body data-active-tab="{{ active_tab | default('dashboard') }}">
 
@@ -58,7 +63,7 @@
                 <h1 class="splash-title">
                     <span class="splash-word" style="--i:0">Care</span><span class="splash-word accent" style="--i:1">Grid</span>&nbsp;<span class="splash-word glow" style="--i:2">AI</span>
                 </h1>
-                <p class="splash-subtitle" style="--i:3">Premium Healthcare Intelligence Platform</p>
+                <p class="splash-subtitle" style="--i:3">Hospital Operations Dashboard</p>
             </div>
 
             <div class="splash-loader">
@@ -147,6 +152,9 @@
                         <span class="live-dot"></span>
                         <span>LIVE</span>
                     </div>
+                    <button class="action-icon-btn sound-btn" id="soundToggle" onclick="toggleSound()" title="Toggle UI Sound">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
                     <button class="action-icon-btn" onclick="showExportMenu()" title="Export">
                         <i class="fa-solid fa-file-arrow-down"></i>
                     </button>
@@ -163,14 +171,14 @@
                 <div class="hero-left">
                     <div class="hero-eyebrow">
                         <span class="eyebrow-dot"></span>
-                        <span>Luxury-grade healthcare operations</span>
+                        <span>Hospital operations overview</span>
                     </div>
                     <h1 class="hero-title">
-                        <span class="ht-line">The World's Most</span>
-                        <span class="ht-line gradient-text">Advanced Healthcare</span>
-                        <span class="ht-line">Command Center</span>
+                        <span class="ht-line">Hospital operations,</span>
+                        <span class="ht-line gradient-text">made clearer.</span>
+                        <span class="ht-line">Care that moves forward.</span>
                     </h1>
-                    <p class="hero-desc">CareGrid AI transforms hospital analytics, emergency workflows, patient forecasts, and medical AI into one cinematic control room experience with real-time data and premium visuals.</p>
+                    <p class="hero-desc">Review facility risk, compare hospitals, plan emergency routes, and forecast patient demand from one practical dashboard.</p>
 
                     <div class="hero-cta-row">
                         <button class="cta-primary" onclick="switchTab('dashboard', this)">
@@ -214,21 +222,21 @@
                 <div class="hero-right">
                     <div class="hero-card-float">
                         <div class="hcf-header">
-                            <span class="hcf-badge"><i class="fa-solid fa-crown"></i> Executive View</span>
-                            <span class="hcf-live"><span class="hcf-dot"></span> Live stream</span>
+                            <span class="hcf-badge"><i class="fa-solid fa-hospital"></i> CareGrid overview</span>
+                            <span class="hcf-live"><span class="hcf-dot"></span> Monitoring</span>
                         </div>
                         <div class="hcf-main-card">
-                            <div class="hcf-label">Platform Signature</div>
-                            <h3 class="hcf-title">Premium UI for operations, alerts, emergency response, forecasting, and AI assistance.</h3>
+                            <div class="hcf-label">One workspace</div>
+                            <h3 class="hcf-title">The tools teams need to understand facility pressure and respond with confidence.</h3>
                             <div class="hcf-metrics">
                                 <div class="hcf-metric">
-                                    <span>Experience</span>
-                                    <strong>Flagship</strong>
+                                    <span>Facilities</span>
+                                    <strong>Live data</strong>
                                 </div>
                                 <div class="hcf-metric-div"></div>
                                 <div class="hcf-metric">
-                                    <span>Latency</span>
-                                    <strong>Realtime</strong>
+                                    <span>Updates</span>
+                                    <strong>Automatic</strong>
                                 </div>
                             </div>
                         </div>
@@ -236,22 +244,22 @@
                             <div class="hcf-feat">
                                 <span class="hcf-feat-icon teal"><i class="fa-solid fa-shield-halved"></i></span>
                                 <div>
-                                    <strong>Trusted control layer</strong>
-                                    <p>Beautiful enough for executives, clear enough for operators.</p>
+                                    <strong>Clear risk signals</strong>
+                                    <p>See high-priority facilities and operational pressure.</p>
                                 </div>
                             </div>
                             <div class="hcf-feat">
                                 <span class="hcf-feat-icon amber"><i class="fa-solid fa-bell"></i></span>
                                 <div>
-                                    <strong>Risk-first visibility</strong>
-                                    <p>Critical facilities and stress signals surface instantly.</p>
+                                    <strong>Useful comparisons</strong>
+                                    <p>Review hospital capacity and performance side by side.</p>
                                 </div>
                             </div>
                             <div class="hcf-feat">
                                 <span class="hcf-feat-icon rose"><i class="fa-solid fa-route"></i></span>
                                 <div>
-                                    <strong>Emergency-ready flow</strong>
-                                    <p>Direct routing, capacity insight, and action shortcuts.</p>
+                                    <strong>Emergency planning</strong>
+                                    <p>Find a route and get to the right next step faster.</p>
                                 </div>
                             </div>
                         </div>
@@ -338,12 +346,72 @@
                     <!-- DASHBOARD LAYOUT -->
                     <div class="dash-grid">
                         <div class="dash-main">
-                            <!-- CHART CARD -->
+                            <!-- 3D SVG NEON GAUGE RINGS (GRAPH REPLACEMENT) -->
+                            <div class="glass-card gauges-card">
+                                <div class="gc-header">
+                                    <div>
+                                        <div class="gc-kicker"><i class="fa-solid fa-gauge-high"></i> Telemetry</div>
+                                        <h3 class="gc-title"><i class="fa-solid fa-chart-simple"></i> Operational indicators</h3>
+                                    </div>
+                                    <span class="gc-tag live-tag"><span class="live-dot-sm"></span> Live data</span>
+                                </div>
+                                <div class="gauges-container">
+                                    <!-- Gauge 1: Bed Occupancy -->
+                                    <div class="gauge-card">
+                                        <div class="gauge-ring-wrap">
+                                            <svg viewBox="0 0 100 100">
+                                                <circle class="gauge-ring-bg" cx="50" cy="50" r="40"/>
+                                                <circle class="gauge-ring-fill" id="gaugeBedOcc" cx="50" cy="50" r="40" stroke="#00f2fe" stroke-dasharray="251.2" stroke-dashoffset="60"/>
+                                            </svg>
+                                            <div class="gauge-value" id="gaugeBedOccVal">76%<small>Occupancy</small></div>
+                                        </div>
+                                        <div class="gauge-title">Bed Occupancy Rate</div>
+                                    </div>
+
+                                    <!-- Gauge 2: System Health -->
+                                    <div class="gauge-card">
+                                        <div class="gauge-ring-wrap">
+                                            <svg viewBox="0 0 100 100">
+                                                <circle class="gauge-ring-bg" cx="50" cy="50" r="40"/>
+                                                <circle class="gauge-ring-fill" id="gaugeHealth" cx="50" cy="50" r="40" stroke="#10b981" stroke-dasharray="251.2" stroke-dashoffset="30"/>
+                                            </svg>
+                                            <div class="gauge-value" id="gaugeHealthVal">92%<small>Health Index</small></div>
+                                        </div>
+                                        <div class="gauge-title">System Health</div>
+                                    </div>
+
+                                    <!-- Gauge 3: Emergency Readiness -->
+                                    <div class="gauge-card">
+                                        <div class="gauge-ring-wrap">
+                                            <svg viewBox="0 0 100 100">
+                                                <circle class="gauge-ring-bg" cx="50" cy="50" r="40"/>
+                                                <circle class="gauge-ring-fill" id="gaugeReadiness" cx="50" cy="50" r="40" stroke="#8b5cf6" stroke-dasharray="251.2" stroke-dashoffset="45"/>
+                                            </svg>
+                                            <div class="gauge-value" id="gaugeReadinessVal">88%<small>Readiness</small></div>
+                                        </div>
+                                        <div class="gauge-title">ER Readiness</div>
+                                    </div>
+
+                                    <!-- Gauge 4: Risk Index -->
+                                    <div class="gauge-card">
+                                        <div class="gauge-ring-wrap">
+                                            <svg viewBox="0 0 100 100">
+                                                <circle class="gauge-ring-bg" cx="50" cy="50" r="40"/>
+                                                <circle class="gauge-ring-fill" id="gaugeRiskIndex" cx="50" cy="50" r="40" stroke="#f43f5e" stroke-dasharray="251.2" stroke-dashoffset="180"/>
+                                            </svg>
+                                            <div class="gauge-value" id="gaugeRiskVal">28<small>Risk Score</small></div>
+                                        </div>
+                                        <div class="gauge-title">Facility Stress</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- GLOWING CYBER CHART CARD -->
                             <div class="glass-card chart-card">
                                 <div class="gc-header">
                                     <div>
-                                        <div class="gc-kicker">Distribution</div>
-                                        <h3 class="gc-title"><i class="fa-solid fa-chart-pie"></i> Risk Distribution</h3>
+                                        <div class="gc-kicker">Analytics</div>
+                                        <h3 class="gc-title"><i class="fa-solid fa-chart-bar"></i> Hospitals by risk level</h3>
                                     </div>
                                     <span class="gc-tag live-tag"><span class="live-dot-sm"></span> Live snapshot</span>
                                 </div>
@@ -593,8 +661,8 @@
                     <div class="chatbot-container">
                         <div class="chatbot-header-bar">
                             <div class="chb-left">
-                                <div class="chb-avatar">
-                                    <i class="fa-solid fa-robot"></i>
+                                <div class="chb-avatar three-orb-avatar" id="threeOrbAvatar">
+                                    <canvas id="threeAiOrbCanvas"></canvas>
                                     <span class="chb-online"></span>
                                 </div>
                                 <div class="chb-info">
@@ -603,7 +671,7 @@
                                 </div>
                             </div>
                             <div class="chb-right">
-                                <span class="chb-badge"><i class="fa-solid fa-shield-check"></i> HIPAA Aware</span>
+                                <span class="chb-badge"><i class="fa-solid fa-shield-check"></i> Privacy-minded</span>
                             </div>
                         </div>
 
@@ -613,7 +681,7 @@
                                 <div class="msg-bubble bot-bubble">
                                     <div class="bot-response">
                                         <div class="bot-section">
-                                            <div class="bot-subheading">Your premium medical assistant is ready.</div>
+                                            <div class="bot-subheading">Your medical assistant is ready.</div>
                                             <p class="bot-paragraph">Ask about hospitals, doctors, medicines, symptoms, diseases, treatment costs, and emergency guidance.</p>
                                             <p class="bot-paragraph">For nearby hospital suggestions, set your location in Emergency Route or include your city or area in the question.</p>
                                         </div>
@@ -767,6 +835,63 @@
                     </div>
                 </section>
 
+                <section class="feedback-section">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-kicker"><i class="fa-solid fa-message-dots"></i> Feedback</div>
+                            <h2 class="section-title">Help us improve CareGrid AI</h2>
+                        </div>
+                        <p class="section-desc">Your input helps us prioritize new features, improve response quality, and build better tools for care teams.</p>
+                    </div>
+
+                    <div class="glass-card feedback-card">
+                        <div class="feedback-layout">
+                            <div class="feedback-copy">
+                                <h3>Share your experience</h3>
+                                <p>Tell us what’s working well, where the dashboard feels slow, or which hospital workflows you want to see next.</p>
+                                <div class="feedback-stats">
+                                    <div class="feedback-stat">
+                                        <strong>4.8/5</strong>
+                                        <span>Average rating</span>
+                                    </div>
+                                    <div class="feedback-stat">
+                                        <strong>1.2k+</strong>
+                                        <span>Responses captured</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form id="feedbackForm" class="feedback-form" onsubmit="event.preventDefault();">
+                                <div class="feedback-rating">
+                                    <label>How satisfied are you?</label>
+                                    <div class="rating-row">
+                                        <button type="button" class="rating-pill active" data-rating="5"><i class="fa-solid fa-star"></i> 5</button>
+                                        <button type="button" class="rating-pill" data-rating="4"><i class="fa-solid fa-star"></i> 4</button>
+                                        <button type="button" class="rating-pill" data-rating="3"><i class="fa-solid fa-star"></i> 3</button>
+                                        <button type="button" class="rating-pill" data-rating="2"><i class="fa-solid fa-star"></i> 2</button>
+                                        <button type="button" class="rating-pill" data-rating="1"><i class="fa-solid fa-star"></i> 1</button>
+                                    </div>
+                                </div>
+
+                                <div class="feedback-field">
+                                    <label for="feedbackSubject">Subject</label>
+                                    <input id="feedbackSubject" class="fancy-input" type="text" placeholder="Describe the issue or suggestion">
+                                </div>
+
+                                <div class="feedback-field">
+                                    <label for="feedbackMessage">Your feedback</label>
+                                    <textarea id="feedbackMessage" class="fancy-input feedback-textarea" placeholder="Tell us what you'd like improved..."></textarea>
+                                </div>
+
+                                <button type="submit" class="cta-primary feedback-submit">
+                                    <span class="cta-icon"><i class="fa-solid fa-paper-plane"></i></span>
+                                    <span>Send feedback</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
             </main>
 
             <!-- FOOTER -->
@@ -779,7 +904,7 @@
                             <span class="footer-brand-tag">Healthcare Intelligence Platform</span>
                         </div>
                     </div>
-                    <p class="footer-copy">Premium UI for analytics, emergency response, and hospital intelligence</p>
+                    <p class="footer-copy">Hospital analytics, emergency response, and operational support</p>
                     <div class="footer-links">
                         <span>Dashboard</span>
                         <span>Emergency</span>
@@ -831,6 +956,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}?v=client-ready-1"></script>
 </body>
 </html>
